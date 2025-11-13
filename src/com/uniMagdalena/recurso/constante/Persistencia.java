@@ -59,7 +59,7 @@ public class Persistencia {
             + SEPARADOR_CARPETAS + NOMBRE_BASE_DATOS_BANYO;
 
     public static final String RUTA_IMAGENES_INTERNAS 
-            = "/com/unimagdalena/recurso/imagenes/";
+            = "/com/uniMagdalena/recurso/imagenes/";
     public static final String RUTA_IMAGENES_EXTERNAS = RUTA_PROYECTO
             + SEPARADOR_CARPETAS + NOMBRE_CARPETA_IMAGENES_EXTERNAS;
 

@@ -7,6 +7,7 @@ public class ClienteDto
    private String nombreCliente;
    private Boolean generoCliente;
    private String tipoDocumentoCliente;
+   private Integer numeroDocumentoCliente;
    private String tipoCliente;
    private Short ventasCliente;
    
@@ -18,16 +19,29 @@ public class ClienteDto
         
     }
 
-    public ClienteDto(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, String tipoCliente, Short ventasCliente, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
+    public ClienteDto(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, Integer numeroDocumentoCliente, String tipoCliente, Short ventasCliente, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
         this.idCliente = idCliente;
         this.nombreCliente = nombreCliente;
         this.generoCliente = generoCliente;
         this.tipoDocumentoCliente = tipoDocumentoCliente;
+        this.numeroDocumentoCliente = numeroDocumentoCliente;
         this.tipoCliente = tipoCliente;
         this.ventasCliente = ventasCliente;
         this.nombreImagenPublicoCliente = nombreImagenPublicoCliente;
         this.nombreImagenPrivadoCliente = nombreImagenPrivadoCliente;
     }
+
+    public Integer getNumeroDocumentoCliente() {
+        return numeroDocumentoCliente;
+    }
+
+    public void setNumeroDocumentoCliente(Integer numeroDocumentoCliente) {
+        this.numeroDocumentoCliente = numeroDocumentoCliente;
+    }
+    
+    
+
+    
 
     public Integer getIdCliente() {
         return idCliente;

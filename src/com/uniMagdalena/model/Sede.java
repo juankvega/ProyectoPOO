@@ -4,7 +4,7 @@ package com.uniMagdalena.model;
 public class Sede 
 {
     private Integer idSede;
-    private String paisSede;
+    private String departamentoSede;
     private String ciudadSede;
     private String ubicacionSede;
     private Boolean es24horasSede;
@@ -18,9 +18,9 @@ public class Sede
         
     }
 
-    public Sede(Integer idSede, String paisSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
+    public Sede(Integer idSede, String departamentoSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
         this.idSede = idSede;
-        this.paisSede = paisSede;
+        this.departamentoSede = departamentoSede;
         this.ciudadSede = ciudadSede;
         this.ubicacionSede = ubicacionSede;
         this.es24horasSede = es24horasSede;
@@ -28,6 +28,24 @@ public class Sede
         this.nombreImagenPublicoSede = nombreImagenPublicoSede;
         this.nombreImagenPrivadoSede = nombreImagenPrivadoSede;
     }
+
+    public String getDepartamentoSede() {
+        return departamentoSede;
+    }
+
+    public void setDepartamentoSede(String departamentoSede) {
+        this.departamentoSede = departamentoSede;
+    }
+
+    public Boolean getEs24horasSede() {
+        return es24horasSede;
+    }
+
+    public void setEs24horasSede(Boolean es24horasSede) {
+        this.es24horasSede = es24horasSede;
+    }
+    
+    
 
     public Integer getIdSede() {
         return idSede;
@@ -37,13 +55,7 @@ public class Sede
         this.idSede = idSede;
     }
 
-    public String getPaisSede() {
-        return paisSede;
-    }
-
-    public void setPaisSede(String paisSede) {
-        this.paisSede = paisSede;
-    }
+ 
 
     public String getCiudadSede() {
         return ciudadSede;

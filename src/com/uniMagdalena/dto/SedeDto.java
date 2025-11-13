@@ -4,7 +4,7 @@ package com.uniMagdalena.dto;
 public class SedeDto 
 {
     private Integer idSede;
-    private String paisSede;
+    private String departamentoSede;
     private String ciudadSede;
     private String ubicacionSede;
     private Boolean es24horasSede;
@@ -18,9 +18,9 @@ public class SedeDto
         
     }
 
-    public SedeDto(Integer idSede, String paisSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
+    public SedeDto(Integer idSede, String departamentoSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
         this.idSede = idSede;
-        this.paisSede = paisSede;
+        this.departamentoSede = departamentoSede;
         this.ciudadSede = ciudadSede;
         this.ubicacionSede = ubicacionSede;
         this.es24horasSede = es24horasSede;
@@ -29,20 +29,22 @@ public class SedeDto
         this.nombreImagenPrivadoSede = nombreImagenPrivadoSede;
     }
 
+    public String getDepartamentoSede() {
+        return departamentoSede;
+    }
+
+    public void setDepartamentoSede(String departamentoSede) {
+        this.departamentoSede = departamentoSede;
+    }
+
+    
+
     public Integer getIdSede() {
         return idSede;
     }
 
     public void setIdSede(Integer idSede) {
         this.idSede = idSede;
-    }
-
-    public String getPaisSede() {
-        return paisSede;
-    }
-
-    public void setPaisSede(String paisSede) {
-        this.paisSede = paisSede;
     }
 
     public String getCiudadSede() {

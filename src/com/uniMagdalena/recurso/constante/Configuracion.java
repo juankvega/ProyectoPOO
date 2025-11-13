@@ -18,6 +18,7 @@ public class Configuracion {
     public static final String COLOR4 = "#29e6c3";
 
     //ESTILO CSS
+     public final static double CABECERA_ALTO_PORCENTAJE = 0.1;
     public static final String CABECERA_COLOR_FONDO
             = String.format("-fx-background-color: linear-gradient( to right, %s, %s, %s, %s);", COLOR1, COLOR2, COLOR3, COLOR4);
 

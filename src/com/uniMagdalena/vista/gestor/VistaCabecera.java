@@ -1,36 +1,56 @@
 
 package com.uniMagdalena.vista.gestor;
 
+import com.uniMagdalena.controlador.SalidaControlador;
+import com.uniMagdalena.recurso.constante.Contenedor;
 import com.unimagdalena.recurso.constante.Configuracion;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
 
-public class VistaCabecera extends HBox
+public class VistaCabecera extends SubScene
 {
     private final int MENU_ANCHO = 160;
     private final int MENU_ALTO = 35;
     private final int MENU_ESPACIO_X = 20;
-
+    
+    private Pane miPanelCuerpo;
     private final Stage miEscenario;
+    private final HBox miPanelCabecera;
     private final BorderPane miPanelPrincipal;
 
-    public VistaCabecera(Stage escenario, BorderPane panelPrin, double altoCabecera) {
-        miEscenario = escenario;
+    public VistaCabecera(Stage escenario, BorderPane panelPrin,Pane pane ,double altoCabecera, double anchoPanel) 
+    {
+        
+        super(new HBox(), anchoPanel, altoCabecera);
+        miPanelCabecera = (HBox) this.getRoot();
+        miPanelCabecera.setAlignment(Pos.CENTER_LEFT);
+
         miPanelPrincipal = panelPrin;
-        setAlignment(Pos.CENTER_LEFT);
-        setSpacing(MENU_ESPACIO_X);
-        setPadding(new Insets(0, 30, 0, 30));
-        setPrefHeight(altoCabecera);
-        setStyle(Configuracion.CABECERA_COLOR_FONDO);
+        miPanelCuerpo = pane;
+        miEscenario = escenario;
+
+        miPanelCabecera.setSpacing(MENU_ESPACIO_X);
+        miPanelCabecera.setPadding(new Insets(0, 30, 0, 30));
+        miPanelCabecera.setPrefHeight(Contenedor.ALTO_CABECERA.getValor());
+        miPanelCabecera.setStyle(Configuracion.CABECERA_COLOR_FONDO);
 
         crearBotones();
+    }
+    
+      public HBox getMiPanelCabecera() 
+      {
+        return miPanelCabecera;
     }
     
     private void agregaralmenu(MenuButton menu) 
@@ -38,7 +58,7 @@ public class VistaCabecera extends HBox
         menu.setCursor(Cursor.HAND);
         menu.setPrefWidth(MENU_ANCHO);
         menu.setPrefHeight(MENU_ALTO);
-        getChildren().add(menu);
+        miPanelCabecera.getChildren().add(menu);
     }
     
     private void crearBotones()
@@ -52,7 +72,7 @@ public class VistaCabecera extends HBox
         menuProducto();
         menuCliente();
         menuVenta();
-        salir();
+        btnSalir();
         
     }
     
@@ -308,9 +328,17 @@ public class VistaCabecera extends HBox
         agregaralmenu(menuBotones);
     }
     
-    private void salir()
-    {
-        MenuButton salir = new MenuButton("Salir");
-        agregaralmenu(salir);
+    private void btnSalir() {
+        Button btnSalir = new Button("Salir");
+        btnSalir.setCursor(Cursor.HAND);
+        btnSalir.setPrefWidth(MENU_ANCHO);
+        btnSalir.setPrefHeight(MENU_ALTO);
+
+        btnSalir.setOnAction((ActionEvent event) -> {
+            event.consume();
+            SalidaControlador.verificar(miEscenario);
+        });
+
+        miPanelCabecera.getChildren().add(btnSalir);
     }
 }
