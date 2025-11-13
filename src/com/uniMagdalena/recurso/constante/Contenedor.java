@@ -1,6 +1,6 @@
 package com.uniMagdalena.recurso.constante;
 
-import com.unimagdalena.recurso.constante.Configuracion;
+import com.uniMagdalena.recurso.constante.Configuracion;
 
 public enum Contenedor {
     ALTO_CABECERA(Configuracion.ALTO_APP

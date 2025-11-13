@@ -2,7 +2,7 @@
 package com.uniMagdalena.vista.gestor;
 
 import com.uniMagdalena.recurso.constante.Contenedor;
-import com.unimagdalena.recurso.constante.Configuracion;
+import com.uniMagdalena.recurso.constante.Configuracion;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;

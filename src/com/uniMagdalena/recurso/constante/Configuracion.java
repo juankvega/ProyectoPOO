@@ -1,4 +1,4 @@
-package com.unimagdalena.recurso.constante;
+package com.uniMagdalena.recurso.constante;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;

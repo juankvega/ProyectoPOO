@@ -1,4 +1,4 @@
-package com.unimagdalena.recurso.constante;
+package com.uniMagdalena.recurso.constante;
 
 import java.io.File;
 
@@ -14,6 +14,8 @@ public class Persistencia {
     public static final String NOMBRE_BASE_DATOS_CLIENTE = "clientes.txt";
     public static final String NOMBRE_BASE_DATOS_TRABAJADOR = "trabajadores.txt";
     public static final String NOMBRE_BASE_DATOS_BANYO = "banyos.txt";
+    
+    private final static String RECURSO = "/com/uniMagdalena/recurso/";
     
     public static final String NOMBRE_CARPETA = "LaBaseDeDatos"; 
     public static final String NOMBRE_CARPETA_IMAGENES_EXTERNAS 
@@ -62,5 +64,7 @@ public class Persistencia {
             = "/com/uniMagdalena/recurso/imagenes/";
     public static final String RUTA_IMAGENES_EXTERNAS = RUTA_PROYECTO
             + SEPARADOR_CARPETAS + NOMBRE_CARPETA_IMAGENES_EXTERNAS;
+    
+    public final static String RUTA_ESTILO_BTN_ACERCA = RECURSO + "estilo/BtnAcerca.css";
 
 }

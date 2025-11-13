@@ -1,5 +1,5 @@
 
-package com.unimagdalena.recurso.utilidad;
+package com.uniMagdalena.recurso.utilidad;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;

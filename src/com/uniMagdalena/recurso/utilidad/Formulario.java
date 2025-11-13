@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.unimagdalena.recurso.utilidad;
+package com.uniMagdalena.recurso.utilidad;
 
-import com.unimagdalena.recurso.constante.Persistencia;
+import com.uniMagdalena.recurso.constante.Persistencia;
 import java.io.File;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;

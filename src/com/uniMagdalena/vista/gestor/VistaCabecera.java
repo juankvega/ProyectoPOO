@@ -3,7 +3,9 @@ package com.uniMagdalena.vista.gestor;
 
 import com.uniMagdalena.controlador.SalidaControlador;
 import com.uniMagdalena.recurso.constante.Contenedor;
-import com.unimagdalena.recurso.constante.Configuracion;
+import com.uniMagdalena.recurso.constante.Configuracion;
+import com.uniMagdalena.recurso.constante.Persistencia;
+import com.uniMagdalena.recurso.utilidad.Icono;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +17,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
 import javafx.stage.Stage;
 
@@ -74,6 +78,8 @@ public class VistaCabecera extends SubScene
         menuVenta();
         btnSalir();
         
+        btnAcerca(700, 600);
+        
     }
     
     private void menuSede()
@@ -100,6 +106,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Sedes");
+         menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoSedes.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -128,6 +137,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Salas");
+         menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoSalas.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -156,6 +168,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Baños");
+         menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoBanyos.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -184,6 +199,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Trabajadores");
+        menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoTrabajadores.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -212,6 +230,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Géneros");
+        menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoGeneros.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -240,6 +261,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Peliculas");
+        menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoPelicula.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -268,6 +292,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Productos");
+        menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoProducto.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -296,6 +323,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Clientes");
+         menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoClientes.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -324,6 +354,9 @@ public class VistaCabecera extends SubScene
         });
         
         MenuButton menuBotones = new MenuButton("Ventas");
+        menuBotones.setPrefWidth(MENU_ANCHO);
+        menuBotones.setPrefWidth(MENU_ALTO);
+        menuBotones.setGraphic(Icono.obtenerIcono("iconoVentas.png", 25));
         menuBotones.getItems().addAll(opcion01, opcion02, opcion03, opcion04);
         agregaralmenu(menuBotones);
     }
@@ -341,4 +374,23 @@ public class VistaCabecera extends SubScene
 
         miPanelCabecera.getChildren().add(btnSalir);
     }
+    
+    private void btnAcerca(double anchoFlotante, double altoFlotante)
+    {
+        Button botonAyuda = new Button("?");
+        botonAyuda.setOnAction((ActionEvent e) ->
+        { VistaAcerca.mostrar(miEscenario, anchoFlotante, altoFlotante);
+        });
+        
+        botonAyuda.setPrefWidth(30);
+        botonAyuda.setId("btn-ayuda");
+        botonAyuda.setCursor(Cursor.HAND);
+        botonAyuda.getStylesheets().add(getClass().getResource(Persistencia.RUTA_ESTILO_BTN_ACERCA).toExternalForm());
+        Region espacio = new Region();
+        HBox.setHgrow(espacio, Priority.ALWAYS);
+        
+        miPanelCabecera.getChildren().add(espacio);
+        miPanelCabecera.getChildren().add(botonAyuda);
+    }
+    
 }

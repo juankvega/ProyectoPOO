@@ -1,4 +1,4 @@
-package com.unimagdalena.recurso.utilidad;
+package com.uniMagdalena.recurso.utilidad;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

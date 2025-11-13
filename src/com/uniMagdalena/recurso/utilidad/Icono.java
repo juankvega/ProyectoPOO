@@ -1,6 +1,6 @@
-package com.unimagdalena.recurso.utilidad;
+package com.uniMagdalena.recurso.utilidad;
 
-import com.unimagdalena.recurso.constante.Persistencia;
+import com.uniMagdalena.recurso.constante.Persistencia;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javafx.scene.image.Image;
