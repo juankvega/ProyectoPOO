@@ -15,7 +15,7 @@ public interface ApiOperacionBD<T, ID>
   
   public Boolean deleteFrom(ID codigo);
   
-  public T updateSet(ID codigo, T obj, String ruta);
+  public Boolean updateSet(ID codigo, T obj, String ruta);
   
   public T getOne(ID codigo);
 }

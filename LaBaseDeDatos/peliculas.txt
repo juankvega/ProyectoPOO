@@ -1,0 +1,2 @@
+1;Evangelion 3: Esta vaina se puso enserio de verdad muy seriaaaaaa;1;Shinji;15000000.85;false;Bebidas.png;d1270224-600e-4f34-838e-178c6d36460d_Bebidas.png@
+2;demon slayer;3;Tanjiro;150000000000.87;true;demon_Slayer.jpg;e4748825-bc42-4a62-be26-5606f6a7be55_demon_Slayer.jpg@

@@ -33,6 +33,14 @@ public class Configuracion {
     //Porcentajes del marco
     public static final double MARCO_ALTO_PORCENTAJE = 0.75;
     public static final double MARCO_ANCHO_PORCENTAJE = 0.8;
+    // imagen pantalla rota
+    public final static String PANTALLA_ROTA = "pantallaRota.png";
+    
+    public final static String FONDOS[] =
+    {
+        "Fondo01.png",
+        "Fondo02.png" 
+    };
 
     // Iconos
     public static final String ICONO_BORRAR = "iconoBorrar.png";

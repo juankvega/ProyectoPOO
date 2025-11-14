@@ -1,9 +1,9 @@
 
 package com.uniMagdalena.app;
 
-import com.uniMagdalena.controlador.SalidaControlador;
+import com.uniMagdalena.controlador.varios.SalidaControlador;
 import com.uniMagdalena.recurso.constante.IconoNombre;
-import com.uniMagdalena.vista.gestor.VistaAdmin;
+import com.uniMagdalena.vista.varios.VistaAdmin;
 import com.uniMagdalena.recurso.constante.Persistencia;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
