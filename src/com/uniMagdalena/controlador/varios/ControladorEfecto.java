@@ -9,7 +9,7 @@ public class ControladorEfecto {
     public static void aplicarEfecto(Pane contenedor,
             double anchoFrm, double altoFrm) {
 
-        int opcion = Aleatorio.entero(1, 8);
+        int opcion = Aleatorio.entero(1, 7);
         switch (opcion) {
             case 1 -> {
                 contenedor.setTranslateX(anchoFrm - (anchoFrm * 0.2));

@@ -89,12 +89,14 @@ public class GeneroServicio implements ApiOperacionBD<GeneroDto, Integer> {
                 Boolean estGenero = Boolean.valueOf(columnas[2].trim());
                 Short popGenero = Short.valueOf(columnas[3].trim());
                 Boolean clasGenero = Boolean.valueOf(columnas[4].trim());
+                String nomImagenGeneroP = columnas[5].trim();
+                String nomImagenGeneroPv = columnas[6].trim();
 
                 // Y en la siguiente linea resolvemos lo de la cantidad de peliculas de un género
                 // Breve y pulido, recuerda: eres uniMagdalena
                 Short cantPelis = arrCantPelis.getOrDefault(codGenero, 0).shortValue();
 
-                arregloGenero.add(new GeneroDto(codGenero, nomGenero, estGenero,popGenero,clasGenero ,cantPelis, "", ""));
+                arregloGenero.add(new GeneroDto(codGenero, nomGenero, estGenero,popGenero,clasGenero ,cantPelis, nomImagenGeneroP, nomImagenGeneroPv));
 
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());

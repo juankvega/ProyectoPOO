@@ -61,7 +61,7 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
         objPelicula.setIdGeneroPelicula(objGenero);
         objPelicula.setActorPPelicula(dto.getActorPPelicula());
         objPelicula.setPresupuestoPelicula(dto.getPresupuestoPelicula());
-        objPelicula.setEsParaAdultosPelicula(dto.getEsParaAdultosPelicula());
+        objPelicula.setEsParaNinyosPelicula(dto.getEsParaNinyosPelicula());
         objPelicula.setNombreImagenPublicoPelicula(dto.getNombreImagenPublicoPelicula());
         objPelicula.setNombreImagenPrivadoPelicula(GestorImagen.grabarLaImagen(ruta));
 
@@ -72,7 +72,7 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
                 + objPelicula.getIdGeneroPelicula().getIdGenero() + Persistencia.SEPARADOR_COLUMNAS
                 + objPelicula.getActorPPelicula() + Persistencia.SEPARADOR_COLUMNAS
                 + valorListo + Persistencia.SEPARADOR_COLUMNAS
-                + objPelicula.getEsParaAdultosPelicula() + Persistencia.SEPARADOR_COLUMNAS
+                + objPelicula.getEsParaNinyosPelicula()+ Persistencia.SEPARADOR_COLUMNAS
                 + objPelicula.getNombreImagenPublicoPelicula() + Persistencia.SEPARADOR_COLUMNAS
                 + objPelicula.getNombreImagenPrivadoPelicula();
 
@@ -101,6 +101,8 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
                 String actPelicula = columnas[3].trim();
                 double presPelicula = Double.parseDouble(columnas[4].trim());
                 Boolean adultosPelicula = Boolean.valueOf(columnas[5].trim());
+                String nomImagenPeliculaP = columnas[6].trim();
+                String nomImagenPeliculaPv = columnas[7].trim();
 
                 // Alvaro eb bárbaro: Ciclo for dentro de for
                 // Mala práctica
@@ -108,7 +110,7 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
                 // *************************************************************
 
                 if (generoDto != null) {
-                    arregloPelicula.add(new PeliculaDto(codPelicula, nomPelicula, generoDto, actPelicula, presPelicula, adultosPelicula, "", ""));
+                    arregloPelicula.add(new PeliculaDto(codPelicula, nomPelicula, generoDto, actPelicula, presPelicula, adultosPelicula, nomImagenPeliculaP, nomImagenPeliculaPv));
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());
@@ -220,7 +222,7 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
                 + obj.getIdGeneroPelicula().getIdGenero() + Persistencia.SEPARADOR_COLUMNAS
                 + obj.getActorPPelicula() + Persistencia.SEPARADOR_COLUMNAS
                 + valorListo + Persistencia.SEPARADOR_COLUMNAS
-                + obj.getEsParaAdultosPelicula() + Persistencia.SEPARADOR_COLUMNAS
+                + obj.getEsParaNinyosPelicula()+ Persistencia.SEPARADOR_COLUMNAS
                 + obj.getNombreImagenPublicoPelicula() + Persistencia.SEPARADOR_COLUMNAS;
             if(ruta.isBlank())
             {

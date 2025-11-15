@@ -186,7 +186,7 @@ public class VistaGeneroCrear extends SubScene
         cbmEstado =  new ComboBox<>();
         cbmEstado.setMaxWidth(Double.MAX_VALUE);
         cbmEstado.setPrefHeight(AlTO_CAJA);
-        cbmEstado.getItems().addAll("Seleccione el género", "Activo", "Inactivo");
+        cbmEstado.getItems().addAll("Seleccione el estado", "Activo", "Inactivo");
         cbmEstado.getSelectionModel().select(0);
         miGrilla.add(cbmEstado, 1, 2);
         //**************************

@@ -39,7 +39,13 @@ public class Configuracion {
     public final static String FONDOS[] =
     {
         "Fondo01.png",
-        "Fondo02.png" 
+        "Fondo02.png" ,
+        "Fondo03.png",
+        "Fondo04.png",
+        "Fondo05.png",
+        "Fondo06.png",
+        "Fondo07.png",
+        "Fondo08.png"
     };
 
     // Iconos

@@ -340,7 +340,7 @@ public class VistaPeliculaCrear extends SubScene
             dto.setActorPPelicula(cajaActor.getText());
             dto.setPresupuestoPelicula(numeroCajaPresupuesto);
             dto.setNombreImagenPublicoPelicula(cajaImagen.getText());
-            dto.setEsParaAdultosPelicula(obtenerResultadoSwitch());
+            dto.setEsParaNinyosPelicula(obtenerResultadoSwitch());
             
             if(PeliculaControladorGrabar.crearPelicula(dto, rutaSeleccionada))
             {

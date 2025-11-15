@@ -8,7 +8,8 @@ import javafx.scene.image.ImageView;
 
 public class Icono {
     
-    public static ImageView obtenerIcono(String nombre, Integer tamanio) {
+    public static ImageView obtenerIcono(String nombre, Integer tamanio) 
+    {
         String miRuta = Persistencia.RUTA_IMAGENES_INTERNAS + nombre;
         Image iconito = new Image(miRuta);
         ImageView vistaIconito = new ImageView(iconito);
@@ -18,6 +19,29 @@ public class Icono {
         vistaIconito.setPreserveRatio(true);
         vistaIconito.setSmooth(true);
         return vistaIconito;
+    }
+    
+    public static ImageView obtenerIconoExterno(String nombre, Integer tamanio) 
+    {
+    String miRuta = Persistencia.RUTA_IMAGENES_EXTERNAS 
+                    + Persistencia.SEPARADOR_CARPETAS + nombre;
+    ImageView vistaIconito = null;
+    
+    try (FileInputStream archivo = new FileInputStream(miRuta)) {
+        Image iconito = new Image(archivo);
+        vistaIconito = new ImageView(iconito);
+        
+        if (tamanio > 0) {
+            vistaIconito.setFitHeight(tamanio);
+        }
+        vistaIconito.setPreserveRatio(true);
+        vistaIconito.setSmooth(true);
+        
+    } catch (IOException miError) {
+        System.out.println("Error al cargar icono externo: " + miError.getMessage());
+    }
+    
+    return vistaIconito;
     }
     public static ImageView previsualizar(String rutaImagen, int dimensionMaxima) {
         ImageView imgMostrar = null;

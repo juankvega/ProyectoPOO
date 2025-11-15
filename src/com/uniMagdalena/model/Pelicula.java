@@ -11,7 +11,7 @@ public class Pelicula
     private Genero idGeneroPelicula;
     private String actorPPelicula;
     private Double presupuestoPelicula;
-    private Boolean esParaAdultosPelicula;
+    private Boolean esParaNinyosPelicula;
     
     private String nombreImagenPublicoPelicula;
     private String nombreImagenPrivadoPelicula;
@@ -21,13 +21,13 @@ public class Pelicula
         
     }
 
-    public Pelicula(Integer idPelicula, String nombrePelicula, Genero idGeneroPelicula, String actorPPelicula, Double presupuestoPelicula, Boolean esParaAdultosPelicula, String nombreImagenPublicoPelicula, String nombreImagenPrivadoPelicula) {
+    public Pelicula(Integer idPelicula, String nombrePelicula, Genero idGeneroPelicula, String actorPPelicula, Double presupuestoPelicula, Boolean esParaNinyosPelicula, String nombreImagenPublicoPelicula, String nombreImagenPrivadoPelicula) {
         this.idPelicula = idPelicula;
         this.nombrePelicula = nombrePelicula;
         this.idGeneroPelicula = idGeneroPelicula;
         this.actorPPelicula = actorPPelicula;
         this.presupuestoPelicula = presupuestoPelicula;
-        this.esParaAdultosPelicula = esParaAdultosPelicula;
+        this.esParaNinyosPelicula = esParaNinyosPelicula;
         this.nombreImagenPublicoPelicula = nombreImagenPublicoPelicula;
         this.nombreImagenPrivadoPelicula = nombreImagenPrivadoPelicula;
     }
@@ -72,13 +72,15 @@ public class Pelicula
         this.presupuestoPelicula = presupuestoPelicula;
     }
 
-    public Boolean getEsParaAdultosPelicula() {
-        return esParaAdultosPelicula;
+    public Boolean getEsParaNinyosPelicula() {
+        return esParaNinyosPelicula;
     }
 
-    public void setEsParaAdultosPelicula(Boolean esParaAdultosPelicula) {
-        this.esParaAdultosPelicula = esParaAdultosPelicula;
+    public void setEsParaNinyosPelicula(Boolean esParaNinyosPelicula) {
+        this.esParaNinyosPelicula = esParaNinyosPelicula;
     }
+
+    
 
     public String getNombreImagenPublicoPelicula() {
         return nombreImagenPublicoPelicula;

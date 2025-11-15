@@ -221,16 +221,20 @@ public class VistaCabecera extends SubScene
         miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
-        opcion02.setOnAction((e) -> {
-            System.out.println("El carrusel");
-        });
+        opcion02.setOnAction((ActionEvent e) -> {miPanelCuerpo = GeneroControladorVentana.listar(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);});
         
         opcion03.setOnAction((e) -> {
-            System.out.println("El carrusel");
-        });
+        miPanelCuerpo = GeneroControladorVentana.administrar(miEscenario, miPanelPrincipal, miPanelCuerpo ,Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);});
         
         opcion04.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        int posicionInicial = 0;
+        miPanelCuerpo = GeneroControladorVentana.carrusel(miEscenario, miPanelPrincipal, miPanelCuerpo, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor(), posicionInicial);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);        
         });
         
         MenuButton menuBotones = new MenuButton("Géneros");
@@ -254,9 +258,9 @@ public class VistaCabecera extends SubScene
         miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
-        opcion02.setOnAction((e) -> {
-            System.out.println("El carrusel");
-        });
+        opcion02.setOnAction((e) -> {miPanelCuerpo = PeliculaControladorVentana.listar(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);});
         
         opcion03.setOnAction((e) -> {
             System.out.println("El carrusel");
