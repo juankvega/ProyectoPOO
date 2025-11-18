@@ -5,7 +5,7 @@ public class ProductoDto
 {
     private Integer idProducto;
     private String nombreProducto;
-    private Boolean esparaninyosProducto;
+    private String tamanioProducto;
     private String advertenciaConsumoProducto;
     private Double precioProducto;
     
@@ -17,15 +17,26 @@ public class ProductoDto
         
     }
 
-    public ProductoDto(Integer idProducto, String nombreProducto, Boolean esparaninyosProducto, String advertenciaConsumoProducto, Double precioProducto, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
+    public ProductoDto(Integer idProducto, String nombreProducto, String tamanioProducto, String advertenciaConsumoProducto, Double precioProducto, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
-        this.esparaninyosProducto = esparaninyosProducto;
+        this.tamanioProducto = tamanioProducto;
         this.advertenciaConsumoProducto = advertenciaConsumoProducto;
         this.precioProducto = precioProducto;
         this.nombreImagenPublicoProducto = nombreImagenPublicoProducto;
         this.nombreImagenPrivadoProducto = nombreImagenPrivadoProducto;
     }
+
+    public String getTamanioProducto() {
+        return tamanioProducto;
+    }
+
+    public void setTamanioProducto(String tamanioProducto) {
+        this.tamanioProducto = tamanioProducto;
+    }
+    
+    
+
 
     public Integer getIdProducto() {
         return idProducto;
@@ -41,14 +52,6 @@ public class ProductoDto
 
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
-    }
-
-    public Boolean getEsparaninyosProducto() {
-        return esparaninyosProducto;
-    }
-
-    public void setEsparaninyosProducto(Boolean esparaninyosProducto) {
-        this.esparaninyosProducto = esparaninyosProducto;
     }
 
     public String getAdvertenciaConsumoProducto() {
