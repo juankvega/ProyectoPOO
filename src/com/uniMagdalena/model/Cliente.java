@@ -9,7 +9,7 @@ public class Cliente
    private String tipoDocumentoCliente;
    private Integer numeroDocumentoCliente;
    private String tipoCliente;
-   private Short ventasCliente;
+  
    
    private String nombreImagenPublicoCliente;
    private String nombreImagenPrivadoCliente;
@@ -19,17 +19,20 @@ public class Cliente
         
     }
 
-    public Cliente(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, Integer numeroDocumentoCliente, String tipoCliente, Short ventasCliente, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
+    public Cliente(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, Integer numeroDocumentoCliente, String tipoCliente, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
         this.idCliente = idCliente;
         this.nombreCliente = nombreCliente;
         this.generoCliente = generoCliente;
         this.tipoDocumentoCliente = tipoDocumentoCliente;
         this.numeroDocumentoCliente = numeroDocumentoCliente;
         this.tipoCliente = tipoCliente;
-        this.ventasCliente = ventasCliente;
         this.nombreImagenPublicoCliente = nombreImagenPublicoCliente;
         this.nombreImagenPrivadoCliente = nombreImagenPrivadoCliente;
     }
+    
+    
+
+    
 
     public Integer getNumeroDocumentoCliente() {
         return numeroDocumentoCliente;
@@ -83,13 +86,6 @@ public class Cliente
         this.tipoCliente = tipoCliente;
     }
 
-    public Short getVentasCliente() {
-        return ventasCliente;
-    }
-
-    public void setVentasCliente(Short ventasCliente) {
-        this.ventasCliente = ventasCliente;
-    }
 
     public String getNombreImagenPublicoCliente() {
         return nombreImagenPublicoCliente;

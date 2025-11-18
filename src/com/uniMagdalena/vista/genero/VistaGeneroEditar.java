@@ -231,9 +231,25 @@ public class VistaGeneroEditar extends SubScene
         btnEscogerImagen.setPrefHeight(AlTO_CAJA);
         btnEscogerImagen.setOnAction((e) -> {
         rutaSeleccionada = GestorImagen.obtenerRutaImagen(cajaImagen, objSeleccionar);
+        if (rutaSeleccionada != null && !rutaSeleccionada.isEmpty()) {
         miGrilla.getChildren().remove(imgPorDefecto);
         miGrilla.getChildren().remove(imgPrevisualizar);
+        
         imgPrevisualizar = Icono.previsualizar(rutaSeleccionada, 150);
+        GridPane.setHalignment(imgPrevisualizar, HPos.CENTER);
+        GridPane.setValignment(imgPrevisualizar, VPos.CENTER);
+        
+       
+        miGrilla.add(imgPrevisualizar, 2, 1, 1, 3);
+    } else {
+        // Si el usuario canceló, mantener la imagen por defecto
+        miGrilla.getChildren().remove(imgPrevisualizar);
+        if (!miGrilla.getChildren().contains(imgPorDefecto)) {
+            GridPane.setHalignment(imgPorDefecto, HPos.CENTER);
+            GridPane.setValignment(imgPorDefecto, VPos.CENTER);
+            miGrilla.add(imgPorDefecto, 2, 1, 1, 3);
+        }
+    }
   
         
     });
