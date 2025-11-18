@@ -4,7 +4,7 @@ package com.uniMagdalena.model;
 public class Sede 
 {
     private Integer idSede;
-    private String departamentoSede;
+    private String nombreSede;
     private String ciudadSede;
     private String ubicacionSede;
     private Boolean es24horasSede;
@@ -18,9 +18,9 @@ public class Sede
         
     }
 
-    public Sede(Integer idSede, String departamentoSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
+    public Sede(Integer idSede, String nombreSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
         this.idSede = idSede;
-        this.departamentoSede = departamentoSede;
+        this.nombreSede = nombreSede;
         this.ciudadSede = ciudadSede;
         this.ubicacionSede = ubicacionSede;
         this.es24horasSede = es24horasSede;
@@ -29,12 +29,12 @@ public class Sede
         this.nombreImagenPrivadoSede = nombreImagenPrivadoSede;
     }
 
-    public String getDepartamentoSede() {
-        return departamentoSede;
+    public String getNombreSede() {
+        return nombreSede;
     }
 
-    public void setDepartamentoSede(String departamentoSede) {
-        this.departamentoSede = departamentoSede;
+    public void setNombreSede(String nombreSede) {
+        this.nombreSede = nombreSede;
     }
 
     public Boolean getEs24horasSede() {

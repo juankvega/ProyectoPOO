@@ -59,7 +59,7 @@ public class SalaServicio implements ApiOperacionBD<SalaDto, Integer>
     public SalaDto insertInto(SalaDto dto, String ruta) 
     {
         
-        Sede objSede = new Sede(dto.getSedeSala().getIdSede(), dto.getSedeSala().getDepartamentoSede(), dto.getSedeSala().getCiudadSede(), dto.getSedeSala().getUbicacionSede(), dto.getSedeSala().getEs24horasSede(), null, "", "");
+        Sede objSede = new Sede(dto.getSedeSala().getIdSede(), dto.getSedeSala().getNombreSede(), dto.getSedeSala().getCiudadSede(), dto.getSedeSala().getUbicacionSede(), dto.getSedeSala().getEs24horasSede(), null, "", "");
         
         
         Sala objSala = new Sala();

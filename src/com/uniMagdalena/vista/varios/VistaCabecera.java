@@ -4,6 +4,7 @@ package com.uniMagdalena.vista.varios;
 import com.uniMagdalena.controlador.cliente.ClienteControladorVentana;
 import com.uniMagdalena.controlador.genero.GeneroControladorVentana;
 import com.uniMagdalena.controlador.pelicula.PeliculaControladorVentana;
+import com.uniMagdalena.controlador.sala.SalaControladorVentana;
 import com.uniMagdalena.controlador.trabajador.TrabajadorControladorVentana;
 import com.uniMagdalena.controlador.varios.SalidaControlador;
 import com.uniMagdalena.recurso.constante.Contenedor;
@@ -125,11 +126,16 @@ public class VistaCabecera extends SubScene
         MenuItem opcion04 = new MenuItem("Carrusel");
         
         opcion01.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        miPanelCuerpo = SalaControladorVentana.crear(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);
+        
         });
         
         opcion02.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        miPanelCuerpo = SalaControladorVentana.listar(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);    
         });
         
         opcion03.setOnAction((e) -> {
