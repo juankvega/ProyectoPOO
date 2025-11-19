@@ -1,2 +1,1 @@
 4;Perdido en el aeropuerto;1;Meudy Lugo;20000000.87;false;Aeropuerto.png;08c4b3aa-aac8-43e1-9779-3cbfb3badd32_Aeropuerto.png@
-5;Robot salvaje;5;Robot animado;1000000.0;true;robot salvaje.jpg;b4b1258a-e024-4e94-a802-b4944149e10d_robot salvaje.jpg@

@@ -90,7 +90,7 @@ public class ProductoServicio implements ApiOperacionBD<ProductoDto, Integer> {
                 
                 short cantVentas = arrCantVentas.getOrDefault(codProducto,0).shortValue();
 
-                arregloProducto.add(new ProductoDto(codProducto, nomProducto, tipoProducto, tamProducto, preProducto, cantVentas, nomImagenProductoP, nomImagenProductoP));
+                arregloProducto.add(new ProductoDto(codProducto, nomProducto, tipoProducto, tamProducto, preProducto, cantVentas, nomImagenProductoP, nomImagenProductoPv));
 
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());
