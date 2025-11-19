@@ -1,4 +1,3 @@
-
 package com.uniMagdalena.vista.cliente;
 
 import com.uniMagdalena.controlador.cliente.ClienteControladorEliminar;
@@ -14,6 +13,10 @@ import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -50,6 +53,7 @@ import javafx.stage.Stage;
 
 public class VistaClienteCarrusel extends SubScene
 {
+    private static final String ARCHIVO_MEMORIA = "carrusel_Cliente_posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
@@ -73,8 +77,16 @@ public class VistaClienteCarrusel extends SubScene
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
-        indiceActual = indice;
-        objCargado = ClienteControladorUna.obtenerCliente(indice);
+        // Cargar el índice guardado en lugar del parámetro
+        indiceActual = cargarIndiceGuardado();
+        
+        // Si el índice cargado es -1 (no existe) o está fuera de rango, usar el parámetro
+        totalClientes = ClienteControladorListar.cantidadClientes();
+        if (indiceActual < 0 || indiceActual >= totalClientes) {
+            indiceActual = indice;
+        }
+        
+        objCargado = ClienteControladorUna.obtenerCliente(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -90,7 +102,8 @@ public class VistaClienteCarrusel extends SubScene
         construirPanelDerecho(0.14);
         construirPanelCentro();
         
-        
+        // Guardar el índice cuando se cierre la ventana
+        laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
     }
     
     public BorderPane getMiBorderPane()
@@ -98,7 +111,36 @@ public class VistaClienteCarrusel extends SubScene
         return miBorderPane;
     }
     
+    /**
+     * Guarda el índice actual en un archivo para recordar la posición
+     */
+    private void guardarIndiceActual() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            Files.writeString(rutaArchivo, String.valueOf(indiceActual));
+        } catch (IOException ex) {
+            Logger.getLogger(VistaClienteCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
+        }
+    }
     
+    /**
+     * Carga el índice guardado desde el archivo
+     * @return el índice guardado o -1 si no existe
+     */
+    private int cargarIndiceGuardado() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            if (Files.exists(rutaArchivo)) {
+                String contenido = Files.readString(rutaArchivo);
+                return Integer.parseInt(contenido.trim());
+            }
+        } catch (IOException | NumberFormatException ex) {
+            Logger.getLogger(VistaClienteCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
+        }
+        return -1;
+    }
     
     private void configurarMiCajaVertical() {
         miCajaVertical.setSpacing(10);
@@ -132,6 +174,9 @@ public class VistaClienteCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Anterior", indiceActual, totalClientes);
             objCargado = ClienteControladorUna.obtenerCliente(indiceActual);
+            
+            // Guardar el nuevo índice
+            guardarIndiceActual();
             
             ClienteTitulo.set("Detalle del cliente (" + (indiceActual + 1) + "/" + totalClientes + ")");
             ClienteNombre.set(objCargado.getNombreCliente());
@@ -171,6 +216,9 @@ public class VistaClienteCarrusel extends SubScene
             indiceActual = obtenerIndice("Siguiente", indiceActual, totalClientes);
             objCargado = ClienteControladorUna.obtenerCliente(indiceActual);
             
+            // Guardar el nuevo índice
+            guardarIndiceActual();
+            
             ClienteTitulo.set("Detalle del cliente (" + (indiceActual + 1) + "/" + totalClientes + ")");
             ClienteNombre.set(objCargado.getNombreCliente());
             
@@ -192,7 +240,6 @@ public class VistaClienteCarrusel extends SubScene
         });
         
         StackPane panelDerecho = new StackPane();
-        // panelIzquierdo.setStyle(borderPanel);
         panelDerecho.prefWidthProperty().bind(laVentanaPrincipal.widthProperty().multiply(porcentaje));
         panelDerecho.getChildren().add(btnSiguiente);
         miBorderPane.setRight(panelDerecho);
@@ -203,8 +250,6 @@ public class VistaClienteCarrusel extends SubScene
        int anchoBoton = 40;
         int tamanioIcono = 18;
 
-    // Botón para eliminar
-    // ***************************************************
         Button btnEliminar = new Button();
         btnEliminar.setPrefWidth(anchoBoton);
         btnEliminar.setCursor(Cursor.HAND);
@@ -215,6 +260,8 @@ public class VistaClienteCarrusel extends SubScene
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
         } else {
+            if(objCargado.getClienteVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "¿Estás seguro mi vale?";
@@ -232,18 +279,18 @@ public class VistaClienteCarrusel extends SubScene
                 if (ClienteControladorEliminar.borrar(indiceActual)) {
                     totalClientes = ClienteControladorListar.cantidadClientes();
                     
-                    // Ajustar el índice después de eliminar
                     if (indiceActual >= totalClientes && totalClientes > 0) {
                         indiceActual = totalClientes - 1;
                     } else if (totalClientes == 0) {
                         indiceActual = 0;
                     }
                     
-                    // Actualizar el título
+                    // Guardar el nuevo índice después de eliminar
+                    guardarIndiceActual();
+                    
                     ClienteTitulo.set("Detalle de la película (" + 
                         (indiceActual + 1) + " / " + totalClientes + ")");
                     
-                    // Cargar la nueva película si hay disponibles
                     if (totalClientes > 0) {
                         objCargado = ClienteControladorUna.obtenerCliente(indiceActual);
                         actualizarDatosCarrusel();
@@ -256,7 +303,10 @@ public class VistaClienteCarrusel extends SubScene
                 } else {
                     Mensaje.mostrar(Alert.AlertType.ERROR, 
                         laVentanaPrincipal, "Pailas", "No lo pude borrar!");
+                    }
                 }
+            }else{
+                Mensaje.mostrar(Alert.AlertType.ERROR, laVentanaPrincipal, "Ey", "Ya tiene ventas");
             }
         }
     });        
@@ -297,20 +347,15 @@ public class VistaClienteCarrusel extends SubScene
 {
     StackPane centerPane = new StackPane();
 
-    // Fondo
     Background fondo = Fondo.asignarAleatorio(Configuracion.FONDOS);
     centerPane.setBackground(fondo);
-    // *********************************************************************
 
-    // Marco
     Rectangle miMarco = Marco.pintar(laVentanaPrincipal, 0.55, 0.75,
             Configuracion.DEGRADEE_ARREGLO, Configuracion.COLOR_BORDE);
     centerPane.getChildren().addAll(miMarco, miCajaVertical);
     
-    // Panel de opciones (botones eliminar y actualizar)
     panelOpciones();
     
-    // Nombre del cliente
     ClienteNombre = new SimpleStringProperty(objCargado.getNombreCliente());
     
     int tamanioFuente = 18;
@@ -320,7 +365,6 @@ public class VistaClienteCarrusel extends SubScene
     lblNombreCliente.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblNombreCliente);
     
-    // Imagen del cliente
     ClienteImagen = new SimpleObjectProperty<>();
     
     FileInputStream imgArchivo;
@@ -345,7 +389,6 @@ public class VistaClienteCarrusel extends SubScene
         Logger.getLogger(VistaClienteCarrusel.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    // Género del cliente
     ClienteGenero = new SimpleBooleanProperty(objCargado.getGeneroCliente());
     
     Label lblGenero = new Label();
@@ -357,7 +400,6 @@ public class VistaClienteCarrusel extends SubScene
     lblGenero.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblGenero);
     
-    // Tipo de documento
     ClienteTipoDocumento = new SimpleStringProperty(objCargado.getTipoDocumentoCliente());
     
     Label lblTipoDoc = new Label();
@@ -366,7 +408,6 @@ public class VistaClienteCarrusel extends SubScene
     lblTipoDoc.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblTipoDoc);
     
-    // Número de documento
     ClienteNumeroDocumento = new SimpleIntegerProperty(objCargado.getNumeroDocumentoCliente());
     
     Label lblNumeroDoc = new Label();
@@ -375,7 +416,6 @@ public class VistaClienteCarrusel extends SubScene
     lblNumeroDoc.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblNumeroDoc);
     
-    // Tipo de cliente
     ClienteTipo = new SimpleStringProperty(objCargado.getTipoCliente());
     
     Label lblTipoCliente = new Label();

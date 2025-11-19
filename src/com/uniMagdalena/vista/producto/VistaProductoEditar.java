@@ -428,10 +428,7 @@ public class VistaProductoEditar extends SubScene
             String imaProducto = cajaImagen.getText();
             String nocu = objProducto.getNombreImagenPrivadoProducto();
 
-            ProductoDto nuevoProducto = new ProductoDto(
-                codProducto, nomProducto, tamProducto, tipProducto,
-                preProducto, imaProducto, nocu
-            );
+            ProductoDto nuevoProducto = new ProductoDto(codProducto, nomProducto, tipProducto, tamProducto, preProducto, Short.valueOf("0"), imaProducto, nocu);
 
             if(ProductoControladorEditar.actualizar(posicion, nuevoProducto, rutaSeleccionada))
             {

@@ -294,6 +294,8 @@ public class VistaPeliculaAdmin extends SubScene
         else
         {
             PeliculaDto objPelicula = miTabla.getSelectionModel().getSelectedItem();
+            if(objPelicula.getPeliculaVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "Estás seguro mi vale?";
@@ -332,6 +334,12 @@ public class VistaPeliculaAdmin extends SubScene
             else
             {
                 miTabla.getSelectionModel().clearSelection();
+            }
+        }else{
+                Mensaje.mostrar(
+                            Alert.AlertType.ERROR,
+                            laVentanaPrincipal, "Ey",
+                            "Ya tiene ventas");
             }
         }
         });

@@ -13,8 +13,13 @@ import com.uniMagdalena.recurso.utilidad.Fondo;
 import com.uniMagdalena.recurso.utilidad.Icono;
 import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
+import com.uniMagdalena.vista.cliente.VistaClienteCarrusel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -51,6 +56,7 @@ import javafx.stage.Stage;
 
 public class VistaTrabajadorCarrusel extends SubScene
 {
+    private static final String ARCHIVO_MEMORIA = "carrusel_Trabajador_posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
@@ -74,8 +80,14 @@ public class VistaTrabajadorCarrusel extends SubScene
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
-        indiceActual = indice;
-        objCargado = TrabajadorControladorUna.obtenerTrabajador(indice);
+        indiceActual = cargarIndiceGuardado();
+        
+        totalTrabajadors = TrabajadorControladorListar.cantidadTrabajadores();
+        if (indiceActual < 0 || indiceActual >= totalTrabajadors) {
+            indiceActual = indice;
+        }
+        
+        objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -91,6 +103,7 @@ public class VistaTrabajadorCarrusel extends SubScene
         construirPanelDerecho(0.14);
         construirPanelCentro();
         
+        laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
         
     }
     
@@ -106,6 +119,33 @@ public class VistaTrabajadorCarrusel extends SubScene
         miCajaVertical.setAlignment(Pos.TOP_CENTER);
         miCajaVertical.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
         miCajaVertical.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
+    }
+    
+    
+      private void guardarIndiceActual() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            Files.writeString(rutaArchivo, String.valueOf(indiceActual));
+        } catch (IOException ex) {
+            Logger.getLogger(VistaTrabajadorCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
+        }
+    }
+    
+    
+    
+    private int cargarIndiceGuardado() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            if (Files.exists(rutaArchivo)) {
+                String contenido = Files.readString(rutaArchivo);
+                return Integer.parseInt(contenido.trim());
+            }
+        } catch (IOException | NumberFormatException ex) {
+            Logger.getLogger(VistaTrabajadorCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
+        }
+        return -1;
     }
     
     private void crearTitulo() {
@@ -133,6 +173,8 @@ public class VistaTrabajadorCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Anterior", indiceActual, totalTrabajadors);
             objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+            
+            guardarIndiceActual();
             
             TrabajadorTitulo.set("Detalle del trabajador (" + (indiceActual + 1) + "/" + totalTrabajadors + ")");
             TrabajadorNombre.set(objCargado.getNombreTrabajador());
@@ -171,6 +213,8 @@ public class VistaTrabajadorCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Siguiente", indiceActual, totalTrabajadors);
             objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+            
+            guardarIndiceActual();
             
             TrabajadorTitulo.set("Detalle del trabajador (" + (indiceActual + 1) + "/" + totalTrabajadors + ")");
             TrabajadorNombre.set(objCargado.getNombreTrabajador());
@@ -239,6 +283,8 @@ public class VistaTrabajadorCarrusel extends SubScene
                     } else if (totalTrabajadors == 0) {
                         indiceActual = 0;
                     }
+                    
+                    guardarIndiceActual();
                     
                     // Actualizar el título
                     TrabajadorTitulo.set("Detalle de la película (" + 

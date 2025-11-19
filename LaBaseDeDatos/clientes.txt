@@ -1,4 +1,1 @@
-1;Juan Caballero;true;CC;1083049876;Silver;Hollow knight.jpg;58173d2d-439a-4901-8fac-4f2978209194_Hollow knight.jpg@
-2;Laufey;false;PA;777667777;Gold;laufey.jpg;8f2183da-6e21-40f0-b0e9-0b9d533ada07_laufey.jpg@
-3;Carla Pacifista;false;CC;1083456578;Silver;Carla Pacifista.jpg;51915f26-cb6c-4b9a-8f37-9726580fbb2e_Carla Pacifista.jpg@
-4;Pepito Romero;true;CE;300987567;Silver;image.png;da80cf7f-feb4-4208-80ee-502972e0a029_image.png@
+1;Juan Caballero;true;CC;108349587;Silver;Hollow knight.jpg;a288b61b-af44-4d01-b6e6-bb1e60dca92a_Hollow knight.jpg@

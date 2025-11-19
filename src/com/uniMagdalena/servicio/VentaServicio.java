@@ -26,7 +26,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,7 +66,7 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
         Cliente objCliente = new Cliente
         (dto.getClienteVenta().getIdCliente(), dto.getClienteVenta().getNombreCliente(), 
                 dto.getClienteVenta().getGeneroCliente(), dto.getClienteVenta().getTipoDocumentoCliente(),dto.getClienteVenta().getNumeroDocumentoCliente() , 
-                dto.getClienteVenta().getTipoCliente(), "", "");
+                dto.getClienteVenta().getTipoCliente(),null ,"", "");
         
         Genero objGenero = new Genero(dto.getPeliculaVenta().getIdGeneroPelicula().getIdGenero(),
                 dto.getPeliculaVenta().getIdGeneroPelicula().getNombreGenero(), dto.getPeliculaVenta().getIdGeneroPelicula().getEstadoGenero(), 
@@ -73,17 +75,16 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
         Pelicula objPelicula = new Pelicula(dto.getPeliculaVenta().getIdPelicula(),
                 dto.getPeliculaVenta().getNombrePelicula(), objGenero,
                  dto.getPeliculaVenta().getActorPPelicula(), dto.getPeliculaVenta().getPresupuestoPelicula()
-                , dto.getPeliculaVenta().getEsParaNinyosPelicula(), "", "");
+                , dto.getPeliculaVenta().getEsParaNinyosPelicula(),null ,"", "");
         
         Sede objSede = new Sede(dto.getSedeVenta().getIdSede(), dto.getSedeVenta().getNombreSede(), dto.getSedeVenta().getCiudadSede(), 
                 dto.getSedeVenta().getUbicacionSede(), dto.getSedeVenta().getEs24horasSede(), null, 
                 "", "");
         
         Sala objSala = new Sala(dto.getSalaVenta().getIdSala(),dto.getSalaVenta().getNombreSala() , dto.getSalaVenta().getAsientosSala(), 
-                dto.getSalaVenta().getSala4d(), objSede, "", "");
+                dto.getSalaVenta().getSala4d(), objSede,null ,"", "");
         
-        Producto objProducto = new Producto(dto.getProductoVenta().getIdProducto(), dto.getProductoVenta().getNombreProducto(),
-                dto.getProductoVenta().getTamanioProducto(), dto.getProductoVenta().getTipoProducto(), dto.getProductoVenta().getPrecioProducto(), "", "");
+        Producto objProducto = new Producto(dto.getProductoVenta().getIdProducto(),dto.getProductoVenta().getNombreProducto(), dto.getProductoVenta().getTipoProducto(), dto.getProductoVenta().getTamanioProducto(), dto.getProductoVenta().getPrecioProducto(), null, "", "" );
         
         Venta objVenta = new Venta();
         objVenta.setIdVenta(getSerial());
@@ -170,6 +171,88 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
         
         return arregloVenta;
     }
+    
+    
+    public Map<Integer, Integer> selectFromCantidadCliente() {
+        Map<Integer, Integer> arrCantidades = new HashMap<>();
+        List<String> arregloDatos = miArchivo.obtenerDatos();
+
+        for (String cadena : arregloDatos) {
+            try {
+                cadena = cadena.replace("@", "");
+                String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
+                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                int numCliente = Integer.parseInt(columnas[1].trim());
+                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                arrCantidades.put(numCliente, arrCantidades.getOrDefault(numCliente, 0) + 1);
+
+            } catch (NumberFormatException error) {
+                Logger.getLogger(VentaServicio.class.getName()).log(Level.SEVERE, null, error);
+            }
+        }
+        return arrCantidades;
+    }
+    
+    public Map<Integer, Integer> selectFromCantidadPelicula() {
+        Map<Integer, Integer> arrCantidades = new HashMap<>();
+        List<String> arregloDatos = miArchivo.obtenerDatos();
+
+        for (String cadena : arregloDatos) {
+            try {
+                cadena = cadena.replace("@", "");
+                String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
+                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                int idPelicula = Integer.parseInt(columnas[2].trim());
+                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                arrCantidades.put(idPelicula, arrCantidades.getOrDefault(idPelicula, 0) + 1);
+
+            } catch (NumberFormatException error) {
+                Logger.getLogger(VentaServicio.class.getName()).log(Level.SEVERE, null, error);
+            }
+        }
+        return arrCantidades;
+    }
+    
+     public Map<Integer, Integer> selectFromCantidadSala() {
+        Map<Integer, Integer> arrCantidades = new HashMap<>();
+        List<String> arregloDatos = miArchivo.obtenerDatos();
+
+        for (String cadena : arregloDatos) {
+            try {
+                cadena = cadena.replace("@", "");
+                String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
+                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                int idSala = Integer.parseInt(columnas[4].trim());
+                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                arrCantidades.put(idSala, arrCantidades.getOrDefault(idSala, 0) + 1);
+
+            } catch (NumberFormatException error) {
+                Logger.getLogger(VentaServicio.class.getName()).log(Level.SEVERE, null, error);
+            }
+        }
+        return arrCantidades;
+    }
+     
+      public Map<Integer, Integer> selectFromCantidadProducto() {
+        Map<Integer, Integer> arrCantidades = new HashMap<>();
+        List<String> arregloDatos = miArchivo.obtenerDatos();
+
+        for (String cadena : arregloDatos) {
+            try {
+                cadena = cadena.replace("@", "");
+                String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
+                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                int idProducto = Integer.parseInt(columnas[5].trim());
+                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                arrCantidades.put(idProducto, arrCantidades.getOrDefault(idProducto, 0) + 1);
+
+            } catch (NumberFormatException error) {
+                Logger.getLogger(VentaServicio.class.getName()).log(Level.SEVERE, null, error);
+            }
+        }
+        return arrCantidades;
+    }
+    
     
     
     private SedeDto buscarSedePorID(SedeServicio sedeServicio, int idSede)

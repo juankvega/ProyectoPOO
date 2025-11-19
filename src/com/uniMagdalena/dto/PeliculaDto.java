@@ -10,6 +10,7 @@ public class PeliculaDto
     private String actorPPelicula;
     private Double presupuestoPelicula;
     private Boolean esParaNinyosPelicula;
+    private Short peliculaVentas;
     
     private String nombreImagenPublicoPelicula;
     private String nombreImagenPrivadoPelicula;
@@ -19,16 +20,29 @@ public class PeliculaDto
         
     }
 
-    public PeliculaDto(Integer idPelicula, String nombrePelicula, GeneroDto idGeneroPelicula, String actorPPelicula, Double presupuestoPelicula, Boolean esParaNinyosPelicula, String nombreImagenPublicoPelicula, String nombreImagenPrivadoPelicula) {
+    public PeliculaDto(Integer idPelicula, String nombrePelicula, GeneroDto idGeneroPelicula, String actorPPelicula, Double presupuestoPelicula, Boolean esParaNinyosPelicula, Short peliculaVentas, String nombreImagenPublicoPelicula, String nombreImagenPrivadoPelicula) {
         this.idPelicula = idPelicula;
         this.nombrePelicula = nombrePelicula;
         this.idGeneroPelicula = idGeneroPelicula;
         this.actorPPelicula = actorPPelicula;
         this.presupuestoPelicula = presupuestoPelicula;
         this.esParaNinyosPelicula = esParaNinyosPelicula;
+        this.peliculaVentas = peliculaVentas;
         this.nombreImagenPublicoPelicula = nombreImagenPublicoPelicula;
         this.nombreImagenPrivadoPelicula = nombreImagenPrivadoPelicula;
     }
+
+    public Short getPeliculaVentas() {
+        return peliculaVentas;
+    }
+
+    public void setPeliculaVentas(Short peliculaVentas) {
+        this.peliculaVentas = peliculaVentas;
+    }
+    
+    
+
+ 
 
     public Integer getIdPelicula() {
         return idPelicula;

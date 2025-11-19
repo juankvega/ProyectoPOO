@@ -98,6 +98,9 @@ public class SalaServicio implements ApiOperacionBD<SalaDto, Integer>
         
         SedeServicio sedeServicio = new SedeServicio();
         
+        VentaServicio ventaServicio = new VentaServicio();
+        Map<Integer, Integer> arrCantVentas = ventaServicio.selectFromCantidadSala();
+        
         for(String cadena: arregloDatos)
         {
             try
@@ -113,12 +116,12 @@ public class SalaServicio implements ApiOperacionBD<SalaDto, Integer>
                 String nomImagenSedeP = columnas[5].trim();
                 String nomImagenSedePv = columnas[6].trim();
                 
-                
+                short cantVentas = arrCantVentas.getOrDefault(codSala,0).shortValue();
                 
                 SedeDto sedeDto = buscarSedePorID(sedeServicio, idSede);
                 
                 if(sedeDto != null){
-                arregloSala.add(new SalaDto(codSala, nomSala, assSala, es4dSala, sedeDto, nomImagenSedeP, nomImagenSedePv ));
+                arregloSala.add(new SalaDto(codSala, nomSala, assSala, es4dSala, sedeDto,cantVentas ,nomImagenSedeP, nomImagenSedePv ));
                 }
             }
             catch(NumberFormatException e)

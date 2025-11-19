@@ -15,6 +15,10 @@ import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -51,6 +55,7 @@ import javafx.stage.Stage;
 
 public class VistaSalaCarrusel extends SubScene
 {
+    private static final String ARCHIVO_MEMORIA = "carrusel_Sala_posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
@@ -73,8 +78,13 @@ public class VistaSalaCarrusel extends SubScene
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
-        indiceActual = indice;
-        objCargado = SalaControladorUna.obtenerSala(indice);
+        indiceActual = cargarIndiceGuardado();
+        
+        totalSalas = SalaControladorListar.cantidadSalas();
+        if (indiceActual < 0 || indiceActual >= totalSalas) {
+            indiceActual = indice;
+        }
+        objCargado = SalaControladorUna.obtenerSala(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -89,6 +99,8 @@ public class VistaSalaCarrusel extends SubScene
         construirPanelIzquiero(0.14);
         construirPanelDerecho(0.14);
         construirPanelCentro();
+        
+        laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
         
     }
     
@@ -105,6 +117,33 @@ public class VistaSalaCarrusel extends SubScene
         miCajaVertical.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
         miCajaVertical.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
     }
+    
+          private void guardarIndiceActual() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            Files.writeString(rutaArchivo, String.valueOf(indiceActual));
+        } catch (IOException ex) {
+            Logger.getLogger(VistaSalaCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
+        }
+    }
+    
+    
+    
+    private int cargarIndiceGuardado() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            if (Files.exists(rutaArchivo)) {
+                String contenido = Files.readString(rutaArchivo);
+                return Integer.parseInt(contenido.trim());
+            }
+        } catch (IOException | NumberFormatException ex) {
+            Logger.getLogger(VistaSalaCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
+        }
+        return -1;
+    }
+    
     
     private void crearTitulo() {
         Region bloqueSeparador = new Region();
@@ -132,6 +171,8 @@ public class VistaSalaCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Anterior", indiceActual, totalSalas);
             objCargado = SalaControladorUna.obtenerSala(indiceActual);
+            
+            guardarIndiceActual();
             
             SalaTitulo.set("Detalle de Sala (" + (indiceActual + 1) + "/" + totalSalas + ")");
             SalaNombre.set(objCargado.getNombreSala());
@@ -169,6 +210,8 @@ public class VistaSalaCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Siguiente", indiceActual, totalSalas);
             objCargado = SalaControladorUna.obtenerSala(indiceActual);
+            
+            guardarIndiceActual();
             
             SalaTitulo.set("Detalle de Sala (" + (indiceActual + 1) + "/" + totalSalas + ")");
             SalaNombre.set(objCargado.getNombreSala());
@@ -214,6 +257,8 @@ public class VistaSalaCarrusel extends SubScene
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
         } else {
+            if(objCargado.getSalaVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "¿Estás seguro mi vale?";
@@ -238,6 +283,8 @@ public class VistaSalaCarrusel extends SubScene
                         indiceActual = 0;
                     }
                     
+                    guardarIndiceActual();
+                    
                     // Actualizar el título
                     SalaTitulo.set("Detalle de la película (" + 
                         (indiceActual + 1) + " / " + totalSalas + ")");
@@ -256,6 +303,12 @@ public class VistaSalaCarrusel extends SubScene
                     Mensaje.mostrar(Alert.AlertType.ERROR, 
                         laVentanaPrincipal, "Pailas", "No lo pude borrar!");
                 }
+            }
+        }else{
+                Mensaje.mostrar(
+                            Alert.AlertType.ERROR,
+                            laVentanaPrincipal, "Ey",
+                            "Ya tiene ventas");
             }
         }
     });        

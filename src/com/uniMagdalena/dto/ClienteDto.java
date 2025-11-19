@@ -9,6 +9,7 @@ public class ClienteDto
    private String tipoDocumentoCliente;
    private Integer numeroDocumentoCliente;
    private String tipoCliente;
+   private Short clienteVentas;
    
    
    private String nombreImagenPublicoCliente;
@@ -19,17 +20,27 @@ public class ClienteDto
         
     }
 
-    public ClienteDto(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, Integer numeroDocumentoCliente, String tipoCliente, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
+    public ClienteDto(Integer idCliente, String nombreCliente, Boolean generoCliente, String tipoDocumentoCliente, Integer numeroDocumentoCliente, String tipoCliente, Short clienteVentas, String nombreImagenPublicoCliente, String nombreImagenPrivadoCliente) {
         this.idCliente = idCliente;
         this.nombreCliente = nombreCliente;
         this.generoCliente = generoCliente;
         this.tipoDocumentoCliente = tipoDocumentoCliente;
         this.numeroDocumentoCliente = numeroDocumentoCliente;
         this.tipoCliente = tipoCliente;
+        this.clienteVentas = clienteVentas;
         this.nombreImagenPublicoCliente = nombreImagenPublicoCliente;
         this.nombreImagenPrivadoCliente = nombreImagenPrivadoCliente;
     }
-    
+
+    public Short getClienteVentas() {
+        return clienteVentas;
+    }
+
+    public void setClienteVentas(Short clienteVentas) {
+        this.clienteVentas = clienteVentas;
+    }
+
+  
     
 
     

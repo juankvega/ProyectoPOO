@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,6 +71,9 @@ public class ProductoServicio implements ApiOperacionBD<ProductoDto, Integer> {
     public List<ProductoDto> selectFrom() {
         List<ProductoDto> arregloProducto = new ArrayList<>();
         List<String> arregloDatos = miArchivo.obtenerDatos();
+        
+        VentaServicio ventaServicio = new VentaServicio();
+        Map<Integer, Integer> arrCantVentas = ventaServicio.selectFromCantidadProducto();
 
         for (String cadena : arregloDatos) {
             try {
@@ -83,8 +87,10 @@ public class ProductoServicio implements ApiOperacionBD<ProductoDto, Integer> {
                 Double preProducto = Double.parseDouble(columnas[4].trim());
                 String nomImagenProductoP = columnas[5].trim();
                 String nomImagenProductoPv = columnas[6].trim();
+                
+                short cantVentas = arrCantVentas.getOrDefault(codProducto,0).shortValue();
 
-                arregloProducto.add(new ProductoDto(codProducto, nomProducto, tamProducto, tipoProducto, preProducto, nomImagenProductoP, nomImagenProductoPv));
+                arregloProducto.add(new ProductoDto(codProducto, nomProducto, tipoProducto, tamProducto, preProducto, cantVentas, nomImagenProductoP, nomImagenProductoP));
 
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());

@@ -443,7 +443,7 @@ public class VistaPeliculaEditar extends SubScene
            String imaPel = cajaImagen.getText();
            String nocu = objPelicula.getNombreImagenPrivadoPelicula();
            
-           PeliculaDto nuevoPelicula = new PeliculaDto(codPel, nomPel, GenPel, actPel, prepPel, ninyosPel, imaPel, nocu);
+           PeliculaDto nuevoPelicula = new PeliculaDto(codPel, nomPel, GenPel, actPel, prepPel, ninyosPel,Short.valueOf("0")  ,imaPel, nocu);
            
            if(PeliculaControladorEditar.actualizar(posicion, nuevoPelicula, rutaSeleccionada))
             {

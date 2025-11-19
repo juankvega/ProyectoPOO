@@ -8,6 +8,7 @@ public class Producto
     private Boolean tipoProducto;
     private String tamanioProducto;
     private Double precioProducto;
+    private Short productoVentas;
     
     private String nombreImagenPublicoProducto;
     private String nombreImagenPrivadoProducto;
@@ -17,15 +18,27 @@ public class Producto
         
     }
 
-    public Producto(Integer idProducto, String nombreProducto, String tamanioProducto, Boolean tipoProducto, Double precioProducto, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
+    public Producto(Integer idProducto, String nombreProducto, Boolean tipoProducto, String tamanioProducto, Double precioProducto, Short productoVentas, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
-        this.tamanioProducto = tamanioProducto;
         this.tipoProducto = tipoProducto;
+        this.tamanioProducto = tamanioProducto;
         this.precioProducto = precioProducto;
+        this.productoVentas = productoVentas;
         this.nombreImagenPublicoProducto = nombreImagenPublicoProducto;
         this.nombreImagenPrivadoProducto = nombreImagenPrivadoProducto;
     }
+
+    public Short getProductoVentas() {
+        return productoVentas;
+    }
+
+    public void setProductoVentas(Short productoVentas) {
+        this.productoVentas = productoVentas;
+    }
+    
+    
+
 
     public Integer getIdProducto() {
         return idProducto;

@@ -15,7 +15,10 @@ import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -52,6 +55,7 @@ import javafx.stage.Stage;
 
 public class VistaPeliculaCarrusel extends SubScene
 {
+    private static final String ARCHIVO_MEMORIA = "carrusel_Pelicula_posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
@@ -76,8 +80,14 @@ public class VistaPeliculaCarrusel extends SubScene
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
-        indiceActual = indice;
-        objCargado = PeliculaControladorUna.obtenerPelicula(indice);
+        indiceActual = cargarIndiceGuardado();
+        
+        totalPeliculas = PeliculaControladorListar.cantidadPeliculas();
+        if (indiceActual < 0 || indiceActual >= totalPeliculas) {
+            indiceActual = indice;
+        }
+        
+        objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -92,6 +102,8 @@ public class VistaPeliculaCarrusel extends SubScene
         construirPanelIzquierdo(0.14);
         construirPanelDerecho(0.14);
         construirPanelCentro();
+        
+        laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
     }
   
     
@@ -107,6 +119,32 @@ public class VistaPeliculaCarrusel extends SubScene
         miCajaVertical.setAlignment(Pos.TOP_CENTER);
         miCajaVertical.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
         miCajaVertical.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
+    }
+    
+            private void guardarIndiceActual() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            Files.writeString(rutaArchivo, String.valueOf(indiceActual));
+        } catch (IOException ex) {
+            Logger.getLogger(VistaPeliculaCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
+        }
+    }
+    
+    
+    
+    private int cargarIndiceGuardado() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            if (Files.exists(rutaArchivo)) {
+                String contenido = Files.readString(rutaArchivo);
+                return Integer.parseInt(contenido.trim());
+            }
+        } catch (IOException | NumberFormatException ex) {
+            Logger.getLogger(VistaPeliculaCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
+        }
+        return -1;
     }
     
     private void crearTitulo() {
@@ -134,6 +172,8 @@ public class VistaPeliculaCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Anterior", indiceActual, totalPeliculas);
             objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
+            
+            guardarIndiceActual();
             
             PeliculaTitulo.set("Detalle de Pelicula (" + (indiceActual + 1) + "/" + totalPeliculas + ")");
             PeliculaNombre.set(objCargado.getNombrePelicula());
@@ -172,6 +212,8 @@ public class VistaPeliculaCarrusel extends SubScene
         {
             indiceActual = obtenerIndice("Siguiente", indiceActual, totalPeliculas);
             objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
+            
+            guardarIndiceActual();
             
             PeliculaTitulo.set("Detalle de Pelicula (" + (indiceActual + 1) + "/" + totalPeliculas + ")");
             PeliculaNombre.set(objCargado.getNombrePelicula());
@@ -217,6 +259,8 @@ public class VistaPeliculaCarrusel extends SubScene
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
         } else {
+            if(objCargado.getPeliculaVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "¿Estás seguro mi vale?";
@@ -241,6 +285,8 @@ public class VistaPeliculaCarrusel extends SubScene
                         indiceActual = 0;
                     }
                     
+                    guardarIndiceActual();
+                    
                     // Actualizar el título
                     PeliculaTitulo.set("Detalle de la película (" + 
                         (indiceActual + 1) + " / " + totalPeliculas + ")");
@@ -260,6 +306,12 @@ public class VistaPeliculaCarrusel extends SubScene
                         laVentanaPrincipal, "Pailas", "No lo pude borrar!");
                 }
             }
+        }else{
+            Mensaje.mostrar(
+                            Alert.AlertType.ERROR,
+                            laVentanaPrincipal, "Ey",
+                            "Ya tiene ventas");
+        }
         }
     });        
           

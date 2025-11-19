@@ -487,7 +487,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
             String imaCliente = cajaImagen.getText();
             String nocu = objCliente.getNombreImagenPrivadoCliente();
             
-            ClienteDto nuevoCliente = new ClienteDto(codCliente, nomCliente, genCliente, tipoDocCliente, numDocCliente, tipoCliente, imaCliente, nocu);
+            ClienteDto nuevoCliente = new ClienteDto(codCliente, nomCliente, genCliente, tipoDocCliente, numDocCliente, tipoCliente,Short.valueOf("0") ,imaCliente, nocu);
             
             if(ClienteControladorEditar.actualizar(posicion, nuevoCliente, rutaSeleccionada))
             {

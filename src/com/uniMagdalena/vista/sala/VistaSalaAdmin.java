@@ -265,6 +265,8 @@ public class VistaSalaAdmin extends SubScene
         else
         {
             SalaDto objSala = miTabla.getSelectionModel().getSelectedItem();
+            if(objSala.getSalaVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "Estás seguro mi vale?";
@@ -303,6 +305,12 @@ public class VistaSalaAdmin extends SubScene
             else
             {
                 miTabla.getSelectionModel().clearSelection();
+            }
+        }else{
+                Mensaje.mostrar(
+                            Alert.AlertType.ERROR,
+                            laVentanaPrincipal, "Ey",
+                            "Ya tiene ventas");
             }
         }
         });

@@ -252,6 +252,8 @@ public class VistaProductoAdmin extends SubScene
         else
         {
             ProductoDto objProducto = miTabla.getSelectionModel().getSelectedItem();
+            if(objProducto.getProductoVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4, msg5;
             
             msg1 = "Estás seguro mi vale?";
@@ -266,7 +268,7 @@ public class VistaProductoAdmin extends SubScene
             Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
             mensajito.setTitle("Te lo advierto");
             mensajito.setHeaderText(null);
-            mensajito.setContentText(msg1 + msg2 + msg3 + msg4);
+            mensajito.setContentText(msg1 + msg2 + msg3 + msg4 + msg4);
             mensajito.initOwner(null);
             
             if(mensajito.showAndWait().get() == ButtonType.OK)
@@ -294,6 +296,12 @@ public class VistaProductoAdmin extends SubScene
             else
             {
                 miTabla.getSelectionModel().clearSelection();
+            }
+        }else{
+               Mensaje.mostrar(
+                            Alert.AlertType.ERROR,
+                            laVentanaPrincipal, "Ey",
+                            "Ya tiene ventas"); 
             }
         }
         });

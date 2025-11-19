@@ -7,7 +7,6 @@ import com.uniMagdalena.controlador.genero.GeneroControladorUna;
 import com.uniMagdalena.controlador.genero.GeneroControladorVentana;
 import com.uniMagdalena.dto.GeneroDto;
 import com.uniMagdalena.recurso.constante.Configuracion;
-import com.uniMagdalena.recurso.constante.IconoNombre;
 import com.uniMagdalena.recurso.constante.Persistencia;
 import com.uniMagdalena.recurso.utilidad.Fondo;
 import com.uniMagdalena.recurso.utilidad.Icono;
@@ -15,6 +14,10 @@ import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -51,6 +54,7 @@ import javafx.stage.Stage;
 
 public class VistaGeneroCarrusel extends SubScene
 {
+    private static final String ARCHIVO_MEMORIA = "carrusel_Genero_Posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
@@ -74,8 +78,13 @@ public class VistaGeneroCarrusel extends SubScene
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
-        indiceActual = indice;
-        objCargado = GeneroControladorUna.obtenerGenero(indice);
+        indiceActual = cargarIndiceGuardado();
+        
+        totalGeneros = GeneroControladorListar.cantidadGeneros();
+        if (indiceActual < 0 || indiceActual >= totalGeneros) {
+            indiceActual = indice;
+        }
+        objCargado = GeneroControladorUna.obtenerGenero(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -90,6 +99,8 @@ public class VistaGeneroCarrusel extends SubScene
         construirPanelIzquierdo(0.14);
         construirPanelDerecho(0.14);
         construirPanelCentro();
+        
+        laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
         
         
     }
@@ -121,6 +132,32 @@ public class VistaGeneroCarrusel extends SubScene
         miCajaVertical.getChildren().add(lblTitulo);
     }
     
+              private void guardarIndiceActual() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            Files.writeString(rutaArchivo, String.valueOf(indiceActual));
+        } catch (IOException ex) {
+            Logger.getLogger(VistaGeneroCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
+        }
+    }
+    
+    
+    
+    private int cargarIndiceGuardado() {
+        try {
+            Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
+            if (Files.exists(rutaArchivo)) {
+                String contenido = Files.readString(rutaArchivo);
+                return Integer.parseInt(contenido.trim());
+            }
+        } catch (IOException | NumberFormatException ex) {
+            Logger.getLogger(VistaGeneroCarrusel.class.getName())
+                .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
+        }
+        return -1;
+    }
+    
     private void construirPanelIzquierdo(double porcentaje)
     {
         Button btnAnterior = new Button();
@@ -130,6 +167,8 @@ public class VistaGeneroCarrusel extends SubScene
         btnAnterior.setOnAction(e ->{
         indiceActual = obtenerIndice("Anterior", indiceActual, totalGeneros);
         objCargado = GeneroControladorUna.obtenerGenero(indiceActual);
+        
+        guardarIndiceActual();
         
         GeneroTitulo.set("Detalle del género (" +(indiceActual + 1) + "/" + totalGeneros + ")");
         
@@ -167,6 +206,8 @@ public class VistaGeneroCarrusel extends SubScene
         btnSiguiente.setOnAction(e ->{
         indiceActual = obtenerIndice("Siguiente", indiceActual, totalGeneros);
         objCargado = GeneroControladorUna.obtenerGenero(indiceActual);
+        
+        guardarIndiceActual();
         
         GeneroTitulo.set("Detalle del género (" +(indiceActual + 1) + "/" + totalGeneros + ")");
         
@@ -234,6 +275,8 @@ public class VistaGeneroCarrusel extends SubScene
                         } else if (totalGeneros == 0) {
                             indiceActual = 0;
                         }
+                        
+                        guardarIndiceActual();
                         
                         // Actualizar el título
                         GeneroTitulo.set("Detalle de la categoría (" + 

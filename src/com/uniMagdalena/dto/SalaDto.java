@@ -8,6 +8,7 @@ public class SalaDto
     private Integer asientosSala;
     private Boolean sala4d;
     private SedeDto sedeSala;
+    private Short salaVentas;
     
     private String nombreImagenPublicoSala;
     private String nombreImagenPrivadoSala;
@@ -17,15 +18,27 @@ public class SalaDto
         
     }
 
-    public SalaDto(Integer idSala, String nombreSala, Integer asientosSala, Boolean sala4d, SedeDto sedeSala, String nombreImagenPublicoSala, String nombreImagenPrivadoSala) {
+    public SalaDto(Integer idSala, String nombreSala, Integer asientosSala, Boolean sala4d, SedeDto sedeSala, Short salaVentas, String nombreImagenPublicoSala, String nombreImagenPrivadoSala) {
         this.idSala = idSala;
         this.nombreSala = nombreSala;
         this.asientosSala = asientosSala;
         this.sala4d = sala4d;
         this.sedeSala = sedeSala;
+        this.salaVentas = salaVentas;
         this.nombreImagenPublicoSala = nombreImagenPublicoSala;
         this.nombreImagenPrivadoSala = nombreImagenPrivadoSala;
     }
+
+    public Short getSalaVentas() {
+        return salaVentas;
+    }
+
+    public void setSalaVentas(Short salaVentas) {
+        this.salaVentas = salaVentas;
+    }
+    
+    
+
 
     public Integer getIdSala() {
         return idSala;

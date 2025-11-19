@@ -399,7 +399,7 @@ public class VistaSalaEditar extends SubScene
             String imaSala = cajaImagen.getText();
             String nocu = objSala.getNombreImagenPrivadoSala();
             
-            SalaDto nuevaSala = new SalaDto(codSala, nomSala, asientosSala, sala4d, sedeSala, imaSala, nocu);
+            SalaDto nuevaSala = new SalaDto(codSala, nomSala, asientosSala, sala4d, sedeSala, Short.valueOf("0") ,imaSala, nocu);
             
             if(SalaControladorEditar.actualizar(posicion, nuevaSala, rutaSeleccionada))
             {

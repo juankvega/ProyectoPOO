@@ -1,2 +1,0 @@
-1;1083456578;5;1;2;2;Estándar;2025-11-20;15000.0;;c45dc675-12bd-4f9d-8d92-3e6e20a43fce_Seguro_es_parte_del_disfraz_(no_tiene).jpg@
-2;1083049876;1;2;3;2;Premium;2025-11-18;20000.0;Tiquete_compra.jpg;e9a30bc0-f423-479a-ad8d-d17a6288f9fe_Tiquete_compra.jpg@

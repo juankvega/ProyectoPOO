@@ -1,5 +1,2 @@
-1;Dragon ball: El regreso de Goku;3;Kakaroto;4204204206969.67;false;Dragon ball- goku.jpg;327c9d5e-04e0-4520-a741-51af0b414cbb_Dragon ball- goku.jpg@
-2;demon slayer;3;Tanjiro;150000000000.87;true;demon_Slayer.jpg;e4748825-bc42-4a62-be26-5606f6a7be55_demon_Slayer.jpg@
-3;Las aventuras de Lucio Linares y la vaca voladora: Un nuevo comienzo se aproxima mi vale;4;Lucio Linares;100000000.86;false;vacaVoladora.png;652f4548-66fe-4e33-890c-50a8df87fa62_vacaVoladora.png@
 4;Perdido en el aeropuerto;1;Meudy Lugo;20000000.87;false;Aeropuerto.png;08c4b3aa-aac8-43e1-9779-3cbfb3badd32_Aeropuerto.png@
 5;Robot salvaje;5;Robot animado;1000000.0;true;robot salvaje.jpg;b4b1258a-e024-4e94-a802-b4944149e10d_robot salvaje.jpg@

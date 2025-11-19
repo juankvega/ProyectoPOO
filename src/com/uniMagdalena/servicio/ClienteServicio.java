@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,6 +87,9 @@ public class ClienteServicio implements ApiOperacionBD<ClienteDto, Integer>
         List<ClienteDto> arregloClientes = new ArrayList<>();
         List <String> arregloDatos = miArchivo.obtenerDatos();
         
+        VentaServicio ventaServicio = new VentaServicio();
+        Map<Integer, Integer> arrCantVentas = ventaServicio.selectFromCantidadCliente();
+        
         for (String cadena : arregloDatos) 
         {
             try{
@@ -101,7 +105,9 @@ public class ClienteServicio implements ApiOperacionBD<ClienteDto, Integer>
                 String nomImagenClienteP = columnas[6].trim();
                 String nomImagenClientePv = columnas[7].trim();
                 
-                arregloClientes.add(new ClienteDto(codCliente, nomCliente, genCliente, docCliente, numCliente, tipoCliente, nomImagenClienteP, nomImagenClientePv));
+                short cantVentas = arrCantVentas.getOrDefault(numCliente, 0).shortValue();
+                
+                arregloClientes.add(new ClienteDto(codCliente, nomCliente, genCliente, docCliente, numCliente, tipoCliente, cantVentas ,nomImagenClienteP, nomImagenClientePv));
                 
             }
         catch(NumberFormatException e) {

@@ -89,6 +89,8 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
         List<String> arregloDatos = miArchivo.obtenerDatos();
 
         GeneroServicio generoServicio = new GeneroServicio();
+        VentaServicio ventaServicio = new VentaServicio();
+        Map<Integer,Integer> arrCantVentas = ventaServicio.selectFromCantidadPelicula();
 
         for (String cadena : arregloDatos) {
             try {
@@ -107,10 +109,12 @@ public class PeliculaServicio implements ApiOperacionBD<PeliculaDto, Integer> {
                 // Alvaro eb bárbaro: Ciclo for dentro de for
                 // Mala práctica
                 GeneroDto generoDto = buscarGeneroPorId(generoServicio, idGenero);
+                
+                short cantVentas = arrCantVentas.getOrDefault(codPelicula, 0).shortValue();
                 // *************************************************************
 
                 if (generoDto != null) {
-                    arregloPelicula.add(new PeliculaDto(codPelicula, nomPelicula, generoDto, actPelicula, presPelicula, adultosPelicula, nomImagenPeliculaP, nomImagenPeliculaPv));
+                    arregloPelicula.add(new PeliculaDto(codPelicula, nomPelicula, generoDto, actPelicula, presPelicula, adultosPelicula,cantVentas ,nomImagenPeliculaP, nomImagenPeliculaPv));
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());

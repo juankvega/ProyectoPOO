@@ -263,7 +263,10 @@ public class VistaClienteAdmin extends SubScene
         }
         else
         {
+        
             ClienteDto objCliente = miTabla.getSelectionModel().getSelectedItem();
+            if(objCliente.getClienteVentas() == 0)
+            {
             String msg1, msg2, msg3, msg4;
             
             msg1 = "Estás seguro mi vale?";
@@ -302,6 +305,9 @@ public class VistaClienteAdmin extends SubScene
             else
             {
                 miTabla.getSelectionModel().clearSelection();
+            }
+            }else{
+                Mensaje.mostrar(Alert.AlertType.ERROR, laVentanaPrincipal, "Ey", "Ya tiene ventas");
             }
         }
         });
