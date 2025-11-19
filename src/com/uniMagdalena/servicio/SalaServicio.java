@@ -132,6 +132,22 @@ public class SalaServicio implements ApiOperacionBD<SalaDto, Integer>
         return arregloSala;
     }
     
+    public List<SalaDto> selectFromSede(Integer idSede) 
+{
+    List<SalaDto> todasLasSalas = selectFrom();
+    List<SalaDto> salasDeSede = new ArrayList<>();
+    
+    for (SalaDto sala : todasLasSalas) 
+    {
+        if (sala.getSedeSala().getIdSede().equals(idSede)) 
+        {
+            salasDeSede.add(sala);
+        }
+    }
+    
+    return salasDeSede;
+}
+    
     public Map<Integer, Integer> selectFromCantidad()
     {
         Map<Integer, Integer> arrCantidades = new HashMap<>();

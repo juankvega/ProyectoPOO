@@ -338,7 +338,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         btnGrabar.setOnAction((e)->{grabarCliente();});
         miGrilla.add(btnGrabar, 1, 7);
         
-         Button btnRegresar = new Button("Regresar");
+        Button btnRegresar = new Button("Regresar");
         btnRegresar.setPrefHeight(ALTO_CAJA);
         btnRegresar.setMaxWidth(Double.MAX_VALUE);
         btnRegresar.setTextFill(Color.web("#6C3483"));

@@ -20,4 +20,11 @@ public class SalaControladorListar
         int cant = miDao.numRows();
         return cant;
     }
+    
+    public static List<SalaDto> arregloSalasPorSede(Integer idSede)
+    {
+        SalaServicio miDao = new SalaServicio();
+        List<SalaDto> arreglo = miDao.selectFromSede(idSede);
+        return arreglo;
+    }
 }

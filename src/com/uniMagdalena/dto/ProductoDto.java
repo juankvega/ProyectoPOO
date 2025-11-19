@@ -5,8 +5,8 @@ public class ProductoDto
 {
     private Integer idProducto;
     private String nombreProducto;
+    private Boolean tipoProducto;
     private String tamanioProducto;
-    private String advertenciaConsumoProducto;
     private Double precioProducto;
     
     private String nombreImagenPublicoProducto;
@@ -17,26 +17,15 @@ public class ProductoDto
         
     }
 
-    public ProductoDto(Integer idProducto, String nombreProducto, String tamanioProducto, String advertenciaConsumoProducto, Double precioProducto, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
+    public ProductoDto(Integer idProducto, String nombreProducto, String tamanioProducto, Boolean tipoProducto, Double precioProducto, String nombreImagenPublicoProducto, String nombreImagenPrivadoProducto) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.tamanioProducto = tamanioProducto;
-        this.advertenciaConsumoProducto = advertenciaConsumoProducto;
+        this.tipoProducto = tipoProducto;
         this.precioProducto = precioProducto;
         this.nombreImagenPublicoProducto = nombreImagenPublicoProducto;
         this.nombreImagenPrivadoProducto = nombreImagenPrivadoProducto;
     }
-
-    public String getTamanioProducto() {
-        return tamanioProducto;
-    }
-
-    public void setTamanioProducto(String tamanioProducto) {
-        this.tamanioProducto = tamanioProducto;
-    }
-    
-    
-
 
     public Integer getIdProducto() {
         return idProducto;
@@ -54,12 +43,20 @@ public class ProductoDto
         this.nombreProducto = nombreProducto;
     }
 
-    public String getAdvertenciaConsumoProducto() {
-        return advertenciaConsumoProducto;
+    public String getTamanioProducto() {
+        return tamanioProducto;
     }
 
-    public void setAdvertenciaConsumoProducto(String advertenciaConsumoProducto) {
-        this.advertenciaConsumoProducto = advertenciaConsumoProducto;
+    public void setTamanioProducto(String tamanioProducto) {
+        this.tamanioProducto = tamanioProducto;
+    }
+
+    public Boolean getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(Boolean tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
 
     public Double getPrecioProducto() {
@@ -85,6 +82,8 @@ public class ProductoDto
     public void setNombreImagenPrivadoProducto(String nombreImagenPrivadoProducto) {
         this.nombreImagenPrivadoProducto = nombreImagenPrivadoProducto;
     }
+
+   
 
     @Override
     public String toString() 

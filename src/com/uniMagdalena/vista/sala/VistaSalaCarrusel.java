@@ -1,12 +1,12 @@
 
-package com.uniMagdalena.vista.pelicula;
+package com.uniMagdalena.vista.sala;
 
-import com.uniMagdalena.controlador.pelicula.PeliculaControladorEliminar;
-import com.uniMagdalena.controlador.pelicula.PeliculaControladorListar;
-import com.uniMagdalena.controlador.pelicula.PeliculaControladorUna;
-import com.uniMagdalena.controlador.pelicula.PeliculaControladorVentana;
-import com.uniMagdalena.dto.GeneroDto;
-import com.uniMagdalena.dto.PeliculaDto;
+import com.uniMagdalena.controlador.sala.SalaControladorEliminar;
+import com.uniMagdalena.controlador.sala.SalaControladorListar;
+import com.uniMagdalena.controlador.sala.SalaControladorUna;
+import com.uniMagdalena.controlador.sala.SalaControladorVentana;
+import com.uniMagdalena.dto.SalaDto;
+import com.uniMagdalena.dto.SedeDto;
 import com.uniMagdalena.recurso.constante.Configuracion;
 import com.uniMagdalena.recurso.constante.Persistencia;
 import com.uniMagdalena.recurso.utilidad.Fondo;
@@ -15,15 +15,14 @@ import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -50,34 +49,32 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class VistaPeliculaCarrusel extends SubScene
+public class VistaSalaCarrusel extends SubScene
 {
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
-
+    
     private Pane panelCuerpo;
     private final BorderPane panelPrincipal;
-
+    
     private int indiceActual;
-    private int totalPeliculas;
-    private PeliculaDto objCargado;
+    private int totalSalas;
+    private SalaDto objCargado;
     
-    private StringProperty PeliculaTitulo;
-    private StringProperty PeliculaNombre;
-    private ObjectProperty<Image> PeliculaImagen;
-    private ObjectProperty<GeneroDto> PeliculaGenero;
-    private StringProperty PeliculaActor;
-    private DoubleProperty PeliculaPresupuesto;
-    private BooleanProperty PeliculaNinyos;
+    private StringProperty SalaTitulo;
+    private StringProperty SalaNombre;
+    private ObjectProperty<Image> SalaImagen;
+    private IntegerProperty SalaAsientos;
+    private BooleanProperty Sala4d;
+    private ObjectProperty<SedeDto> SalaSede;
     
-    
-    public VistaPeliculaCarrusel(Stage ventanaPadre, BorderPane princ, Pane pane, double anchoPanel, double altoPanel, int indice)
+    public VistaSalaCarrusel (Stage ventanaPadre, BorderPane princ, Pane pane, double anchoPanel, double altoPanel, int indice)
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
         indiceActual = indice;
-        objCargado = PeliculaControladorUna.obtenerPelicula(indice);
+        objCargado = SalaControladorUna.obtenerSala(indice);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -89,13 +86,13 @@ public class VistaPeliculaCarrusel extends SubScene
         configurarMiCajaVertical();
         crearTitulo();
         
-        construirPanelIzquierdo(0.14);
+        construirPanelIzquiero(0.14);
         construirPanelDerecho(0.14);
         construirPanelCentro();
+        
     }
-  
     
-    public BorderPane getMiBorderPane()
+     public BorderPane getMiBorderPane()
     {
         return miBorderPane;
     }
@@ -114,44 +111,44 @@ public class VistaPeliculaCarrusel extends SubScene
         bloqueSeparador.prefHeightProperty().bind(laVentanaPrincipal.heightProperty().multiply(0.10));
         miCajaVertical.getChildren().add(0, bloqueSeparador);
 
-        totalPeliculas = PeliculaControladorListar.cantidadPeliculas();
-        PeliculaTitulo = new SimpleStringProperty("Detalle de la categoría (" + (indiceActual + 1) + " / " + totalPeliculas + ")");
+        totalSalas = SalaControladorListar.cantidadSalas();
+        SalaTitulo = new SimpleStringProperty("Detalle de la categoría (" + (indiceActual + 1) + " / " + totalSalas + ")");
 
         Label lblTitulo = new Label();
-        lblTitulo.textProperty().bind(PeliculaTitulo);
+        lblTitulo.textProperty().bind(SalaTitulo);
         lblTitulo.setTextFill(Color.web("#E82E68"));
         lblTitulo.setFont(Font.font("verdana", FontWeight.BOLD, 25));
         miCajaVertical.getChildren().add(lblTitulo);
     }
     
-    private void construirPanelIzquierdo(double porcentaje)
+    private void construirPanelIzquiero(double porcentaje)
     {
         Button btnAnterior = new Button();
         btnAnterior.setGraphic(Icono.obtenerIcono("btnAtras.png", 80));
         btnAnterior.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         btnAnterior.setCursor(Cursor.HAND);
+        
         btnAnterior.setOnAction(e -> 
         {
-            indiceActual = obtenerIndice("Anterior", indiceActual, totalPeliculas);
-            objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
+            indiceActual = obtenerIndice("Anterior", indiceActual, totalSalas);
+            objCargado = SalaControladorUna.obtenerSala(indiceActual);
             
-            PeliculaTitulo.set("Detalle de Pelicula (" + (indiceActual + 1) + "/" + totalPeliculas + ")");
-            PeliculaNombre.set(objCargado.getNombrePelicula());
+            SalaTitulo.set("Detalle de Sala (" + (indiceActual + 1) + "/" + totalSalas + ")");
+            SalaNombre.set(objCargado.getNombreSala());
             
             FileInputStream imgArchivo;
         try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoPelicula();
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoSala();
                 imgArchivo = new FileInputStream(rutaNuevaImagen);
                 Image imgNueva = new Image(imgArchivo);
-                PeliculaImagen.set(imgNueva);
+                SalaImagen.set(imgNueva);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaPeliculaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaSalaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-        PeliculaGenero.set(objCargado.getIdGeneroPelicula());
-        PeliculaActor.set(objCargado.getActorPPelicula());
-        PeliculaPresupuesto.set(objCargado.getPresupuestoPelicula());
-        PeliculaNinyos.set(objCargado.getEsParaNinyosPelicula());               
+        SalaSede.set(objCargado.getSedeSala());
+        SalaAsientos.set(objCargado.getAsientosSala());
+        Sala4d.set(objCargado.getSala4d());               
         });
         
         StackPane panelIzquierdo = new StackPane();
@@ -159,7 +156,6 @@ public class VistaPeliculaCarrusel extends SubScene
         panelIzquierdo.prefWidthProperty().bind(laVentanaPrincipal.widthProperty().multiply(porcentaje));
         panelIzquierdo.getChildren().add(btnAnterior);
         miBorderPane.setLeft(panelIzquierdo);
-        
     }
     
     private void construirPanelDerecho(double porcentaje)
@@ -168,28 +164,28 @@ public class VistaPeliculaCarrusel extends SubScene
         btnSiguiente.setGraphic(Icono.obtenerIcono("btnSiguiente.png", 80));
         btnSiguiente.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         btnSiguiente.setCursor(Cursor.HAND);
+        
         btnSiguiente.setOnAction(e -> 
         {
-            indiceActual = obtenerIndice("Siguiente", indiceActual, totalPeliculas);
-            objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
+            indiceActual = obtenerIndice("Siguiente", indiceActual, totalSalas);
+            objCargado = SalaControladorUna.obtenerSala(indiceActual);
             
-            PeliculaTitulo.set("Detalle de Pelicula (" + (indiceActual + 1) + "/" + totalPeliculas + ")");
-            PeliculaNombre.set(objCargado.getNombrePelicula());
+            SalaTitulo.set("Detalle de Sala (" + (indiceActual + 1) + "/" + totalSalas + ")");
+            SalaNombre.set(objCargado.getNombreSala());
             
             FileInputStream imgArchivo;
         try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoPelicula();
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoSala();
                 imgArchivo = new FileInputStream(rutaNuevaImagen);
                 Image imgNueva = new Image(imgArchivo);
-                PeliculaImagen.set(imgNueva);
+                SalaImagen.set(imgNueva);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaPeliculaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaSalaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
             }
         
-        PeliculaGenero.set(objCargado.getIdGeneroPelicula());
-        PeliculaActor.set(objCargado.getActorPPelicula());
-        PeliculaPresupuesto.set(objCargado.getPresupuestoPelicula());
-        PeliculaNinyos.set(objCargado.getEsParaNinyosPelicula());               
+        SalaSede.set(objCargado.getSedeSala());
+        SalaAsientos.set(objCargado.getAsientosSala());
+        Sala4d.set(objCargado.getSala4d());               
         });
         
         StackPane panelDerecho = new StackPane();
@@ -197,20 +193,21 @@ public class VistaPeliculaCarrusel extends SubScene
         panelDerecho.prefWidthProperty().bind(laVentanaPrincipal.widthProperty().multiply(porcentaje));
         panelDerecho.getChildren().add(btnSiguiente);
         miBorderPane.setRight(panelDerecho);
-        
     }
+    
     
     private void panelOpciones()
     {
         int anchoBoton = 40;
         int tamanioIcono = 18;
-
-    // Botón para eliminar
-    // ***************************************************
+        
         Button btnEliminar = new Button();
         btnEliminar.setPrefWidth(anchoBoton);
         btnEliminar.setCursor(Cursor.HAND);
-        btnEliminar.setGraphic(Icono.obtenerIcono(Configuracion.ICONO_BORRAR, tamanioIcono));
+        btnEliminar.setGraphic(
+                Icono.obtenerIcono(Configuracion.ICONO_BORRAR, tamanioIcono)
+        
+        );
         
         btnEliminar.setOnAction((e) -> {
         if (objCargado == null) {
@@ -220,8 +217,8 @@ public class VistaPeliculaCarrusel extends SubScene
             String msg1, msg2, msg3, msg4;
             
             msg1 = "¿Estás seguro mi vale?";
-            msg2 = "\nCódigo: " + objCargado.getIdPelicula();
-            msg3 = "\nNombre: " + objCargado.getNombrePelicula();
+            msg2 = "\nCódigo: " + objCargado.getIdSala();
+            msg3 = "\nNombre: " + objCargado.getNombreSala();
             msg4 = "\nSi se fue, se fue!";
             
             Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
@@ -231,23 +228,23 @@ public class VistaPeliculaCarrusel extends SubScene
             mensajito.initOwner(laVentanaPrincipal);
             
             if (mensajito.showAndWait().get() == ButtonType.OK) {
-                if (PeliculaControladorEliminar.borrar(indiceActual)) {
-                    totalPeliculas = PeliculaControladorListar.cantidadPeliculas();
+                if (SalaControladorEliminar.borrar(indiceActual)) {
+                    totalSalas = SalaControladorListar.cantidadSalas();
                     
                     // Ajustar el índice después de eliminar
-                    if (indiceActual >= totalPeliculas && totalPeliculas > 0) {
-                        indiceActual = totalPeliculas - 1;
-                    } else if (totalPeliculas == 0) {
+                    if (indiceActual >= totalSalas && totalSalas > 0) {
+                        indiceActual = totalSalas - 1;
+                    } else if (totalSalas == 0) {
                         indiceActual = 0;
                     }
                     
                     // Actualizar el título
-                    PeliculaTitulo.set("Detalle de la película (" + 
-                        (indiceActual + 1) + " / " + totalPeliculas + ")");
+                    SalaTitulo.set("Detalle de la película (" + 
+                        (indiceActual + 1) + " / " + totalSalas + ")");
                     
                     // Cargar la nueva película si hay disponibles
-                    if (totalPeliculas > 0) {
-                        objCargado = PeliculaControladorUna.obtenerPelicula(indiceActual);
+                    if (totalSalas > 0) {
+                        objCargado = SalaControladorUna.obtenerSala(indiceActual);
                         actualizarDatosCarrusel();
                     } else {
                         objCargado = null;
@@ -271,9 +268,9 @@ public class VistaPeliculaCarrusel extends SubScene
     btnActualizar.setOnAction((ActionEvent e) -> {
         if (objCargado == null) {
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
-                "Advertencia", "No hay pelicula para editar");
+                "Advertencia", "No hay sala para editar");
         } else {
-            panelCuerpo = PeliculaControladorVentana.editar(
+            panelCuerpo = SalaControladorVentana.editar(
                 laVentanaPrincipal, 
                 panelPrincipal, 
                 panelCuerpo, 
@@ -287,7 +284,7 @@ public class VistaPeliculaCarrusel extends SubScene
         }
     });
     
-    HBox panelHorizontalBotones = new HBox(4);
+        HBox panelHorizontalBotones = new HBox(4);
     panelHorizontalBotones.setAlignment(Pos.CENTER);
     panelHorizontalBotones.getChildren().addAll(btnEliminar, btnActualizar);
 
@@ -295,7 +292,8 @@ public class VistaPeliculaCarrusel extends SubScene
  
     }
     
-    private void construirPanelCentro() 
+    
+    private void construirPanelCentro()
 {
     StackPane centerPane = new StackPane();
 
@@ -312,122 +310,85 @@ public class VistaPeliculaCarrusel extends SubScene
     // Panel de opciones (botones eliminar y actualizar)
     panelOpciones();
     
-    // Nombre de la película
-    PeliculaNombre = new SimpleStringProperty(objCargado.getNombrePelicula());
+    // Nombre de la sala
+    SalaNombre = new SimpleStringProperty(objCargado.getNombreSala());
     
     int tamanioFuente = 18;
-    Label lblNombrePelicula = new Label();
-    lblNombrePelicula.textProperty().bind(PeliculaNombre);
-    lblNombrePelicula.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
-    lblNombrePelicula.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblNombrePelicula);
+    Label lblNombreSala = new Label();
+    lblNombreSala.textProperty().bind(SalaNombre);
+    lblNombreSala.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
+    lblNombreSala.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblNombreSala);
     
-    // Imagen de la película
-    PeliculaImagen = new SimpleObjectProperty<>();
+    // Imagen de la sala
+    SalaImagen = new SimpleObjectProperty<>();
     
     FileInputStream imgArchivo;
     
     try {
         String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS 
             + Persistencia.SEPARADOR_CARPETAS 
-            + objCargado.getNombreImagenPrivadoPelicula();
+            + objCargado.getNombreImagenPrivadoSala();
         imgArchivo = new FileInputStream(rutaNuevaImagen);
         Image imgNueva = new Image(imgArchivo);
-        PeliculaImagen.set(imgNueva);
+        SalaImagen.set(imgNueva);
         
         ImageView imgMostrar = new ImageView(imgNueva);
         imgMostrar.setFitHeight(250);
         imgMostrar.setSmooth(true);
         imgMostrar.setPreserveRatio(true);
         
-        imgMostrar.imageProperty().bind(PeliculaImagen);
+        imgMostrar.imageProperty().bind(SalaImagen);
         miCajaVertical.getChildren().add(imgMostrar);
         
     } catch (FileNotFoundException ex) {
-        Logger.getLogger(VistaPeliculaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(VistaSalaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    // Género de la película
-    PeliculaGenero = new SimpleObjectProperty<>(objCargado.getIdGeneroPelicula());
+    // Sede de la sala
+    SalaSede = new SimpleObjectProperty<>(objCargado.getSedeSala());
     
-    Label lblGenero = new Label();
-    lblGenero.textProperty().bind(Bindings.createStringBinding(
-        () -> "Género: " + (PeliculaGenero.get() != null ? PeliculaGenero.get().getNombreGenero() : "N/A"),
-        PeliculaGenero
+    Label lblSede = new Label();
+    lblSede.textProperty().bind(Bindings.createStringBinding(
+        () -> "Sede: " + (SalaSede.get() != null ? SalaSede.get().getNombreSede() : "N/A"),
+        SalaSede
     ));
-    lblGenero.setFont(Font.font("Verdana", tamanioFuente));
-    lblGenero.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblGenero);
+    lblSede.setFont(Font.font("Verdana", tamanioFuente));
+    lblSede.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblSede);
     
-    // Actor principal
-    PeliculaActor = new SimpleStringProperty(objCargado.getActorPPelicula());
+    // Cantidad de asientos
+    SalaAsientos = new SimpleIntegerProperty(objCargado.getAsientosSala());
     
-    Label lblActor = new Label();
-    lblActor.textProperty().bind(Bindings.concat("Actor Principal: ", PeliculaActor));
-    lblActor.setFont(Font.font("Verdana", tamanioFuente));
-    lblActor.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblActor);
+    Label lblAsientos = new Label();
+    lblAsientos.textProperty().bind(Bindings.concat("Capacidad: ", SalaAsientos.asString(), " asientos"));
+    lblAsientos.setFont(Font.font("Verdana", tamanioFuente));
+    lblAsientos.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblAsientos);
     
-    // Presupuesto de la película
-    PeliculaPresupuesto = new SimpleDoubleProperty(objCargado.getPresupuestoPelicula());
+    // Tecnología 4D
+    Sala4d = new SimpleBooleanProperty(objCargado.getSala4d());
     
-    Label lblPresupuesto = new Label();
-    lblPresupuesto.textProperty().bind(Bindings.createStringBinding(
-        () -> String.format("Presupuesto: $%.2f", PeliculaPresupuesto.get()),
-        PeliculaPresupuesto
-    ));
-    lblPresupuesto.setFont(Font.font("Verdana", tamanioFuente));
-    lblPresupuesto.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblPresupuesto);
-    
-    // Restricción de edad
-    PeliculaNinyos = new SimpleBooleanProperty(objCargado.getEsParaNinyosPelicula());
-    
-    Label lblRestriccion = new Label();
-    lblRestriccion.textProperty().bind(
-        Bindings.when(PeliculaNinyos)
-            .then("Apto para menores de 15 años")
-            .otherwise("Solo para mayores de 15 años")
+    Label lblTecnologia = new Label();
+    lblTecnologia.textProperty().bind(
+        Bindings.when(Sala4d)
+            .then("Tecnología: Sala 4D ")
+            .otherwise("Tecnología: Sala Estándar")
     );
-    lblRestriccion.setFont(Font.font("Verdana", FontWeight.BOLD, tamanioFuente));
-    lblRestriccion.styleProperty().bind(
-        PeliculaNinyos.map(dato -> dato.equals(true) 
-            ? "-fx-text-fill: green;" 
-            : "-fx-text-fill: red;")
+    lblTecnologia.setFont(Font.font("Verdana", FontWeight.BOLD, tamanioFuente));
+    lblTecnologia.styleProperty().bind(
+        Sala4d.map(es4d -> es4d.equals(true) 
+            ? "-fx-text-fill: #E82E68;" 
+            : "-fx-text-fill: #6C3483;")
     );
-    miCajaVertical.getChildren().add(lblRestriccion);
+    miCajaVertical.getChildren().add(lblTecnologia);
     
     miBorderPane.setCenter(centerPane);
 }
     
-    private void actualizarDatosCarrusel()
-    {
-        if(objCargado != null)
-        {
-            PeliculaNombre.set(objCargado.getNombrePelicula());
-            
-            FileInputStream imgArchivo;
-        try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoPelicula();
-                imgArchivo = new FileInputStream(rutaNuevaImagen);
-                Image imgNueva = new Image(imgArchivo);
-                PeliculaImagen.set(imgNueva);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaPeliculaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        PeliculaGenero.set(objCargado.getIdGeneroPelicula());
-        PeliculaActor.set(objCargado.getActorPPelicula());
-        PeliculaPresupuesto.set(objCargado.getPresupuestoPelicula());
-        PeliculaNinyos.set(objCargado.getEsParaNinyosPelicula()); 
-        }
-    }
     
     
-    
-    
-    
-    private static Integer obtenerIndice(String opcion, int indice, int numCarros) {
+     private static Integer obtenerIndice(String opcion, int indice, int numCarros) {
         Integer nuevoIndice, limite;
 
         nuevoIndice = indice;
@@ -450,4 +411,28 @@ public class VistaPeliculaCarrusel extends SubScene
         }
         return nuevoIndice;
     }
+     
+     
+     private void actualizarDatosCarrusel()
+     {
+         if(objCargado != null)
+         {
+             SalaNombre.set(objCargado.getNombreSala());
+            
+            FileInputStream imgArchivo;
+        try {
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoSala();
+                imgArchivo = new FileInputStream(rutaNuevaImagen);
+                Image imgNueva = new Image(imgArchivo);
+                SalaImagen.set(imgNueva);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(VistaSalaCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        SalaSede.set(objCargado.getSedeSala());
+        SalaAsientos.set(objCargado.getAsientosSala());
+        Sala4d.set(objCargado.getSala4d());    
+         }
+     }
+    
 }

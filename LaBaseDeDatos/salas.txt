@@ -1,0 +1,3 @@
+1;Sala 01;100;true;1;Sala_cinemarksito.jpg;82d4a114-ff4b-4d69-8fba-11267af298cf_Sala_cinemarksito.jpg@
+2;Sala 02;49;false;1;sala02.jpeg;bbbb9658-3c41-4088-9d5b-2ef37b8b889a_sala02.jpeg@
+3;Sala N1;81;false;2;salan1.jpg;7cee1ce8-ef97-4fef-8c84-ec6055af4a79_salan1.jpg@

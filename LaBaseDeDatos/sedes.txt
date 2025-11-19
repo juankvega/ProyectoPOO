@@ -1,0 +1,2 @@
+1;Cinemarksito;Santa Marta;Buenavista, frente a la QSPA;false;WhatsApp Image 2025-08-19 at 6.01.36 PM.jpeg;02009ff5-8d34-4fae-a055-b7d4ad613140_WhatsApp Image 2025-08-19 at 6.01.36 PM.jpeg;@
+2;Cinemarsosote;Barranquilla;Centro comercial Prado Plaza;true;Cinemarksosote.jpg;31213c8b-34b0-4d40-8896-99b142849e1b_Cinemarksosote.jpg;@
