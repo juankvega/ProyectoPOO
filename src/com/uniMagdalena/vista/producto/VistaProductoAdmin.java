@@ -1,4 +1,3 @@
-
 package com.uniMagdalena.vista.producto;
 
 import com.uniMagdalena.controlador.Producto.ProductoControladorVentana;
@@ -97,7 +96,6 @@ public class VistaProductoAdmin extends SubScene
         miCajaVertical.setAlignment(Pos.TOP_CENTER);
         miCajaVertical.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
         miCajaVertical.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
-
     }
     
     private void armarTitulo()
@@ -111,9 +109,9 @@ public class VistaProductoAdmin extends SubScene
         miCajaVertical.getChildren().addAll(separadorTitulo, miTitulo);
     }
     
-     private TableColumn<ProductoDto, Integer> crearColumnaCodigo()
+    private TableColumn<ProductoDto, Integer> crearColumnaCodigo()
     {
-        TableColumn<ProductoDto, Integer> columna = new TableColumn<>("Codigo");
+        TableColumn<ProductoDto, Integer> columna = new TableColumn<>("Código");
         columna.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.1));
         columna.setStyle(ESTILO_CENTRAR);
@@ -129,12 +127,12 @@ public class VistaProductoAdmin extends SubScene
         return columna;
     }
     
-     private TableColumn<ProductoDto, String> crearColumnaTipo()
+    private TableColumn<ProductoDto, String> crearColumnaTipo()
     {
         TableColumn<ProductoDto, String> columna = new TableColumn<>("Tipo");
         columna.setCellValueFactory(obj ->{
-        String Tipo = obj.getValue().getTipoProducto()? "Comida": "Bebida";
-        return new SimpleStringProperty(Tipo);
+            String Tipo = obj.getValue().getTipoProducto()? "Comida": "Bebida";
+            return new SimpleStringProperty(Tipo);
         });
         
         columna.setCellFactory(col -> new TableCell<>()
@@ -168,7 +166,7 @@ public class VistaProductoAdmin extends SubScene
         return columna;
     }
     
-        private TableColumn<ProductoDto, String> crearColumnaTamanio()
+    private TableColumn<ProductoDto, String> crearColumnaTamanio()
     {
         TableColumn<ProductoDto, String> columna = new TableColumn<>("Tamaño del producto");
         columna.setCellValueFactory(new PropertyValueFactory<>("tamanioProducto"));
@@ -183,7 +181,6 @@ public class VistaProductoAdmin extends SubScene
         columna.setCellValueFactory(new PropertyValueFactory<>("nombreImagenPrivadoProducto"));
         columna.setCellFactory(column -> new TableCell<ProductoDto, String>()
         {
-            
             @Override
             protected void updateItem(String nombreImagen, boolean bandera) {
                 super.updateItem(nombreImagen, bandera);
@@ -193,7 +190,6 @@ public class VistaProductoAdmin extends SubScene
                     setGraphic(Icono.obtenerIconoExterno(nombreImagen, 100));
                 }
             } 
-            
         });
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.35));
         columna.setStyle(ESTILO_CENTRAR);
@@ -241,69 +237,70 @@ public class VistaProductoAdmin extends SubScene
         btnEliminar.setCursor(Cursor.HAND);
         btnEliminar.setGraphic(
                 Icono.obtenerIcono(Configuracion.ICONO_BORRAR, tamanioIcono)
-        
         );
+        
         btnEliminar.setOnAction((e)-> {
-        if(miTabla.getSelectionModel().getSelectedItem() == null)
-        {
-            Mensaje.mostrar(Alert.AlertType.WARNING,laVentanaPrincipal , "Te veo", "MAL ! agarra algo");
-            
-        }
-        else
-        {
-            ProductoDto objProducto = miTabla.getSelectionModel().getSelectedItem();
-            if(objProducto.getProductoVentas() == 0)
+            if(miTabla.getSelectionModel().getSelectedItem() == null)
             {
-            String msg1, msg2, msg3, msg4, msg5;
-            
-            msg1 = "Estás seguro mi vale?";
-            msg2 = "\n Nombre: "+ objProducto.getNombreProducto();
-            String tipoTexto = (objProducto.getTipoProducto()!= null && objProducto.getTipoProducto())
-                        ? "Comida"
-                        : "Bebida";
-            msg3 = "\n Tipo: "+ tipoTexto;
-            msg4 = "\n Tamaño: " + objProducto.getTamanioProducto();
-            msg5 = "\n Si se fue, se fue!";
-            
-            Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
-            mensajito.setTitle("Te lo advierto");
-            mensajito.setHeaderText(null);
-            mensajito.setContentText(msg1 + msg2 + msg3 + msg4 + msg4);
-            mensajito.initOwner(null);
-            
-            if(mensajito.showAndWait().get() == ButtonType.OK)
+                Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, "Te veo", "MAL! Agarra algo");
+            }
+            else
             {
-                int fila = miTabla.getSelectionModel().getSelectedIndex();
-                if(ProductoControladorEliminar.borrar(fila))
+                ProductoDto objProducto = miTabla.getSelectionModel().getSelectedItem();
+                
+                if(objProducto.getProductoVentas() == 0)
                 {
-                    int cant = ProductoControladorListar.cantidadProductos();
-                    miTitulo.setText("Administrador de Productos - ("+ cant + ")");
-                    List<ProductoDto> quedaron =  ProductoControladorListar.arregloProductos();
-                    datosTabla.setAll(quedaron);
-                    miTabla.refresh();
+                    String msg1, msg2, msg3, msg4, msg5;
                     
-                    Mensaje.mostrar(Alert.AlertType.INFORMATION, laVentanaPrincipal, "Exito", "Lo logré borrar");
+                    msg1 = "¿Estás seguro de eliminar este producto?";
+                    msg2 = "\n\nNombre: " + objProducto.getNombreProducto();
+                    String tipoTexto = (objProducto.getTipoProducto() != null && objProducto.getTipoProducto())
+                                ? "Comida"
+                                : "Bebida";
+                    msg3 = "\nTipo: " + tipoTexto;
+                    msg4 = "\nTamaño: " + objProducto.getTamanioProducto();
+                    msg5 = "\n\nEsta acción no se puede deshacer.";
                     
+                    Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
+                    mensajito.setTitle("Confirmar eliminación");
+                    mensajito.setHeaderText(null);
+                    mensajito.setContentText(msg1 + msg2 + msg3 + msg4 + msg5);
+                    mensajito.initOwner(laVentanaPrincipal);
+                    
+                    if(mensajito.showAndWait().get() == ButtonType.OK)
+                    {
+                        int fila = miTabla.getSelectionModel().getSelectedIndex();
+                        if(ProductoControladorEliminar.borrar(fila))
+                        {
+                            int cant = ProductoControladorListar.cantidadProductos();
+                            miTitulo.setText("Listado de productos - (" + cant + ")");
+                            List<ProductoDto> quedaron = ProductoControladorListar.arregloProductos();
+                            datosTabla.setAll(quedaron);
+                            miTabla.refresh();
+                            
+                            Mensaje.mostrar(Alert.AlertType.INFORMATION, laVentanaPrincipal, "Éxito", "Producto eliminado correctamente");
+                        }
+                        else
+                        {
+                            Mensaje.mostrar(
+                                            Alert.AlertType.ERROR,
+                                            laVentanaPrincipal, "Error",
+                                            "No se pudo eliminar el producto");
+                        }
+                    }
+                    else
+                    {
+                        miTabla.getSelectionModel().clearSelection();
+                    }
                 }
                 else
                 {
                     Mensaje.mostrar(
-                                    Alert.AlertType.ERROR,
-                                    laVentanaPrincipal, "Pailas",
-                                    "No lo pude borrar!");
+                                Alert.AlertType.ERROR,
+                                laVentanaPrincipal, "No se puede eliminar",
+                                "Este producto ya tiene ventas asociadas y no puede ser eliminado"); 
                 }
             }
-            else
-            {
-                miTabla.getSelectionModel().clearSelection();
-            }
-        }else{
-               Mensaje.mostrar(
-                            Alert.AlertType.ERROR,
-                            laVentanaPrincipal, "Ey",
-                            "Ya tiene ventas"); 
-            }
-        }
         });
         
         Button btnActualizar = new Button();
@@ -314,24 +311,24 @@ public class VistaProductoAdmin extends SubScene
                         Configuracion.ICONO_EDITAR,
                         tamanioIcono)
         );
+        
         btnActualizar.setOnAction((ActionEvent e) -> 
         {
-            
             if (miTabla.getSelectionModel().getSelectedItem() == null) {
-                Mensaje.mostrar(Alert.AlertType.WARNING, null, "Advertencia", "No ha seleccionado un producto para editar");
-                }else
-                {
-                    ProductoDto objProducto = miTabla.getSelectionModel().getSelectedItem();
-                    int posicion = miTabla.getSelectionModel().getSelectedIndex();
-                    
-                    panelCuerpo = ProductoControladorVentana.editar(laVentanaPrincipal, panelPrincipal, panelCuerpo, Configuracion.ANCHO_APP, Configuracion.ALTO_APP, objProducto, posicion);
-                    panelPrincipal.setCenter(null);
-                    panelPrincipal.setCenter(panelCuerpo);
-                }
-        
+                Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, "Advertencia", "No ha seleccionado un producto para editar");
+            }
+            else
+            {
+                ProductoDto objProducto = miTabla.getSelectionModel().getSelectedItem();
+                int posicion = miTabla.getSelectionModel().getSelectedIndex();
+                
+                panelCuerpo = ProductoControladorVentana.editar(laVentanaPrincipal, panelPrincipal, panelCuerpo, Configuracion.ANCHO_APP, Configuracion.ALTO_APP, objProducto, posicion);
+                panelPrincipal.setCenter(null);
+                panelPrincipal.setCenter(panelCuerpo);
+            }
         });
         
-         Button btnCancelar = new Button();
+        Button btnCancelar = new Button();
         btnCancelar.setPrefWidth(anchoBoton);
         btnCancelar.setCursor(Cursor.HAND);
         btnCancelar.setGraphic(
@@ -342,14 +339,11 @@ public class VistaProductoAdmin extends SubScene
         btnCancelar.setOnAction((e) -> {
             miTabla.getSelectionModel().clearSelection();
         });
-        // ***************************************************
 
         miCajaHorizontal = new HBox(6);
         miCajaHorizontal.setAlignment(Pos.CENTER);
         miCajaHorizontal.getChildren()
                 .addAll(btnEliminar, btnActualizar, btnCancelar);
         miCajaVertical.getChildren().add(miCajaHorizontal);
-        
     }
-    
 }

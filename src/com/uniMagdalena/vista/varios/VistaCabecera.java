@@ -109,12 +109,17 @@ public class VistaCabecera extends SubScene
         miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
-        opcion03.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        opcion03.setOnAction((e) -> {            
+        miPanelCuerpo = SedeControladorVentana.administrar(miEscenario, miPanelPrincipal, miPanelCuerpo, BASELINE_OFFSET_SAME_AS_HEIGHT, BASELINE_OFFSET_SAME_AS_HEIGHT);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
         opcion04.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        int posicionInicial = 0;
+        miPanelCuerpo = SedeControladorVentana.carrusel(miEscenario, miPanelPrincipal, miPanelCuerpo, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor(), posicionInicial);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);  
         });
         
         MenuButton menuBotones = new MenuButton("Sedes");
@@ -339,7 +344,10 @@ public class VistaCabecera extends SubScene
         });
         
         opcion04.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        int posicionInicial = 0;
+        miPanelCuerpo = ProductoControladorVentana.carrusel(miEscenario, miPanelPrincipal, miPanelCuerpo, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor(), posicionInicial);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);  
         });
         
         MenuButton menuBotones = new MenuButton("Productos");
@@ -418,7 +426,10 @@ public class VistaCabecera extends SubScene
         });
         
         opcion04.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        int posicionInicial = 0;
+        miPanelCuerpo = VentaControladorVentana.carrusel(miEscenario, miPanelPrincipal, miPanelCuerpo, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor(), posicionInicial);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
         MenuButton menuBotones = new MenuButton("Ventas");

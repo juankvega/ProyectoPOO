@@ -1,1 +1,3 @@
 1;Juan Caballero;true;CC;108349587;Silver;Hollow knight.jpg;a288b61b-af44-4d01-b6e6-bb1e60dca92a_Hollow knight.jpg@
+2;Carla pacifista;false;CC;1122334547;Gold;Carla_Santa.jpg;61165ee4-16c6-4184-b60a-61fed64b6170_Carla_Santa.jpg@
+3;Lucia Bustamante;false;CC;112266543;Estándar;mamita.jpg;919426e3-2243-4987-adea-a0e32ef0be86_mamita.jpg@

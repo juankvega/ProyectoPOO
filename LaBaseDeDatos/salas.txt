@@ -2,3 +2,4 @@
 2;Sala 02;49;false;1;sala02.jpeg;bbbb9658-3c41-4088-9d5b-2ef37b8b889a_sala02.jpeg@
 3;Sala N2;100;true;2;salan1.jpg;7cee1ce8-ef97-4fef-8c84-ec6055af4a79_salan1.jpg@
 4;Sala 03;49;false;1;WhatsApp Image 2025-09-17 at 7.24.39 AM.jpeg;cfbb34b2-7355-4645-855c-606cdbec8f7c_WhatsApp Image 2025-09-17 at 7.24.39 AM.jpeg@
+5;Salita N1;81;true;3;Captura de pantalla 2025-08-07 121658.png;a9773faa-8fc6-460c-ad96-9eeb8bc0136f_Captura de pantalla 2025-08-07 121658.png@

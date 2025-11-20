@@ -510,31 +510,8 @@ if(sedeVentaActual != null)
         miFormulario.getChildren().add(miGrilla);
     }
     
-    
-    private void limpiarFormulario()
-    {
-        listCliente.getSelectionModel().clearSelection();
-        choicePelicula.getSelectionModel().clearSelection();
-        listSede.getSelectionModel().clearSelection();
-        cbmSala.getSelectionModel().clearSelection();
-        cbmSala.getItems().clear();
-        listProducto.getSelectionModel().clearSelection();
-        
-        if (grupoTipoAsiento.getSelectedToggle() != null) {
-            grupoTipoAsiento.getSelectedToggle().setSelected(false);
-        }
-        
-        dpFechaVenta.setValue(LocalDate.now());
-        cajaValor.setText("");
-        
-        rutaSeleccionada = "";
-        cajaImagen.setText("");
-        miGrilla.getChildren().remove(imgPrevisualizar);
-        GridPane.setHalignment(imgPorDefecto, HPos.CENTER);
-        miGrilla.add(imgPorDefecto, 2, 1, 1, 8);
-        
-        listCliente.requestFocus();
-    }
+
+
     
     private Boolean formularioValido()
     {
@@ -719,7 +696,7 @@ private void calcularValorTotal() {
                 Mensaje.mostrar(Alert.AlertType.ERROR, null, "ERROR", "No se pudo registrar la venta");
             }
             
-            limpiarFormulario();
+            
         }
     }
     

@@ -4,6 +4,7 @@ package com.uniMagdalena.controlador.Producto;
 import com.uniMagdalena.controlador.varios.ControladorEfecto;
 import com.uniMagdalena.dto.ProductoDto;
 import com.uniMagdalena.vista.producto.VistaProductoAdmin;
+import com.uniMagdalena.vista.producto.VistaProductoCarrusel;
 import com.uniMagdalena.vista.producto.VistaProductoCrear;
 import com.uniMagdalena.vista.producto.VistaProductoListar;
 import com.uniMagdalena.vista.producto.VistaProductoEditar;
@@ -49,13 +50,16 @@ public class ProductoControladorVentana
         ControladorEfecto.aplicarEfecto(contenedor, anchito, altito);
         return contenedor;
     }
-}    
-//    public static BorderPane carrusel(Stage miEscenario, BorderPane princ, Pane pane, double anchito, double altio, int indice )
-//    {
-//        VistaProductoCarrusel ventana = new VistaProductoCarrusel(miEscenario, princ, pane, anchito, altio, indice);
-//        BorderPane contenedor = ventana.getMiBorderPane();
-//        
-//        ControladorEfecto.aplicarEfecto(contenedor, anchito, altio);
-//        return contenedor;
-//    }
-//}
+    
+        public static BorderPane carrusel(Stage miEscenario, BorderPane princ, Pane pane, double anchito, double altio, int indice )
+    {
+        VistaProductoCarrusel ventana = new VistaProductoCarrusel(miEscenario, princ, pane, anchito, altio, indice);
+        BorderPane contenedor = ventana.getMiBorderPane();
+        
+        ControladorEfecto.aplicarEfecto(contenedor, anchito, altio);
+        return contenedor;
+    }
+}
+    
+
+
