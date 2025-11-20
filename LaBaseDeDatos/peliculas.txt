@@ -1,4 +1,1 @@
-4;Perdido en el aeropuerto;1;Meudy Lugo;20000000.87;false;Aeropuerto.png;08c4b3aa-aac8-43e1-9779-3cbfb3badd32_Aeropuerto.png@
-5;Vaca voladora y mentirosa;2;Vaca;150000000.86;false;vacaVoladora.png;5c0283fd-0daa-4fba-a4c0-18fd54718aa3_vacaVoladora.png@
-6;Dragon ball: El regreso de Goku;3;Kakaroto;15000000.98;false;Dragon ball- goku.jpg;9d320e2d-beba-49c5-876d-61284854e9e7_Dragon ball- goku.jpg@
-7;Senku el genio;3;Senku;1657493827123.98;true;Senku.jpg;18f3e696-18cc-4b6d-b846-b6f661853195_Senku.jpg@
+4;Perdido en el aeropuerto;1;Meudy Lugo;20000000.87;false;Si, la amo y no es mi culpa.jpg;b7ab8537-4764-4067-a3e8-64174cb2ee21_Si, la amo y no es mi culpa.jpg@

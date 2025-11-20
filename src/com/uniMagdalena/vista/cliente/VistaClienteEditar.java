@@ -13,6 +13,7 @@ import com.uniMagdalena.recurso.utilidad.GestorImagen;
 import com.uniMagdalena.recurso.utilidad.Icono;
 import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
+import java.math.BigInteger;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -302,7 +303,7 @@ cajaNumDoc.setTextFormatter(new TextFormatter<>(change -> {
 cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
     if (newVal.isEmpty()) {
         cajaNumDoc.setStyle("");
-    } else if (newVal.length() < 9) {
+    } else if (newVal.length() > 3) {
         cajaNumDoc.setStyle("-fx-border-color: orange; -fx-border-width: 1px;");
     } else {
         cajaNumDoc.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
@@ -376,21 +377,44 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         }
         
         try
-        {
-           String numero = cajaNumDoc.getText();
-           int numero2 = Integer.parseInt(numero);
-           if(numero2 <= 0 || numero.length() < 9)
-           {
-               Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "Un número de identificación debe ser un número positivo y además debe tener al menos 9 digitos" );
-                cajaNumDoc.requestFocus();
-                return false;
-           }
-        }catch(NumberFormatException e)
-        {
-            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error","La identificación debe y solamente es un número");
-            cajaNumDoc.requestFocus();
-        return false;
-        }
+    {
+       String numero = cajaNumDoc.getText();
+       
+       // Validar que tenga exactamente 9 dígitos (sin importar con qué número empiece)
+       if(numero.length() < 3)
+       {
+           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
+               "El número de identificación debe tener más de 3 dígitos");
+           cajaNumDoc.requestFocus();
+           return false;
+       }
+       
+       // Validar que todos los caracteres sean dígitos
+       if(!numero.matches("\\d+"))
+       {
+           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
+               "La identificación debe contener solo números");
+           cajaNumDoc.requestFocus();
+           return false;
+       }
+       
+       // Convertir a número para validar que no sea cero
+       long numeroLong = Long.parseLong(numero);
+       if(numeroLong == 0)
+       {
+           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
+               "El número de identificación no puede ser cero");
+           cajaNumDoc.requestFocus();
+           return false;
+       }
+       
+    }catch(NumberFormatException e)
+    {
+        Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error",
+            "La identificación debe contener solo números");
+        cajaNumDoc.requestFocus();
+    return false;
+    }
         
         if (choiceTipoDocumento.getValue() == null)
         {

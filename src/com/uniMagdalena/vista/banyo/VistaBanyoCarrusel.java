@@ -81,6 +81,18 @@ public class VistaBanyoCarrusel extends SubScene
         indiceActual = cargarIndiceGuardado();
         
         totalBanyos = BanyoControladorListar.cantidadBanyos();
+        
+        if (totalBanyos == 0) {
+        // No hay objetos, mostrar mensaje y crear vista vacía
+        miBorderPane = (BorderPane) this.getRoot();
+        laVentanaPrincipal = ventanaPadre;
+        panelPrincipal = princ;
+        panelCuerpo = pane;
+        miCajaVertical = new VBox();
+        
+        mostrarMensajeCarruselVacio();
+        return; // Salir del constructor
+    }
         if (indiceActual < 0 || indiceActual >= totalBanyos) {
             indiceActual = indice;
         }
@@ -247,12 +259,15 @@ public class VistaBanyoCarrusel extends SubScene
 
     // Botón para eliminar
     // ***************************************************
+    
+
         Button btnEliminar = new Button();
         btnEliminar.setPrefWidth(anchoBoton);
         btnEliminar.setCursor(Cursor.HAND);
         btnEliminar.setGraphic(Icono.obtenerIcono(Configuracion.ICONO_BORRAR, tamanioIcono));
-        
         btnEliminar.setOnAction((e) -> {
+        if(totalBanyos > 1)
+        {
         if (objCargado == null) {
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
@@ -304,10 +319,14 @@ public class VistaBanyoCarrusel extends SubScene
                 }
             }
         }
+        }else{
+        Mensaje.mostrar(Alert.AlertType.ERROR, 
+                        laVentanaPrincipal, "Pailas", "No lo puedo borrar! despues se explota el carrusel");
+    }    
     });        
-          
+
         
-        Button btnActualizar = new Button();
+    Button btnActualizar = new Button();
     btnActualizar.setPrefWidth(anchoBoton);
     btnActualizar.setCursor(Cursor.HAND);
     btnActualizar.setGraphic(Icono.obtenerIcono(Configuracion.ICONO_EDITAR, tamanioIcono));
@@ -492,7 +511,63 @@ public class VistaBanyoCarrusel extends SubScene
         BanyoUso.set(objCargado.getUsoBanyo()); 
         }
         
+        
+        
     }
      
+    
+    private void mostrarMensajeCarruselVacio() {
+    configurarMiCajaVertical();
+    
+    // Crear el panel central con el mensaje
+    StackPane centerPane = new StackPane();
+    
+    // Fondo
+    Background fondo = Fondo.asignarAleatorio(Configuracion.FONDOS);
+    centerPane.setBackground(fondo);
+    
+    // Marco
+    Rectangle miMarco = Marco.pintar(laVentanaPrincipal, 0.55, 0.75,
+            Configuracion.DEGRADEE_ARREGLO, Configuracion.COLOR_BORDE);
+    
+    // Contenedor para el mensaje
+    VBox contenedorMensaje = new VBox(20);
+    contenedorMensaje.setAlignment(Pos.CENTER);
+    contenedorMensaje.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
+    contenedorMensaje.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
+    
+    // Título
+    Label lblTitulo = new Label("No hay baños registrados");
+    lblTitulo.setTextFill(Color.web("#E82E68"));
+    lblTitulo.setFont(Font.font("verdana", FontWeight.BOLD, 30));
+    
+    // Mensaje descriptivo
+    Label lblMensaje = new Label("Aún no se han creado baños en el sistema.\nPor favor, crea uno nuevo para comenzar.");
+    lblMensaje.setTextFill(Color.web("#6C3483"));
+    lblMensaje.setFont(Font.font("Verdana", 18));
+    lblMensaje.setAlignment(Pos.CENTER);
+    lblMensaje.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+    
+    // Ícono opcional (si tienes uno disponible)
+    ImageView iconoVacio = null;
+    try {
+        iconoVacio = Icono.obtenerIcono("imgNoDisponible.png", 100);
+    } catch (Exception e) {
+        // Si no hay ícono, continuar sin él
+    }
+    
+    // Agregar elementos al contenedor
+    if (iconoVacio != null) {
+        contenedorMensaje.getChildren().add(iconoVacio);
+    }
+    contenedorMensaje.getChildren().addAll(lblTitulo, lblMensaje);
+    
+    centerPane.getChildren().addAll(miMarco, contenedorMensaje);
+    miBorderPane.setCenter(centerPane);
+    
+    // Mostrar también un mensaje de alerta
+    Mensaje.mostrar(Alert.AlertType.INFORMATION, laVentanaPrincipal, 
+        "Carrusel vacío", "No hay baños registrados en el sistema.");
+}
      
 }

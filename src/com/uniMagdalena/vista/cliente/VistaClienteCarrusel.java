@@ -82,6 +82,17 @@ public class VistaClienteCarrusel extends SubScene
         
         // Si el índice cargado es -1 (no existe) o está fuera de rango, usar el parámetro
         totalClientes = ClienteControladorListar.cantidadClientes();
+         if (totalClientes == 0) {
+        // No hay objetos, mostrar mensaje y crear vista vacía
+        miBorderPane = (BorderPane) this.getRoot();
+        laVentanaPrincipal = ventanaPadre;
+        panelPrincipal = princ;
+        panelCuerpo = pane;
+        miCajaVertical = new VBox();
+        
+        mostrarMensajeCarruselVacio();
+        return; // Salir del constructor
+    }
         if (indiceActual < 0 || indiceActual >= totalClientes) {
             indiceActual = indice;
         }
@@ -256,6 +267,8 @@ public class VistaClienteCarrusel extends SubScene
         btnEliminar.setGraphic(Icono.obtenerIcono(Configuracion.ICONO_BORRAR, tamanioIcono));
         
         btnEliminar.setOnAction((e) -> {
+            if(totalClientes > 1)
+            {
         if (objCargado == null) {
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
@@ -309,6 +322,11 @@ public class VistaClienteCarrusel extends SubScene
                 Mensaje.mostrar(Alert.AlertType.ERROR, laVentanaPrincipal, "Ey", "Ya tiene ventas");
             }
         }
+            }else{
+                Mensaje.mostrar(Alert.AlertType.ERROR, 
+                        laVentanaPrincipal, "Pailas", "No lo puedo borrar! despues se explota el carrusel");
+            }
+                
     });        
           
         
@@ -474,4 +492,59 @@ public class VistaClienteCarrusel extends SubScene
             ClienteTipo.set(objCargado.getTipoCliente());    
         }
     }
+    
+    
+    private void mostrarMensajeCarruselVacio() {
+    configurarMiCajaVertical();
+    
+    // Crear el panel central con el mensaje
+    StackPane centerPane = new StackPane();
+    
+    // Fondo
+    Background fondo = Fondo.asignarAleatorio(Configuracion.FONDOS);
+    centerPane.setBackground(fondo);
+    
+    // Marco
+    Rectangle miMarco = Marco.pintar(laVentanaPrincipal, 0.55, 0.75,
+            Configuracion.DEGRADEE_ARREGLO, Configuracion.COLOR_BORDE);
+    
+    // Contenedor para el mensaje
+    VBox contenedorMensaje = new VBox(20);
+    contenedorMensaje.setAlignment(Pos.CENTER);
+    contenedorMensaje.prefWidthProperty().bind(laVentanaPrincipal.widthProperty());
+    contenedorMensaje.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
+    
+    // Título
+    Label lblTitulo = new Label("No hay clientes registrados");
+    lblTitulo.setTextFill(Color.web("#E82E68"));
+    lblTitulo.setFont(Font.font("verdana", FontWeight.BOLD, 30));
+    
+    // Mensaje descriptivo
+    Label lblMensaje = new Label("Aún no se han creado clientes en el sistema.\nPor favor, crea uno nuevo para comenzar.");
+    lblMensaje.setTextFill(Color.web("#6C3483"));
+    lblMensaje.setFont(Font.font("Verdana", 18));
+    lblMensaje.setAlignment(Pos.CENTER);
+    lblMensaje.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+    
+    // Ícono opcional (si tienes uno disponible)
+    ImageView iconoVacio = null;
+    try {
+        iconoVacio = Icono.obtenerIcono("imgNoDisponible.png", 100);
+    } catch (Exception e) {
+        // Si no hay ícono, continuar sin él
+    }
+    
+    // Agregar elementos al contenedor
+    if (iconoVacio != null) {
+        contenedorMensaje.getChildren().add(iconoVacio);
+    }
+    contenedorMensaje.getChildren().addAll(lblTitulo, lblMensaje);
+    
+    centerPane.getChildren().addAll(miMarco, contenedorMensaje);
+    miBorderPane.setCenter(centerPane);
+    
+    // Mostrar también un mensaje de alerta
+    Mensaje.mostrar(Alert.AlertType.INFORMATION, laVentanaPrincipal, 
+        "Carrusel vacío", "No hay clientes registrados en el sistema.");
+}
 }

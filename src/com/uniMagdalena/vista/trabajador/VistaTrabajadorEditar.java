@@ -406,7 +406,33 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         Mensaje.mostrar(Alert.AlertType.WARNING, null, 
             "Advertencia", "Debe seleccionar un tipo de documento");
         return false;
-        }         
+        }
+        
+        // NUEVA VALIDACIÓN: Verificar si es trabajador de Aseo con baños asignados
+    String tipoTrabajadorOriginal = objTrabajador.getTipoTrabajador();
+    String tipoTrabajadorNuevo = obtenerTipoTrabajador();
+    
+    // Si el trabajador original era de Aseo y tiene baños asignados
+    if ("Aseo".equals(tipoTrabajadorOriginal) && 
+        objTrabajador.getCantidadBanyosAseo() != null && 
+        objTrabajador.getCantidadBanyosAseo() > 0)
+    {
+        // Si está intentando cambiar el tipo de trabajador
+        if (!tipoTrabajadorOriginal.equals(tipoTrabajadorNuevo))
+        {
+            Mensaje.mostrar(Alert.AlertType.WARNING, null, 
+                "No se puede cambiar el tipo", 
+                "Este trabajador de Aseo tiene " + objTrabajador.getCantidadBanyosAseo() + 
+                " baño(s) asignado(s).\n\nNo puede cambiar su tipo de trabajador mientras " +
+                "tenga baños bajo su responsabilidad.\n\nPrimero debe reasignar los baños a otro trabajador.");
+            
+            // Volver a seleccionar "Aseo" en el RadioButton
+            rbAseo.setSelected(true);
+            
+            return false;
+        }
+    }
+    
          
          
                  

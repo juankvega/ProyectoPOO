@@ -231,6 +231,7 @@ public class VistaPeliculaEditar extends SubScene
     } else {
         // Si el usuario canceló, mantener la imagen por defecto
         miGrilla.getChildren().remove(imgPrevisualizar);
+        
         if (!miGrilla.getChildren().contains(imgPorDefecto)) {
             GridPane.setHalignment(imgPorDefecto, HPos.CENTER);
             GridPane.setValignment(imgPorDefecto, VPos.CENTER);

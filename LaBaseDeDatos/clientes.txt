@@ -1,3 +1,3 @@
-1;Juan Caballero;true;CC;108349587;Silver;Hollow knight.jpg;a288b61b-af44-4d01-b6e6-bb1e60dca92a_Hollow knight.jpg@
-2;Carla pacifista;false;CC;1122334547;Gold;Carla_Santa.jpg;61165ee4-16c6-4184-b60a-61fed64b6170_Carla_Santa.jpg@
-3;Lucia Bustamante;false;CC;112266543;Estándar;mamita.jpg;919426e3-2243-4987-adea-a0e32ef0be86_mamita.jpg@
+1;Juan Caballero;true;CC;99999999;Silver;Hollow knight.jpg;a288b61b-af44-4d01-b6e6-bb1e60dca92a_Hollow knight.jpg@
+2;el koku;true;PEP;1122203937;Platinum;Dragon ball- goku.jpg;b248353a-1b66-4168-88e4-5e01a8e607a4_Dragon ball- goku.jpg@
+3;Laufey;false;PEP;1122334455;Silver;WhatsApp Image 2025-08-30 at 4.49.20 PM.jpeg;b5095037-5d56-4cfa-b8cf-0b22dd1a40fd_WhatsApp Image 2025-08-30 at 4.49.20 PM.jpeg@

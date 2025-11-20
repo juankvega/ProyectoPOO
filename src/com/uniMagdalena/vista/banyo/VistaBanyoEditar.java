@@ -2,12 +2,14 @@ package com.uniMagdalena.vista.banyo;
 
 import com.uniMagdalena.controlador.banyo.BanyoControladorEditar;
 import com.uniMagdalena.controlador.banyo.BanyoControladorGrabar;
+import com.uniMagdalena.controlador.banyo.BanyoControladorVentana;
 import com.uniMagdalena.controlador.sede.SedeControladorListar;
 import com.uniMagdalena.controlador.trabajador.TrabajadorControladorListar;
 import com.uniMagdalena.dto.BanyoDto;
 import com.uniMagdalena.dto.SedeDto;
 import com.uniMagdalena.dto.TrabajadorDto;
 import com.uniMagdalena.recurso.constante.Configuracion;
+import com.uniMagdalena.recurso.constante.Contenedor;
 import com.uniMagdalena.recurso.utilidad.Fondo;
 import com.uniMagdalena.recurso.utilidad.Formulario;
 import com.uniMagdalena.recurso.utilidad.GestorImagen;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -376,6 +379,22 @@ public class VistaBanyoEditar extends SubScene
         btnGrabar.setFont(Font.font("Verdana", FontWeight.BOLD, TAMANYO_FUENTE));
         btnGrabar.setOnAction((e) -> {actualizarBanyo();});
         miGrilla.add(btnGrabar, 1, 7);
+        
+        
+         Button btnRegresar = new Button("Regresar");
+        btnRegresar.setPrefHeight(ALTO_CAJA);
+        btnRegresar.setMaxWidth(Double.MAX_VALUE);
+        btnRegresar.setTextFill(Color.web("#6C3483"));
+        btnRegresar.setFont(Font.font("Verdana", FontWeight.NORMAL, 14));
+        btnRegresar.setOnAction((ActionEvent e) -> {
+            panelCuerpo = BanyoControladorVentana.administrar(
+                    laVentanaPrincipal, panelPrincipal, panelCuerpo,
+                    Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+            panelPrincipal.setCenter(null);
+            panelPrincipal.setCenter(panelCuerpo);
+        });
+        
+        miGrilla.add(btnRegresar, 0, 7);
         
         miFormulario.getChildren().add(miGrilla);
     }

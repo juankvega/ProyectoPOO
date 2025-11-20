@@ -1,1 +1,2 @@
-1;2;Sala izquierda al frente;true;true;1;Baño_cine_!.jpg;f8f9f3a9-e9b1-45e7-82f4-cb7a2cf6e660_Baño_cine_!.jpg@
+2;1;mas al fondito;false;true;1;;50e7f829-9b40-4127-b067-5f3048c31c6c_baño_niña.jpg@
+3;1;Al lado de sala grandota;true;true;1;;eb8b108c-9384-47ba-9d6b-2a5d5243d430_Baño_cine_!.jpg@

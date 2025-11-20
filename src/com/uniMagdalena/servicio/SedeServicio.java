@@ -166,10 +166,11 @@ public class SedeServicio implements ApiOperacionBD<SedeDto, Integer>{
             + obj.getNombreImagenPublicoSede() + Persistencia.SEPARADOR_COLUMNAS
             + obj.getNombreImagenPrivadoSede() + Persistencia.SEPARADOR_COLUMNAS;
             
-            if (ruta.isBlank()) {
-                
+            if(ruta.isBlank())
+            {
                 cadena = cadena + obj.getNombreImagenPrivadoSede();
-            } else {
+            }else
+            {
                 nocu = GestorImagen.grabarLaImagen(ruta);
                 cadena = cadena + nocu;
                 arregloDeDatos = miArchivo.borrarFilaPosicion(codigo);
@@ -180,10 +181,12 @@ public class SedeServicio implements ApiOperacionBD<SedeDto, Integer>{
                     Path rutaBorrar = Paths.get(nombreBorrar);
                     Files.deleteIfExists(rutaBorrar);
                 }
-                if (miArchivo.actualizaFilaPosicion(codigo, cadena)) {
-                    correcto = true;
-                }
             }
+        if(miArchivo.actualizaFilaPosicion(codigo, cadena))
+        {
+            correcto = true;
+        } 
+         
         } catch (IOException ex) {
             Logger.getLogger(SedeServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
