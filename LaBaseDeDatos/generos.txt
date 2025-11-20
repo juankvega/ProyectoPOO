@@ -1,3 +1,4 @@
-1;Terror;true;5;true;Parque.png;302372a6-a0d3-4540-8590-2bbd1748cbf0_Parque.png@
-2;Drama;true;4;false;Drama.jpg;c2157137-0b76-4d3c-ae7a-aef0af2319a3_Drama.jpg@
-3;Acción;true;4;true;Accion.jpg;560eb8d6-e141-4f56-b048-d39065b34c54_Accion.jpg@
+1;Acción;true;5;true;Accion.jpg;2ffa8319-6113-47ef-9006-9bdf3733b9ee_Accion.jpg@
+2;Drama;true;4;true;Drama.jpg;ff98b0b3-eb7e-46ab-8d32-16cf51a2c5ac_Drama.jpg@
+3;Ciencia Ficción;true;3;false;ciencia ficcion.jpg;44d85c37-0ffa-4285-9e10-42751961bfb0_ciencia ficcion.jpg@
+4;GORE;false;2;false;Carla Pacifista.jpg;55ffddf1-02b8-4971-959f-7ff204b55354_Carla Pacifista.jpg@

@@ -1,3 +1,2 @@
-1;Cinemarksito;Santa Marta;Buenavista, frente a la QSPA;false;WhatsApp Image 2025-08-19 at 6.01.36 PM.jpeg;02009ff5-8d34-4fae-a055-b7d4ad613140_WhatsApp Image 2025-08-19 at 6.01.36 PM.jpeg;@
-2;Cinemarsosote;Barranquilla;Centro comercial Prado Plaza;true;Cinemarksosote.jpg;31213c8b-34b0-4d40-8896-99b142849e1b_Cinemarksosote.jpg;@
-3;CinemarPaz;Valledupar;Al frente de la casa de Sergio Bocas;true;WhatsApp Image 2025-11-17 at 8.58.22 AM.jpeg;7036c262-5384-46e9-a642-db67b2aa5570_WhatsApp Image 2025-11-17 at 8.58.22 AM.jpeg;7036c262-5384-46e9-a642-db67b2aa5570_WhatsApp Image 2025-11-17 at 8.58.22 AM.jpeg@
+1;sede Principal;Barranquilla;Buenavista frente a la QSPA;true;Cinemarksosote.jpg;e8d4a243-2591-44d1-9d68-8be735d2badc_Cinemarksosote.jpg;@
+2;Sede 2;Barranquilla;Centro comercial Prado Plaza;false;Sede_mami.jpg;b671c047-03e4-4e9b-bfba-823902519cdd_Sede_mami.jpg;@

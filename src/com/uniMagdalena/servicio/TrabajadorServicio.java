@@ -8,6 +8,7 @@ import com.uniMagdalena.model.Trabajador;
 import com.uniMagdalena.recurso.constante.Persistencia;
 import com.uniMagdalena.recurso.utilidad.GestorImagen;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,14 +58,13 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
         objTrabajador.setNombreImagenPublicoTrabajador(dto.getNombreImagenPublicoTrabajador());
         objTrabajador.setNombreImagenPrivadoTrabajador(GestorImagen.grabarLaImagen(ruta));
         
-        BigInteger valorListo = new BigInteger(String.valueOf (objTrabajador.getNumDocumentoTrabajador()));
                 
         
         String cadena = objTrabajador.getIdTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getNombreTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getGeneroTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getTipoDocumentoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
-                + valorListo + Persistencia.SEPARADOR_COLUMNAS
+                + objTrabajador.getNumDocumentoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getTipoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getNombreImagenPublicoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getNombreImagenPrivadoTrabajador();
@@ -95,7 +95,7 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
                 String nomTrabajador = columnas[1].trim();
                 Boolean genTrabajador = Boolean.valueOf(columnas[2].trim());
                 String docTrabajador = columnas[3].trim();
-                int numTrabajador = Integer.parseInt(columnas[4].trim());
+                Long numTrabajador = Long.valueOf(columnas[4].trim());
                 String tipoTrabajador = columnas[5].trim();
                 String nomImagenTrabajadorP = columnas[6].trim();
                 String nomImagenTrabajadorPv = columnas[7].trim();
@@ -131,7 +131,7 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
                 String nomTrabajador = columnas[1].trim();
                 Boolean genTrabajador = Boolean.valueOf(columnas[2].trim());
                 String docTrabajador = columnas[3].trim();
-                int numTrabajador = Integer.parseInt(columnas[4].trim());
+                Long numTrabajador = Long.valueOf(columnas[4].trim());
                 String tipoTrabajador = columnas[5].trim();              
                 
                 if("Aseo".equals(tipoTrabajador))
@@ -185,14 +185,13 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
             String cadena, nocu;
             List<String> arregloDeDatos;
             
-            BigInteger valorListo = new BigInteger(String.valueOf (objTrabajador.getNumDocumentoTrabajador()));
                 
         
         cadena = objTrabajador.getIdTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getNombreTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getGeneroTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getTipoDocumentoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
-                + valorListo + Persistencia.SEPARADOR_COLUMNAS
+                + objTrabajador.getNumDocumentoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getTipoTrabajador() + Persistencia.SEPARADOR_COLUMNAS
                 + objTrabajador.getNombreImagenPublicoTrabajador() + Persistencia.SEPARADOR_COLUMNAS;
         

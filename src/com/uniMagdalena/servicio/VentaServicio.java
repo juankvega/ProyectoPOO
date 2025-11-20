@@ -102,7 +102,7 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
         BigDecimal valorListo = new BigDecimal(String.valueOf(objVenta.getValorVenta()));
         
         String cadena = objVenta.getIdVenta() + Persistencia.SEPARADOR_COLUMNAS
-                + objVenta.getClienteVenta().getNumeroDocumentoCliente() + Persistencia.SEPARADOR_COLUMNAS
+                + objVenta.getClienteVenta().getIdCliente()+ Persistencia.SEPARADOR_COLUMNAS
                 + objVenta.getPeliculaVenta().getIdPelicula() + Persistencia.SEPARADOR_COLUMNAS
                 + objVenta.getSedeVenta().getIdSede() + Persistencia.SEPARADOR_COLUMNAS
                 + objVenta.getSalaVenta().getIdSala()+ Persistencia.SEPARADOR_COLUMNAS
@@ -140,7 +140,7 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
                 String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
                 
                 int codVenta = Integer.parseInt(columnas[0].trim());
-                int documentoCliente = Integer.parseInt(columnas[1].trim());
+                int idCliente = Integer.parseInt(columnas[1].trim());
                 int idPelicula = Integer.parseInt(columnas[2].trim());
                 int idSede = Integer.parseInt(columnas[3].trim());
                 int idSala = Integer.parseInt(columnas[4].trim());
@@ -151,7 +151,7 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
                 String nomImagenVentaP = columnas[9].trim();
                 String nomImagenVentaPv = columnas[10].trim();
                 
-                ClienteDto clienteDto = buscarClientePorDocumento(clienteServicio, documentoCliente);
+                ClienteDto clienteDto = buscarClientePorDocumento(clienteServicio, idCliente);
                 PeliculaDto peliculaDto = buscarPeliculaPorId(peliculaServicio, idPelicula);
                 SedeDto sedeDto = buscarSedePorID(sedeServicio, idSede);
                 SalaDto salaDto = buscarSalaPorID(salaServicio, idSala);
@@ -181,9 +181,9 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
             try {
                 cadena = cadena.replace("@", "");
                 String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
-                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                // Analiza que la única columna que uso es la del papá (idCliente)
                 int numCliente = Integer.parseInt(columnas[1].trim());
-                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                // Y el trucazo es que cuento los idCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
                 arrCantidades.put(numCliente, arrCantidades.getOrDefault(numCliente, 0) + 1);
 
             } catch (NumberFormatException error) {
@@ -201,9 +201,9 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
             try {
                 cadena = cadena.replace("@", "");
                 String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
-                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                // Analiza que la única columna que uso es la del papá (idCliente)
                 int idPelicula = Integer.parseInt(columnas[2].trim());
-                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                // Y el trucazo es que cuento los idCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
                 arrCantidades.put(idPelicula, arrCantidades.getOrDefault(idPelicula, 0) + 1);
 
             } catch (NumberFormatException error) {
@@ -221,9 +221,9 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
             try {
                 cadena = cadena.replace("@", "");
                 String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
-                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                // Analiza que la única columna que uso es la del papá (idCliente)
                 int idSala = Integer.parseInt(columnas[4].trim());
-                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                // Y el trucazo es que cuento los idCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
                 arrCantidades.put(idSala, arrCantidades.getOrDefault(idSala, 0) + 1);
 
             } catch (NumberFormatException error) {
@@ -241,9 +241,9 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
             try {
                 cadena = cadena.replace("@", "");
                 String[] columnas = cadena.split(Persistencia.SEPARADOR_COLUMNAS);
-                // Analiza que la única columna que uso es la del papá (documentoCliente)
+                // Analiza que la única columna que uso es la del papá (idCliente)
                 int idProducto = Integer.parseInt(columnas[5].trim());
-                // Y el trucazo es que cuento los documentoCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
+                // Y el trucazo es que cuento los idCliente, si no existe mi vale le pongo cero y si existe le sumo 1, breve
                 arrCantidades.put(idProducto, arrCantidades.getOrDefault(idProducto, 0) + 1);
 
             } catch (NumberFormatException error) {
@@ -309,12 +309,12 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
         return null;
     }
     
-    private ClienteDto buscarClientePorDocumento(ClienteServicio clienteServicio, int documentoCliente)
+    private ClienteDto buscarClientePorDocumento(ClienteServicio clienteServicio, int idCliente)
     {
         List<ClienteDto> todosLosClientes = clienteServicio.selectFrom();
         for(ClienteDto cliente: todosLosClientes)
         {
-            if(cliente.getNumeroDocumentoCliente() == documentoCliente)
+            if(cliente.getIdCliente() == idCliente)
             {
                 return cliente;
             }

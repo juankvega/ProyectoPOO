@@ -21,9 +21,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -70,7 +72,7 @@ public class VistaClienteCarrusel extends SubScene
     private ObjectProperty<Image> ClienteImagen;
     private BooleanProperty ClienteGenero;
     private StringProperty ClienteTipoDocumento;
-    private IntegerProperty ClienteNumeroDocumento;
+    private LongProperty ClienteNumeroDocumento;
     private StringProperty ClienteTipo;
     
     public VistaClienteCarrusel(Stage ventanaPadre, BorderPane princ, Pane pane, double anchoPanel, double altoPanel, int indice)
@@ -426,7 +428,7 @@ public class VistaClienteCarrusel extends SubScene
     lblTipoDoc.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblTipoDoc);
     
-    ClienteNumeroDocumento = new SimpleIntegerProperty(objCargado.getNumeroDocumentoCliente());
+    ClienteNumeroDocumento = new SimpleLongProperty(objCargado.getNumeroDocumentoCliente());
     
     Label lblNumeroDoc = new Label();
     lblNumeroDoc.textProperty().bind(Bindings.concat("Número de Documento: ", ClienteNumeroDocumento.asString()));

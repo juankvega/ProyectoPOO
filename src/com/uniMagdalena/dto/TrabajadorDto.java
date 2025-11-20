@@ -7,7 +7,7 @@ public class TrabajadorDto
     private String nombreTrabajador;
     private Boolean generoTrabajador;
     private String tipoDocumentoTrabajador;
-    private Integer numDocumentoTrabajador;
+    private Long numDocumentoTrabajador;
     private String tipoTrabajador;
     private Short cantidadBanyosAseo;
     
@@ -19,7 +19,7 @@ public class TrabajadorDto
         
     }
 
-    public TrabajadorDto(Integer idTrabajador, String nombreTrabajador, Boolean generoTrabajador, String tipoDocumentoTrabajador, Integer numDocumentoTrabajador, String tipoTrabajador, Short cantidadBanyosAseo, String nombreImagenPublicoTrabajador, String nombreImagenPrivadoTrabajador) {
+    public TrabajadorDto(Integer idTrabajador, String nombreTrabajador, Boolean generoTrabajador, String tipoDocumentoTrabajador, Long numDocumentoTrabajador, String tipoTrabajador, Short cantidadBanyosAseo, String nombreImagenPublicoTrabajador, String nombreImagenPrivadoTrabajador) {
         this.idTrabajador = idTrabajador;
         this.nombreTrabajador = nombreTrabajador;
         this.generoTrabajador = generoTrabajador;
@@ -31,6 +31,11 @@ public class TrabajadorDto
         this.nombreImagenPrivadoTrabajador = nombreImagenPrivadoTrabajador;
     }
 
+
+    
+    
+    
+
     public Short getCantidadBanyosAseo() {
         return cantidadBanyosAseo;
     }
@@ -38,17 +43,21 @@ public class TrabajadorDto
     public void setCantidadBanyosAseo(Short cantidadBanyosAseo) {
         this.cantidadBanyosAseo = cantidadBanyosAseo;
     }
-    
-    
 
-
-    public Integer getNumDocumentoTrabajador() {
+    public Long getNumDocumentoTrabajador() {
         return numDocumentoTrabajador;
     }
 
-    public void setNumDocumentoTrabajador(Integer numDocumentoTrabajador) {
+    public void setNumDocumentoTrabajador(Long numDocumentoTrabajador) {
         this.numDocumentoTrabajador = numDocumentoTrabajador;
     }
+
+
+    
+    
+
+
+
 
     
 

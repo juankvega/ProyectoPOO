@@ -168,12 +168,26 @@ public class VistaClienteAdmin extends SubScene
         return columna;
     }
     
-    private TableColumn<ClienteDto, Integer> crearColumnaNumDocumento()
+  private TableColumn<ClienteDto, Long> crearColumnaNumDocumento()
     {
-        TableColumn<ClienteDto, Integer> columna = new TableColumn<>("Número documento");
+        TableColumn<ClienteDto, Long> columna = new TableColumn<>("Número documento");
         columna.setCellValueFactory(new PropertyValueFactory<>("numeroDocumentoCliente"));
-        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
         columna.setStyle(ESTILO_IZQUIERDA);
+        
+        columna.setCellFactory(column -> new TableCell<ClienteDto, Long>() {
+            @Override
+            protected void updateItem(Long numero, boolean empty) {
+                super.updateItem(numero, empty);
+                if (empty || numero == null) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(numero));
+                }
+                setStyle(ESTILO_IZQUIERDA);
+            }
+        });
+        
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));       
         return columna;
     }
     

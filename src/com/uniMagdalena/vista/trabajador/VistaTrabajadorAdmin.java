@@ -169,14 +169,28 @@ public class VistaTrabajadorAdmin extends SubScene
         return columna;
     }
     
-    private TableColumn<TrabajadorDto, Integer> crearColumnaNumDocumento()
-    {
-        TableColumn<TrabajadorDto, Integer> columna = new TableColumn<>("Número documento");
-        columna.setCellValueFactory(new PropertyValueFactory<>("numDocumentoTrabajador"));
-        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
-        columna.setStyle(ESTILO_IZQUIERDA);
-        return columna;
-    }
+    private TableColumn<TrabajadorDto, Long> crearColumnaNumDocumento() {
+    TableColumn<TrabajadorDto, Long> columna = new TableColumn<>("Número documento");
+    columna.setCellValueFactory(new PropertyValueFactory<>("numDocumentoTrabajador"));
+    columna.setStyle(ESTILO_IZQUIERDA);
+
+    columna.setCellFactory(column -> new TableCell<TrabajadorDto, Long>() {
+        @Override
+        protected void updateItem(Long numero, boolean empty) {
+            super.updateItem(numero, empty);
+            if (empty || numero == null) {
+                setText(null);
+            } else {
+                // Mostrar solo la parte entera
+                setText(String.valueOf(numero));
+            }
+            setStyle(ESTILO_IZQUIERDA);
+        }
+    });
+
+    columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
+    return columna;
+}
     
         private TableColumn<TrabajadorDto, String> crearColumnaTipoTrabajador()
     {

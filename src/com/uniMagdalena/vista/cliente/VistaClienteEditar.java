@@ -376,45 +376,26 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
              return false;
         }
         
-        try
-    {
-       String numero = cajaNumDoc.getText();
+       try
+        {
+            double numero2 = Double.parseDouble(cajaNumDoc.getText());
+            
+            if(numero2 < 0)
+            {
+                Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "¿Siquiera eso tiene sentido?, corriga el num documento." );
+                cajaNumDoc.requestFocus();
+                return false;
+            }
+            
+        }catch(NumberFormatException e)
+        {
+            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error", 
+                "¡¡¡¡¡¡¡El documento debe ser un número, un número!!!!!!!");
+            cajaNumDoc.requestFocus();
+        return false;
+        }
        
-       // Validar que tenga exactamente 9 dígitos (sin importar con qué número empiece)
-       if(numero.length() < 3)
-       {
-           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
-               "El número de identificación debe tener más de 3 dígitos");
-           cajaNumDoc.requestFocus();
-           return false;
-       }
-       
-       // Validar que todos los caracteres sean dígitos
-       if(!numero.matches("\\d+"))
-       {
-           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
-               "La identificación debe contener solo números");
-           cajaNumDoc.requestFocus();
-           return false;
-       }
-       
-       // Convertir a número para validar que no sea cero
-       long numeroLong = Long.parseLong(numero);
-       if(numeroLong == 0)
-       {
-           Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", 
-               "El número de identificación no puede ser cero");
-           cajaNumDoc.requestFocus();
-           return false;
-       }
-       
-    }catch(NumberFormatException e)
-    {
-        Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error",
-            "La identificación debe contener solo números");
-        cajaNumDoc.requestFocus();
-    return false;
-    }
+       // Va
         
         if (choiceTipoDocumento.getValue() == null)
         {
@@ -501,12 +482,12 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
     {
         if(formularioValido())
         {
-            Integer numeroDocumento = Integer.parseInt(cajaNumDoc.getText());
+            Long numeroDocumento = Long.parseLong(cajaNumDoc.getText());
             int codCliente = objCliente.getIdCliente();
             String nomCliente = cajaNombre.getText();
             Boolean genCliente = obtenerEstadoCombo();
             String tipoDocCliente = choiceTipoDocumento.getValue();
-            int numDocCliente = numeroDocumento;
+            Long numDocCliente = numeroDocumento;
             String tipoCliente = obtenerTipoCliente();
             String imaCliente = cajaImagen.getText();
             String nocu = objCliente.getNombreImagenPrivadoCliente();

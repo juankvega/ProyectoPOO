@@ -204,7 +204,7 @@ public class VistaTrabajadorEditar extends SubScene
         miGrilla.add(lblGenero,0,2);
         
         cbmGenero =  new ComboBox<>();
-        cbmGenero.setMaxWidth(Double.MAX_VALUE);
+        cbmGenero.setMaxWidth(Long.MAX_VALUE);
         cbmGenero.setPrefHeight(ALTO_CAJA);
         cbmGenero.getItems().addAll("Seleccione el Género", "Masculino", "Femenino");
         if(objTrabajador.getGeneroTrabajador())
@@ -287,28 +287,7 @@ public class VistaTrabajadorEditar extends SubScene
         String numeroDocumento = String.valueOf(objTrabajador.getNumDocumentoTrabajador());
         cajaNumDoc.setText(numeroDocumento);
         GridPane.setHgrow(cajaNumDoc, Priority.ALWAYS);
-        cajaNumDoc.setPrefHeight(ALTO_CAJA);
-        
-                // 1. PREVENIR: Solo permitir números
-cajaNumDoc.setTextFormatter(new TextFormatter<>(change -> {
-    String newText = change.getControlNewText();
-    if (newText.matches("\\d{0,10}")) {
-        return change;
-    }
-    return null;
-}));
-
-// 2. FEEDBACK VISUAL: Cambiar borde según la longitud
-cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
-    if (newVal.isEmpty()) {
-        cajaNumDoc.setStyle("");
-    } else if (newVal.length() < 9) {
-        cajaNumDoc.setStyle("-fx-border-color: orange; -fx-border-width: 1px;");
-    } else {
-        cajaNumDoc.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-    }
-});
-        
+        cajaNumDoc.setPrefHeight(ALTO_CAJA);      
         miGrilla.add(cajaNumDoc, 1, 5);
         
          Label lblTipoTrabajador = new Label("Tipo de Trabajador:");
@@ -333,7 +312,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         miGrilla.add(contenedorRadios, 1, 6);
         
         Button btnGrabar = new Button("Actualizar el trabajador");
-        btnGrabar.setMaxWidth(Double.MAX_VALUE);
+        btnGrabar.setMaxWidth(Long.MAX_VALUE);
         btnGrabar.setTextFill(Color.web(Configuracion.COLOR4));
         btnGrabar.setFont(Font.font("Verdana", FontWeight.BOLD, TAMANYO_FUENTE));
         btnGrabar.setOnAction((e)->{grabarTrabajador();});
@@ -341,7 +320,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         
          Button btnRegresar = new Button("Regresar");
         btnRegresar.setPrefHeight(ALTO_CAJA);
-        btnRegresar.setMaxWidth(Double.MAX_VALUE);
+        btnRegresar.setMaxWidth(Long.MAX_VALUE);
         btnRegresar.setTextFill(Color.web("#6C3483"));
         btnRegresar.setFont(Font.font("Verdana", FontWeight.NORMAL, 14));
         btnRegresar.setOnAction((ActionEvent e) -> {
@@ -378,17 +357,19 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
         
         try
         {
-           String numero = cajaNumDoc.getText();
-           int numero2 = Integer.parseInt(numero);
-           if(numero2 <= 0 || numero.length() < 9)
-           {
-               Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "Un número de identificación debe ser un número positivo y además debe tener al menos 9 digitos" );
+            double numero2 = Long.parseLong(cajaNumDoc.getText());
+            
+            if(numero2 < 0)
+            {
+                Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "¿Siquiera eso tiene sentido?, corriga el num documento." );
                 cajaNumDoc.requestFocus();
                 return false;
-           }
+            }
+            
         }catch(NumberFormatException e)
         {
-            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error","La identificación debe y solamente es un número");
+            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error", 
+                "¡¡¡¡¡¡¡El documento debe ser un número, un número!!!!!!!");
             cajaNumDoc.requestFocus();
         return false;
         }
@@ -504,12 +485,12 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
     {
         if(formularioValido())
         {
-            Integer numeroDocumento = Integer.parseInt(cajaNumDoc.getText());
+            Long numeroDocumento = Long.parseLong(cajaNumDoc.getText());
             int codTrabajador = objTrabajador.getIdTrabajador();
             String nomTrabajador = cajaNombre.getText();
             Boolean genTrabajador = obtenerEstadoCombo();
             String tipoDocTrabajador = choiceTipoDocumento.getValue();
-            int numDocTrabajador = numeroDocumento;
+            Long numDocTrabajador = numeroDocumento;
             String tipoTrabajador = obtenerTipoTrabajador();
             String imaTrabajador = cajaImagen.getText();
             String nocu = objTrabajador.getNombreImagenPrivadoTrabajador();

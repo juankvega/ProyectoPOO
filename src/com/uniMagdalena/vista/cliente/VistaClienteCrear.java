@@ -248,27 +248,6 @@ public class VistaClienteCrear extends SubScene
         cajaNumDoc.setPromptText("Coloca el número de documento:  ");
         GridPane.setHgrow(cajaNumDoc, Priority.ALWAYS);
         cajaNumDoc.setPrefHeight(ALTO_CAJA);
-        
-        // 1. PREVENIR: Solo permitir números
-cajaNumDoc.setTextFormatter(new TextFormatter<>(change -> {
-    String newText = change.getControlNewText();
-    if (newText.matches("\\d{0,10}")) {
-        return change;
-    }
-    return null;
-}));
-
-// 2. FEEDBACK VISUAL: Cambiar borde según la longitud
-cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
-    if (newVal.isEmpty()) {
-        cajaNumDoc.setStyle("");
-    } else if (newVal.length() < 9) {
-        cajaNumDoc.setStyle("-fx-border-color: orange; -fx-border-width: 1px;");
-    } else {
-        cajaNumDoc.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-    }
-});
-        
         miGrilla.add(cajaNumDoc, 1, 5);
         
          Label lblTipoCliente = new Label("Tipo de Cliente:");
@@ -336,19 +315,21 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
              return false;
         }
         
-        try
+         try
         {
-           String numero = cajaNumDoc.getText();
-           int numero2 = Integer.parseInt(numero);
-           if(numero2 <= 0 || numero.length() < 9)
-           {
-               Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "Un número de identificación debe ser un número positivo y además debe tener al menos 9 digitos" );
+            double numero2 = Double.parseDouble(cajaNumDoc.getText());
+            
+            if(numero2 < 0)
+            {
+                Mensaje.mostrar(Alert.AlertType.WARNING, null, "ERROR", "¿Siquiera eso tiene sentido?, corriga el num documento." );
                 cajaNumDoc.requestFocus();
                 return false;
-           }
+            }
+            
         }catch(NumberFormatException e)
         {
-            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error","La identificación debe y solamente es un número");
+            Mensaje.mostrar(Alert.AlertType.WARNING, null, "Error", 
+                "¡¡¡¡¡¡¡El documento debe ser un número, un número!!!!!!!");
             cajaNumDoc.requestFocus();
         return false;
         }
@@ -422,7 +403,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
     {
         if(formularioValido())
         {
-            Integer numeroDocumento = Integer.parseInt(cajaNumDoc.getText());
+            Long numeroDocumento = Long.parseLong(cajaNumDoc.getText());
             ClienteDto dto = new ClienteDto();
             dto.setNombreCliente(cajaNombre.getText());
             dto.setGeneroCliente(obtenerEstadoCombo());

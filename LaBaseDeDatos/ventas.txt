@@ -1,0 +1,2 @@
+1;1;1;1;1;3;Estándar;2025-11-20;21000.0;Tiquete_compra.jpg;c76a89c2-824c-4bb3-966d-202d8a36a423_Tiquete_compra.jpg@
+2;2;2;2;3;2;VIP;2025-11-27;23000.0;Seguro_es_parte_del_disfraz_(no_tiene).jpg;29b55b2f-a937-4317-a72e-d40e9c863f15_Seguro_es_parte_del_disfraz_(no_tiene).jpg@

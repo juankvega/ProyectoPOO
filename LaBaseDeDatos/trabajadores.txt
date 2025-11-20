@@ -1,7 +1,3 @@
-1;Lucio limpieza;true;PEP;1231231212;Aseo;Lucio_Aseador.jpg;c62b7af0-d90e-4024-8f61-3f16b0398273_Lucio_Aseador.jpg@
-2;Alex Vega;true;CC;1083444567;Cajero;Alex.jpg;d46c10db-ae65-4522-be72-055304743ba0_Alex.jpg@
-3;Meudy Marquéz;true;PEP;1234565432;Vigilante;Meudy_Vigilante.jpg;242f4eb4-9b83-4ecf-87bb-f6afa557d2cf_Meudy_Vigilante.jpg@
-4;Melody Dream;false;CE;1126243321;Confitero;Melodia.jpg;8bd3877f-79e8-4554-bd03-817572f59ecb_Melodia.jpg@
-5;Carlos Torres;true;CC;1122333455;Cajero;El profe.jpg;e55c86c6-52ca-4e81-9035-57c6aa73ae07_El profe.jpg@
-6;Pepa Pig;false;CC;123456789;Confitero;Carla_Santa.jpg;16ceb842-84e8-432f-af0a-6e92b50ee2e9_Carla_Santa.jpg@
-7;El Linares;true;CE;1083444555;Cajero;Empleado_mami.jpg;e06a4198-a9d8-4d01-99cb-047f89fea58c_Empleado_mami.jpg@
+1;Alex Vega;true;CC;36059482712345;Cajero;Alex.jpg;4a51af55-b380-444c-817f-9556dfd1cc2f_Alex.jpg@
+2;Melody Dream;false;PEP;7777890032193843;Cajero;Melodia.jpg;79ade597-3f71-42f2-8c8f-6080b357afe8_Melodia.jpg@
+3;Lucio Aseador;true;CC;112265478902;Aseo;Lucio_Aseador.jpg;1146a5e8-9744-435e-8941-6bb4b8b7035b_Lucio_Aseador.jpg@

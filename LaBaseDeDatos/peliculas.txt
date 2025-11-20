@@ -1,1 +1,2 @@
-4;Perdido en el aeropuerto;1;Meudy Lugo;20000000.87;false;Si, la amo y no es mi culpa.jpg;b7ab8537-4764-4067-a3e8-64174cb2ee21_Si, la amo y no es mi culpa.jpg@
+1;Dragon ball: El regreso de goku;1;EL KOKU;1.2145234672495824E+23;false;Dragon ball- goku.jpg;b74d6983-89d0-4d89-a2b9-a94c9cafa3f7_Dragon ball- goku.jpg@
+2;Demon Slayer;1;Tanjiro Kamado;48392910192384.85;false;demon_Slayer.jpg;6bdc1149-0d0b-4738-9da3-3d5b3c588d0c_demon_Slayer.jpg@

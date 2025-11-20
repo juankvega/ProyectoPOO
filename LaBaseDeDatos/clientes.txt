@@ -1,3 +1,2 @@
-1;Juan Caballero;true;CC;99999999;Silver;Hollow knight.jpg;a288b61b-af44-4d01-b6e6-bb1e60dca92a_Hollow knight.jpg@
-2;el koku;true;PEP;1122203937;Platinum;Dragon ball- goku.jpg;b248353a-1b66-4168-88e4-5e01a8e607a4_Dragon ball- goku.jpg@
-3;Laufey;false;PEP;1122334455;Silver;WhatsApp Image 2025-08-30 at 4.49.20 PM.jpeg;b5095037-5d56-4cfa-b8cf-0b22dd1a40fd_WhatsApp Image 2025-08-30 at 4.49.20 PM.jpeg@
+1;Andrés;true;CC;665422183930487;Silver;El profe.jpg;ed22f333-68ee-4488-a856-d5b7707b37e8_El profe.jpg@
+2;Andrea;false;CE;94856849321;Estándar;Carla Pacifista.jpg;34cc08f5-c625-4bed-b303-1d3373880815_Carla Pacifista.jpg@

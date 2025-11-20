@@ -62,14 +62,14 @@ public class ClienteServicio implements ApiOperacionBD<ClienteDto, Integer>
         objCliente.setNombreImagenPublicoCliente(dto.getNombreImagenPublicoCliente());
         objCliente.setNombreImagenPrivadoCliente(GestorImagen.grabarLaImagen(ruta));
         
-        BigInteger valorListo = new BigInteger(String.valueOf(objCliente.getNumeroDocumentoCliente()));
+        
                 
         
         String cadena = objCliente.getIdCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getNombreCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getGeneroCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getTipoDocumentoCliente() + Persistencia.SEPARADOR_COLUMNAS
-                + valorListo + Persistencia.SEPARADOR_COLUMNAS
+                + objCliente.getNumeroDocumentoCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getTipoCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getNombreImagenPublicoCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getNombreImagenPrivadoCliente();
@@ -100,12 +100,12 @@ public class ClienteServicio implements ApiOperacionBD<ClienteDto, Integer>
                 String nomCliente = columnas[1].trim();
                 Boolean genCliente = Boolean.valueOf(columnas[2].trim());
                 String docCliente = columnas[3].trim();
-                int numCliente = Integer.parseInt(columnas[4].trim());
+                Long numCliente = Long.valueOf(columnas[4].trim());
                 String tipoCliente = columnas[5].trim();
                 String nomImagenClienteP = columnas[6].trim();
                 String nomImagenClientePv = columnas[7].trim();
                 
-                short cantVentas = arrCantVentas.getOrDefault(numCliente, 0).shortValue();
+                short cantVentas = arrCantVentas.getOrDefault(codCliente, 0).shortValue();
                 
                 arregloClientes.add(new ClienteDto(codCliente, nomCliente, genCliente, docCliente, numCliente, tipoCliente, cantVentas ,nomImagenClienteP, nomImagenClientePv));
                 
@@ -153,14 +153,13 @@ public class ClienteServicio implements ApiOperacionBD<ClienteDto, Integer>
             String cadena, nocu;
             List<String> arregloDeDatos;
             
-            BigInteger valorListo = new BigInteger(String.valueOf(objCliente.getNumeroDocumentoCliente()));
                 
         
         cadena = objCliente.getIdCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getNombreCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getGeneroCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getTipoDocumentoCliente() + Persistencia.SEPARADOR_COLUMNAS
-                + valorListo + Persistencia.SEPARADOR_COLUMNAS
+                + objCliente.getNumeroDocumentoCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getTipoCliente() + Persistencia.SEPARADOR_COLUMNAS
                 + objCliente.getNombreImagenPublicoCliente() + Persistencia.SEPARADOR_COLUMNAS;
         
