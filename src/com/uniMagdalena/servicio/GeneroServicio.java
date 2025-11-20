@@ -145,16 +145,11 @@ public class GeneroServicio implements ApiOperacionBD<GeneroDto, Integer> {
     @Override
     public Boolean deleteFrom(Integer codigo) {
         Boolean correcto = false;
+        try {
         List<String> arregloDeDatos;
-        try {          
             arregloDeDatos = miArchivo.borrarFilaPosicion(codigo);
-            if (!arregloDeDatos.isEmpty()) 
+            if(!arregloDeDatos.isEmpty())
             {
-                String nocu = arregloDeDatos.get(arregloDeDatos.size() - 1);
-                String nombreBorrar = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + nocu;
-                Path rutaBorrar = Paths.get(nombreBorrar);
-                Files.deleteIfExists(rutaBorrar);
-                
                 correcto = true;
             }
         } catch (IOException ex) {

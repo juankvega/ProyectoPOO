@@ -1,11 +1,12 @@
 
-package com.uniMagdalena.vista.trabajador;
+package com.uniMagdalena.vista.banyo;
 
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorEliminar;
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorListar;
-import com.uniMagdalena.vista.trabajador.*;
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorUna;
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorVentana;
+import com.uniMagdalena.controlador.banyo.BanyoControladorEliminar;
+import com.uniMagdalena.controlador.banyo.BanyoControladorListar;
+import com.uniMagdalena.controlador.banyo.BanyoControladorUna;
+import com.uniMagdalena.controlador.banyo.BanyoControladorVentana;
+import com.uniMagdalena.dto.BanyoDto;
+import com.uniMagdalena.dto.SedeDto;
 import com.uniMagdalena.dto.TrabajadorDto;
 import com.uniMagdalena.recurso.constante.Configuracion;
 import com.uniMagdalena.recurso.constante.Persistencia;
@@ -13,24 +14,21 @@ import com.uniMagdalena.recurso.utilidad.Fondo;
 import com.uniMagdalena.recurso.utilidad.Icono;
 import com.uniMagdalena.recurso.utilidad.Marco;
 import com.uniMagdalena.recurso.utilidad.Mensaje;
-import com.uniMagdalena.vista.cliente.VistaClienteCarrusel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -54,40 +52,40 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class VistaTrabajadorCarrusel extends SubScene
+public class VistaBanyoCarrusel extends SubScene
 {
-    private static final String ARCHIVO_MEMORIA = "carrusel_Trabajador_posicion.txt";
+    private static final String ARCHIVO_MEMORIA = "carrusel_Banyo_posicion.txt";
     private final BorderPane miBorderPane;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
-
+    
     private Pane panelCuerpo;
     private final BorderPane panelPrincipal;
-
+    
     private int indiceActual;
-    private int totalTrabajadors;
-    private TrabajadorDto objCargado;
+    private int totalBanyos;
+    private BanyoDto objCargado;
     
-    private StringProperty TrabajadorTitulo;
-    private StringProperty TrabajadorNombre;
-    private ObjectProperty<Image> TrabajadorImagen;
-    private BooleanProperty TrabajadorGenero;
-    private StringProperty TrabajadorTipoDocumento;
-    private IntegerProperty TrabajadorNumeroDocumento;
-    private StringProperty TrabajadorTipo;
+    private StringProperty BanyoTitulo;
+    private StringProperty BanyoUbicacion;
+    private ObjectProperty<Image> BanyoImagen;
+    private ObjectProperty<SedeDto> BanyoSede;
+    private ObjectProperty<TrabajadorDto> BanyoTrabajador;
+    private BooleanProperty BanyoGenero;
+    private BooleanProperty BanyoUso;
     
-    public VistaTrabajadorCarrusel(Stage ventanaPadre, BorderPane princ, Pane pane, double anchoPanel, double altoPanel, int indice)
+    public VistaBanyoCarrusel(Stage ventanaPadre, BorderPane princ, Pane pane, double anchoPanel, double altoPanel, int indice)
     {
         super(new BorderPane(), anchoPanel, altoPanel);
         
         indiceActual = cargarIndiceGuardado();
         
-        totalTrabajadors = TrabajadorControladorListar.cantidadTrabajadores();
-        if (indiceActual < 0 || indiceActual >= totalTrabajadors) {
+        totalBanyos = BanyoControladorListar.cantidadBanyos();
+        if (indiceActual < 0 || indiceActual >= totalBanyos) {
             indiceActual = indice;
         }
         
-        objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+        objCargado = BanyoControladorUna.obtenerBanyo(indiceActual);
         
         miBorderPane = (BorderPane) this.getRoot();
         
@@ -104,10 +102,9 @@ public class VistaTrabajadorCarrusel extends SubScene
         construirPanelCentro();
         
         laVentanaPrincipal.setOnCloseRequest(event -> guardarIndiceActual());
-        
     }
     
-    public BorderPane getMiBorderPane()
+        public BorderPane getMiBorderPane()
     {
         return miBorderPane;
     }
@@ -121,13 +118,12 @@ public class VistaTrabajadorCarrusel extends SubScene
         miCajaVertical.prefHeightProperty().bind(laVentanaPrincipal.heightProperty());
     }
     
-    
-      private void guardarIndiceActual() {
+            private void guardarIndiceActual() {
         try {
             Path rutaArchivo = Paths.get(Persistencia.RUTA_IMAGENES_EXTERNAS, ARCHIVO_MEMORIA);
             Files.writeString(rutaArchivo, String.valueOf(indiceActual));
         } catch (IOException ex) {
-            Logger.getLogger(VistaTrabajadorCarrusel.class.getName())
+            Logger.getLogger(VistaBanyoCarrusel.class.getName())
                 .log(Level.WARNING, "No se pudo guardar la posición del carrusel", ex);
         }
     }
@@ -142,110 +138,111 @@ public class VistaTrabajadorCarrusel extends SubScene
                 return Integer.parseInt(contenido.trim());
             }
         } catch (IOException | NumberFormatException ex) {
-            Logger.getLogger(VistaTrabajadorCarrusel.class.getName())
+            Logger.getLogger(VistaBanyoCarrusel.class.getName())
                 .log(Level.WARNING, "No se pudo cargar la posición del carrusel", ex);
         }
         return -1;
     }
     
-    private void crearTitulo() {
+     private void crearTitulo() {
         Region bloqueSeparador = new Region();
         bloqueSeparador.prefHeightProperty().bind(laVentanaPrincipal.heightProperty().multiply(0.10));
         miCajaVertical.getChildren().add(0, bloqueSeparador);
 
-        totalTrabajadors = TrabajadorControladorListar.cantidadTrabajadores();
-        TrabajadorTitulo = new SimpleStringProperty("Detalle del Trabajador (" + (indiceActual + 1) + " / " + totalTrabajadors + ")");
+        totalBanyos = BanyoControladorListar.cantidadBanyos();
+        BanyoTitulo = new SimpleStringProperty("Detalle de la categoría (" + (indiceActual + 1) + " / " + totalBanyos + ")");
 
         Label lblTitulo = new Label();
-        lblTitulo.textProperty().bind(TrabajadorTitulo);
+        lblTitulo.textProperty().bind(BanyoTitulo);
         lblTitulo.setTextFill(Color.web("#E82E68"));
         lblTitulo.setFont(Font.font("verdana", FontWeight.BOLD, 25));
         miCajaVertical.getChildren().add(lblTitulo);
     }
     
-    private void construirPanelIzquierdo(double porcentaje)
+     private void construirPanelIzquierdo(double porcentaje)
     {
         Button btnAnterior = new Button();
         btnAnterior.setGraphic(Icono.obtenerIcono("btnAtras.png", 80));
         btnAnterior.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         btnAnterior.setCursor(Cursor.HAND);
-        btnAnterior.setOnAction(e ->
+        btnAnterior.setOnAction(e -> 
         {
-            indiceActual = obtenerIndice("Anterior", indiceActual, totalTrabajadors);
-            objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+            indiceActual = obtenerIndice("Anterior", indiceActual, totalBanyos);
+            objCargado = BanyoControladorUna.obtenerBanyo(indiceActual);
             
             guardarIndiceActual();
             
-            TrabajadorTitulo.set("Detalle del trabajador (" + (indiceActual + 1) + "/" + totalTrabajadors + ")");
-            TrabajadorNombre.set(objCargado.getNombreTrabajador());
+            BanyoTitulo.set("Detalle de Banyo (" + (indiceActual + 1) + "/" + totalBanyos + ")");
+            BanyoUbicacion.set(objCargado.getUbicacionBanyo());
             
             FileInputStream imgArchivo;
-            try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoTrabajador();
+        try {
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoBanyo();
                 imgArchivo = new FileInputStream(rutaNuevaImagen);
                 Image imgNueva = new Image(imgArchivo);
-                TrabajadorImagen.set(imgNueva);
+                BanyoImagen.set(imgNueva);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaTrabajadorCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaBanyoCarrusel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            TrabajadorGenero.set(objCargado.getGeneroTrabajador());
-            TrabajadorTipoDocumento.set(objCargado.getTipoDocumentoTrabajador());
-            TrabajadorNumeroDocumento.set(objCargado.getNumDocumentoTrabajador());
-            TrabajadorTipo.set(objCargado.getTipoTrabajador());         
-            
+        
+        BanyoGenero.set(objCargado.getGeneroBanyo());
+        BanyoSede.set(objCargado.getSedeBanyo());
+        BanyoTrabajador.set(objCargado.getEncargadoBanyo());
+        BanyoUso.set(objCargado.getUsoBanyo());
         });
         
         StackPane panelIzquierdo = new StackPane();
-       
+        // panelIzquierdo.setStyle(borderPanel);
         panelIzquierdo.prefWidthProperty().bind(laVentanaPrincipal.widthProperty().multiply(porcentaje));
         panelIzquierdo.getChildren().add(btnAnterior);
         miBorderPane.setLeft(panelIzquierdo);
+        
     }
-    
+     
     private void construirPanelDerecho(double porcentaje)
     {
         Button btnSiguiente = new Button();
         btnSiguiente.setGraphic(Icono.obtenerIcono("btnSiguiente.png", 80));
         btnSiguiente.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         btnSiguiente.setCursor(Cursor.HAND);
-        btnSiguiente.setOnAction(e ->
+        btnSiguiente.setOnAction(e -> 
         {
-            indiceActual = obtenerIndice("Siguiente", indiceActual, totalTrabajadors);
-            objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+            indiceActual = obtenerIndice("Siguiente", indiceActual, totalBanyos);
+            objCargado = BanyoControladorUna.obtenerBanyo(indiceActual);
             
             guardarIndiceActual();
             
-            TrabajadorTitulo.set("Detalle del trabajador (" + (indiceActual + 1) + "/" + totalTrabajadors + ")");
-            TrabajadorNombre.set(objCargado.getNombreTrabajador());
+            BanyoTitulo.set("Detalle de Banyo (" + (indiceActual + 1) + "/" + totalBanyos + ")");
+            BanyoUbicacion.set(objCargado.getUbicacionBanyo());
             
             FileInputStream imgArchivo;
-            try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoTrabajador();
+        try {
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoBanyo();
                 imgArchivo = new FileInputStream(rutaNuevaImagen);
                 Image imgNueva = new Image(imgArchivo);
-                TrabajadorImagen.set(imgNueva);
+                BanyoImagen.set(imgNueva);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaTrabajadorCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaBanyoCarrusel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            TrabajadorGenero.set(objCargado.getGeneroTrabajador());
-            TrabajadorTipoDocumento.set(objCargado.getTipoDocumentoTrabajador());
-            TrabajadorNumeroDocumento.set(objCargado.getNumDocumentoTrabajador());
-            TrabajadorTipo.set(objCargado.getTipoTrabajador());         
-            
+        
+        BanyoGenero.set(objCargado.getGeneroBanyo());
+        BanyoSede.set(objCargado.getSedeBanyo());
+        BanyoTrabajador.set(objCargado.getEncargadoBanyo());
+        BanyoUso.set(objCargado.getUsoBanyo());
         });
         
         StackPane panelDerecho = new StackPane();
-        // panelIzquierdo.setStyle(borderPanel);
+        // panelDerecho.setStyle(borderPanel);
         panelDerecho.prefWidthProperty().bind(laVentanaPrincipal.widthProperty().multiply(porcentaje));
         panelDerecho.getChildren().add(btnSiguiente);
         miBorderPane.setRight(panelDerecho);
+        
     }
+     
     
-    private void panelOpciones()
+      private void panelOpciones()
     {
-       int anchoBoton = 40;
+        int anchoBoton = 40;
         int tamanioIcono = 18;
 
     // Botón para eliminar
@@ -260,41 +257,40 @@ public class VistaTrabajadorCarrusel extends SubScene
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay película para eliminar");
         } else {
-            if(objCargado.getCantidadBanyosAseo() == null)
-            {
-            String msg1, msg2, msg3, msg4;
+            String msg1, msg2, msg3, msg4, msg5;
             
             msg1 = "¿Estás seguro mi vale?";
-            msg2 = "\nNum documento: " + objCargado.getNumDocumentoTrabajador();
-            msg3 = "\nNombre: " + objCargado.getNombreTrabajador();
-            msg4 = "\nSi se fue, se fue!";
+            msg2 = "\nCódigo: " + objCargado.getIdBanyo();
+            msg3 = "\nSede: " + objCargado.getSedeBanyo().getNombreSede();
+            msg4 = "\n Ubicación: "+objCargado.getUbicacionBanyo();
+            msg5 = "\nSi se fue, se fue!";
             
             Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
             mensajito.setTitle("Te lo advierto");
             mensajito.setHeaderText(null);
-            mensajito.setContentText(msg1 + msg2 + msg3 + msg4);
+            mensajito.setContentText(msg1 + msg2 + msg3 + msg4 + msg5);
             mensajito.initOwner(laVentanaPrincipal);
             
             if (mensajito.showAndWait().get() == ButtonType.OK) {
-                if (TrabajadorControladorEliminar.borrar(indiceActual)) {
-                    totalTrabajadors = TrabajadorControladorListar.cantidadTrabajadores();
+                if (BanyoControladorEliminar.borrar(indiceActual)) {
+                    totalBanyos = BanyoControladorListar.cantidadBanyos();
                     
                     // Ajustar el índice después de eliminar
-                    if (indiceActual >= totalTrabajadors && totalTrabajadors > 0) {
-                        indiceActual = totalTrabajadors - 1;
-                    } else if (totalTrabajadors == 0) {
+                    if (indiceActual >= totalBanyos && totalBanyos > 0) {
+                        indiceActual = totalBanyos - 1;
+                    } else if (totalBanyos == 0) {
                         indiceActual = 0;
                     }
                     
                     guardarIndiceActual();
                     
                     // Actualizar el título
-                    TrabajadorTitulo.set("Detalle de la película (" + 
-                        (indiceActual + 1) + " / " + totalTrabajadors + ")");
+                    BanyoTitulo.set("Detalle de la película (" + 
+                        (indiceActual + 1) + " / " + totalBanyos + ")");
                     
                     // Cargar la nueva película si hay disponibles
-                    if (totalTrabajadors > 0) {
-                        objCargado = TrabajadorControladorUna.obtenerTrabajador(indiceActual);
+                    if (totalBanyos > 0) {
+                        objCargado = BanyoControladorUna.obtenerBanyo(indiceActual);
                         actualizarDatosCarrusel();
                     } else {
                         objCargado = null;
@@ -307,12 +303,6 @@ public class VistaTrabajadorCarrusel extends SubScene
                         laVentanaPrincipal, "Pailas", "No lo pude borrar!");
                 }
             }
-            }else{
-                Mensaje.mostrar(
-                            Alert.AlertType.ERROR,
-                            laVentanaPrincipal, "Ey",
-                            "Está encargado de baño");
-            }
         }
     });        
           
@@ -324,13 +314,13 @@ public class VistaTrabajadorCarrusel extends SubScene
     btnActualizar.setOnAction((ActionEvent e) -> {
         if (objCargado == null) {
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
-                "Advertencia", "No hay género para editar");
+                "Advertencia", "No hay pelicula para editar");
         } else {
-            panelCuerpo = TrabajadorControladorVentana.editar(
+            panelCuerpo = BanyoControladorVentana.editar(
                 laVentanaPrincipal, 
                 panelPrincipal, 
                 panelCuerpo, 
-                    Configuracion.ANCHO_APP, 
+                Configuracion.ANCHO_APP, 
                 Configuracion.ALTO_APP, 
                 objCargado, 
                 indiceActual
@@ -345,10 +335,10 @@ public class VistaTrabajadorCarrusel extends SubScene
     panelHorizontalBotones.getChildren().addAll(btnEliminar, btnActualizar);
 
     miCajaVertical.getChildren().add(panelHorizontalBotones);
-  
+ 
     }
-    
-    private void construirPanelCentro()
+      
+    private void construirPanelCentro() 
 {
     StackPane centerPane = new StackPane();
 
@@ -365,85 +355,98 @@ public class VistaTrabajadorCarrusel extends SubScene
     // Panel de opciones (botones eliminar y actualizar)
     panelOpciones();
     
-    // Nombre del trabajador
-    TrabajadorNombre = new SimpleStringProperty(objCargado.getNombreTrabajador());
+    // Inicializar propiedades
+    BanyoUbicacion = new SimpleStringProperty(objCargado.getUbicacionBanyo());
+    BanyoImagen = new SimpleObjectProperty<>();
+    BanyoGenero = new SimpleBooleanProperty(objCargado.getGeneroBanyo());
+    BanyoSede = new SimpleObjectProperty<>(objCargado.getSedeBanyo());
+    BanyoTrabajador = new SimpleObjectProperty<>(objCargado.getEncargadoBanyo());
+    BanyoUso = new SimpleBooleanProperty(objCargado.getUsoBanyo());
     
     int tamanioFuente = 18;
-    Label lblNombreTrabajador = new Label();
-    lblNombreTrabajador.textProperty().bind(TrabajadorNombre);
-    lblNombreTrabajador.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
-    lblNombreTrabajador.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblNombreTrabajador);
     
-    // Imagen del trabajador
-    TrabajadorImagen = new SimpleObjectProperty<>();
+    // Ubicación del baño
+    Label lblUbicacion = new Label();
+    lblUbicacion.textProperty().bind(Bindings.concat("Ubicación: ", BanyoUbicacion));
+    lblUbicacion.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
+    lblUbicacion.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblUbicacion);
     
+    // Imagen del baño
     FileInputStream imgArchivo;
     
     try {
         String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS 
             + Persistencia.SEPARADOR_CARPETAS 
-            + objCargado.getNombreImagenPrivadoTrabajador();
+            + objCargado.getNombreImagenPrivadoBanyo();
         imgArchivo = new FileInputStream(rutaNuevaImagen);
         Image imgNueva = new Image(imgArchivo);
-        TrabajadorImagen.set(imgNueva);
+        BanyoImagen.set(imgNueva);
         
         ImageView imgMostrar = new ImageView(imgNueva);
         imgMostrar.setFitHeight(250);
         imgMostrar.setSmooth(true);
         imgMostrar.setPreserveRatio(true);
         
-        imgMostrar.imageProperty().bind(TrabajadorImagen);
+        imgMostrar.imageProperty().bind(BanyoImagen);
         miCajaVertical.getChildren().add(imgMostrar);
         
     } catch (FileNotFoundException ex) {
-        Logger.getLogger(VistaTrabajadorCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(VistaBanyoCarrusel.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    // Género del trabajador
-    TrabajadorGenero = new SimpleBooleanProperty(objCargado.getGeneroTrabajador());
+    // Sede del baño
+    Label lblSede = new Label();
+    lblSede.textProperty().bind(Bindings.createStringBinding(
+        () -> "Sede: " + (BanyoSede.get() != null ? BanyoSede.get().getNombreSede() : "N/A"),
+        BanyoSede
+    ));
+    lblSede.setFont(Font.font("Verdana", tamanioFuente));
+    lblSede.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblSede);
     
+    // Género del baño
     Label lblGenero = new Label();
-    lblGenero.textProperty().bind(Bindings.when(TrabajadorGenero)
-        .then("Género: Masculino")
-        .otherwise("Género: Femenino")
+    lblGenero.textProperty().bind(
+        Bindings.when(BanyoGenero)
+            .then("Género: Masculino")
+            .otherwise("Género: Femenino")
     );
     lblGenero.setFont(Font.font("Verdana", tamanioFuente));
     lblGenero.setTextFill(Color.web("#6C3483"));
     miCajaVertical.getChildren().add(lblGenero);
     
-    // Tipo de documento
-    TrabajadorTipoDocumento = new SimpleStringProperty(objCargado.getTipoDocumentoTrabajador());
+    // Encargado del baño
+    Label lblEncargado = new Label();
+    lblEncargado.textProperty().bind(Bindings.createStringBinding(
+        () -> "Encargado: " + (BanyoTrabajador.get() != null ? BanyoTrabajador.get().getNombreTrabajador() : "N/A"),
+        BanyoTrabajador
+    ));
+    lblEncargado.setFont(Font.font("Verdana", tamanioFuente));
+    lblEncargado.setTextFill(Color.web("#6C3483"));
+    miCajaVertical.getChildren().add(lblEncargado);
     
-    Label lblTipoDoc = new Label();
-    lblTipoDoc.textProperty().bind(Bindings.concat("Tipo de Documento: ", TrabajadorTipoDocumento));
-    lblTipoDoc.setFont(Font.font("Verdana", tamanioFuente));
-    lblTipoDoc.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblTipoDoc);
-    
-    // Número de documento
-    TrabajadorNumeroDocumento = new SimpleIntegerProperty(objCargado.getNumDocumentoTrabajador());
-    
-    Label lblNumeroDoc = new Label();
-    lblNumeroDoc.textProperty().bind(Bindings.concat("Número de Documento: ", TrabajadorNumeroDocumento.asString()));
-    lblNumeroDoc.setFont(Font.font("Verdana", tamanioFuente));
-    lblNumeroDoc.setTextFill(Color.web("#6C3483"));
-    miCajaVertical.getChildren().add(lblNumeroDoc);
-    
-    // Tipo de trabajador
-    TrabajadorTipo = new SimpleStringProperty(objCargado.getTipoTrabajador());
-    
-    Label lblTipoTrabajador = new Label();
-    lblTipoTrabajador.textProperty().bind(Bindings.concat("Tipo de Trabajador: ", TrabajadorTipo));
-    lblTipoTrabajador.setFont(Font.font("Verdana", FontWeight.BOLD, tamanioFuente));
-    lblTipoTrabajador.setTextFill(Color.web("#E82E68"));
-    miCajaVertical.getChildren().add(lblTipoTrabajador);
+    // Estado de uso del baño
+    Label lblUso = new Label();
+    lblUso.textProperty().bind(
+        Bindings.when(BanyoUso)
+            .then("Estado: En uso")
+            .otherwise("Estado: Fuera de servicio")
+    );
+    lblUso.setFont(Font.font("Verdana", FontWeight.BOLD, tamanioFuente));
+    lblUso.styleProperty().bind(
+        BanyoUso.map(dato -> dato.equals(true) 
+            ? "-fx-text-fill: green;" 
+            : "-fx-text-fill: red;")
+    );
+    miCajaVertical.getChildren().add(lblUso);
     
     miBorderPane.setCenter(centerPane);
-}   
-    
-    
-    private static Integer obtenerIndice(String opcion, int indice, int numCarros) {
+}
+     
+     
+     
+      private static Integer obtenerIndice(String opcion, int indice, int numCarros) {
         Integer nuevoIndice, limite;
 
         nuevoIndice = indice;
@@ -466,27 +469,30 @@ public class VistaTrabajadorCarrusel extends SubScene
         }
         return nuevoIndice;
     }
-
-    private void actualizarDatosCarrusel() 
+      
+    private void actualizarDatosCarrusel()
     {
         if(objCargado != null)
         {
-            TrabajadorNombre.set(objCargado.getNombreTrabajador());
+           BanyoUbicacion.set(objCargado.getUbicacionBanyo());
             
             FileInputStream imgArchivo;
-            try {
-                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoTrabajador();
+        try {
+                String rutaNuevaImagen = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + objCargado.getNombreImagenPrivadoBanyo();
                 imgArchivo = new FileInputStream(rutaNuevaImagen);
                 Image imgNueva = new Image(imgArchivo);
-                TrabajadorImagen.set(imgNueva);
+                BanyoImagen.set(imgNueva);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(VistaTrabajadorCarrusel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VistaBanyoCarrusel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            TrabajadorGenero.set(objCargado.getGeneroTrabajador());
-            TrabajadorTipoDocumento.set(objCargado.getTipoDocumentoTrabajador());
-            TrabajadorNumeroDocumento.set(objCargado.getNumDocumentoTrabajador());
-            TrabajadorTipo.set(objCargado.getTipoTrabajador());    
+        
+        BanyoGenero.set(objCargado.getGeneroBanyo());
+        BanyoSede.set(objCargado.getSedeBanyo());
+        BanyoTrabajador.set(objCargado.getEncargadoBanyo());
+        BanyoUso.set(objCargado.getUsoBanyo()); 
         }
+        
     }
+     
+     
 }

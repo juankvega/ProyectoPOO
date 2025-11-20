@@ -488,7 +488,7 @@ cajaNumDoc.textProperty().addListener((obs, oldVal, newVal) -> {
             String imaTrabajador = cajaImagen.getText();
             String nocu = objTrabajador.getNombreImagenPrivadoTrabajador();
             
-            TrabajadorDto nuevoTrabajador = new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, tipoDocTrabajador, numDocTrabajador, tipoTrabajador, imaTrabajador, nocu);
+            TrabajadorDto nuevoTrabajador = new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, tipoDocTrabajador, numDocTrabajador, tipoTrabajador,null ,imaTrabajador, nocu);
             
             if(TrabajadorControladorEditar.actualizar(posicion, nuevoTrabajador, rutaSeleccionada))
             {

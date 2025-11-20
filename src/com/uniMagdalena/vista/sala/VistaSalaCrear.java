@@ -213,7 +213,7 @@ public class VistaSalaCrear extends SubScene
         miGrilla.add(lblSede, 0, 5);
         
         List<SedeDto> arrSedes = SedeControladorListar.arregloSedes();
-        SedeDto opcionPorDefecto = new SedeDto(0, "Seleccione una sede", "", "", null, null, "", "");
+        SedeDto opcionPorDefecto = new SedeDto(0, "Seleccione una sede", "", "", null, null,null ,"", "");
         arrSedes.add(0, opcionPorDefecto);
         
         cbmSedes = new ComboBox<>();

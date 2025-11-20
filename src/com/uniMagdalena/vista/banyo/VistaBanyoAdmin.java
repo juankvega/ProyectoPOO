@@ -1,11 +1,9 @@
+package com.uniMagdalena.vista.banyo;
 
-package com.uniMagdalena.vista.trabajador;
-
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorEliminar;
-import com.uniMagdalena.vista.cliente.*;
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorListar;
-import com.uniMagdalena.controlador.trabajador.TrabajadorControladorVentana;
-import com.uniMagdalena.dto.TrabajadorDto;
+import com.uniMagdalena.controlador.banyo.BanyoControladorEliminar;
+import com.uniMagdalena.controlador.banyo.BanyoControladorListar;
+import com.uniMagdalena.controlador.banyo.BanyoControladorVentana;
+import com.uniMagdalena.dto.BanyoDto;
 import com.uniMagdalena.recurso.constante.Configuracion;
 import com.uniMagdalena.recurso.utilidad.Fondo;
 import com.uniMagdalena.recurso.utilidad.Icono;
@@ -41,18 +39,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class VistaTrabajadorAdmin extends SubScene
+public class VistaBanyoAdmin extends SubScene
 {
     private final StackPane miFormulario;
     private final Stage laVentanaPrincipal;
     private final VBox miCajaVertical;
-    private final TableView<TrabajadorDto> miTabla;
+    private final TableView<BanyoDto> miTabla;
     private final Rectangle miMarco;
     private HBox miCajaHorizontal;
     
     private Text miTitulo;
     
-    private final ObservableList<TrabajadorDto> datosTabla
+    private final ObservableList<BanyoDto> datosTabla
             = FXCollections.observableArrayList();
     
     private static final String ESTILO_CENTRAR = "-fx-alignment: CENTER;";
@@ -61,10 +59,10 @@ public class VistaTrabajadorAdmin extends SubScene
     private static final String ESTILO_ELROJO = "-fx-text-fill: red; " + ESTILO_DERECHA;
     private static final String ESTILO_ELVERDE = "-fx-text-fill: green; " + ESTILO_DERECHA; 
     
-    private Pane panelCuerpo;
+   private Pane panelCuerpo;
     private final BorderPane panelPrincipal; 
     
-    public VistaTrabajadorAdmin(Stage ventanaPadre, BorderPane princ, Pane pane ,double ancho, double alto)
+    public VistaBanyoAdmin(Stage ventanaPadre,BorderPane princ, Pane pane ,double ancho, double alto)
     {
         super(new StackPane(), ancho, alto);
         
@@ -82,6 +80,7 @@ public class VistaTrabajadorAdmin extends SubScene
         miCajaVertical = new VBox();
         
         miMarco = Marco.pintar(laVentanaPrincipal, Configuracion.MARCO_ALTO_PORCENTAJE, Configuracion.MARCO_ANCHO_PORCENTAJE, Configuracion.DEGRADEE_ARREGLO, Configuracion.COLOR_BORDE);
+        
         configurarmiCajaVertical();
         armarTitulo();
         crearTabla();
@@ -105,95 +104,127 @@ public class VistaTrabajadorAdmin extends SubScene
     {
         Region separadorTitulo = new Region();
         separadorTitulo.prefHeightProperty().bind(laVentanaPrincipal.heightProperty().multiply(0.05));
-        int canti = TrabajadorControladorListar.cantidadTrabajadores();
-        miTitulo = new Text("Listado de trabajadores - (" + canti + ") ");
+        int canti = BanyoControladorListar.cantidadBanyos();
+        miTitulo = new Text("Listado de baños - (" + canti + ") ");
         miTitulo.setFill(Color.web("#54e8b7"));
         miTitulo.setFont(Font.font("Verdana", FontWeight.BOLD, 26));
         miCajaVertical.getChildren().addAll(separadorTitulo, miTitulo);
     }
     
-     private TableColumn<TrabajadorDto, Integer> crearColumnaCodigo()
+    private TableColumn<BanyoDto, Integer> crearColumnaCodigo()
     {
-        TableColumn<TrabajadorDto, Integer> columna = new TableColumn<>("Codigo");
-        columna.setCellValueFactory(new PropertyValueFactory<>("idTrabajador"));
+        TableColumn<BanyoDto, Integer> columna = new TableColumn<>("Codigo");
+        columna.setCellValueFactory(new PropertyValueFactory<>("idBanyo"));
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.1));
         columna.setStyle(ESTILO_CENTRAR);
         return columna;
     }
-     
-    private TableColumn<TrabajadorDto, String> crearColumnaNombre()
+    
+    private TableColumn<BanyoDto, String> crearColumnaSede()
     {
-        TableColumn<TrabajadorDto, String> columna = new TableColumn<>("Nombre");
-        columna.setCellValueFactory(new PropertyValueFactory<>("nombreTrabajador"));
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("Sede");
+        
+        columna.setCellValueFactory(cellData -> 
+        {
+            String nombreSede = cellData.getValue().getSedeBanyo().getNombreSede();
+            return new javafx.beans.property.SimpleStringProperty(nombreSede);
+        });
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
+        columna.setStyle(ESTILO_CENTRAR);
+        return columna;
+    }
+    
+    private TableColumn<BanyoDto, String> crearColumnaUbicacion()
+    {
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("Ubicación");
+        columna.setCellValueFactory(new PropertyValueFactory<>("ubicacionBanyo"));
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
         columna.setStyle(ESTILO_CENTRAR);
         return columna;
     }
     
-     private TableColumn<TrabajadorDto, String> crearColumnaGenero()
+    private TableColumn<BanyoDto, String> crearColumnaGenero()
     {
-        TableColumn<TrabajadorDto, String> columna = new TableColumn<>("Género");
-        columna.setCellValueFactory(obj ->{
-        String Genero = obj.getValue().getGeneroTrabajador()? "Masculino": "Femenino";
-        return new SimpleStringProperty(Genero);
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("Género");
+        columna.setCellValueFactory(obj ->
+        {
+            String genero = obj.getValue().getGeneroBanyo()? "Masculino":"Femenino";
+            return new SimpleStringProperty(genero);
         });
         
         columna.setCellFactory(col -> new TableCell<>()
         {
-           @Override
-           protected void updateItem(String GeneroTxT, boolean empty)
-           {
-               super.updateItem(GeneroTxT, empty);
-               if(empty || GeneroTxT == null)
-               {
-                   setText(null);
-                   setStyle("");
-               }
-               else
-               {
-                   setText(GeneroTxT);
-                   setStyle("Masculino".equals(GeneroTxT) ? ESTILO_ELVERDE: ESTILO_ELROJO);
-               }
-           }
+            @Override
+            protected void updateItem(String generoTxt, boolean empty)
+            {
+                super.updateItem(generoTxt, empty);
+                if(empty || generoTxt == null)
+                {
+                    setText(null);
+                    setStyle("");
+                }
+                else
+                {
+                    setText(generoTxt);
+                    setStyle("Masculino".equals(generoTxt) ? ESTILO_ELVERDE: ESTILO_ELROJO);
+                }
+            }
         });
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
         return columna;
     }
-     
-    private TableColumn<TrabajadorDto, String> crearColumnaTipoDocumento()
+    
+    private TableColumn<BanyoDto, String> crearColumnaUso()
     {
-        TableColumn<TrabajadorDto, String> columna = new TableColumn<>("Tipo documento");
-        columna.setCellValueFactory(new PropertyValueFactory<>("tipoDocumentoTrabajador"));
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("En uso");
+        columna.setCellValueFactory(obj ->
+        {
+            String uso = obj.getValue().getUsoBanyo()? "Sí":"No";
+            return new SimpleStringProperty(uso);
+        });
+        
+        columna.setCellFactory(col -> new TableCell<>()
+        {
+            @Override
+            protected void updateItem(String usoTxt, boolean empty)
+            {
+                super.updateItem(usoTxt, empty);
+                if(empty || usoTxt == null)
+                {
+                    setText(null);
+                    setStyle("");
+                }
+                else
+                {
+                    setText(usoTxt);
+                    setStyle("Sí".equals(usoTxt) ? ESTILO_ELVERDE: ESTILO_ELROJO);
+                }
+            }
+        });
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.1));
+        return columna;
+    }
+    
+    private TableColumn<BanyoDto, String> crearColumnaEncargado()
+    {
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("Encargado");
+        
+        columna.setCellValueFactory(cellData -> 
+        {
+            String nombreEncargado = cellData.getValue().getEncargadoBanyo().getNombreTrabajador();
+            return new javafx.beans.property.SimpleStringProperty(nombreEncargado);
+        });
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
         columna.setStyle(ESTILO_CENTRAR);
         return columna;
     }
     
-    private TableColumn<TrabajadorDto, Integer> crearColumnaNumDocumento()
+    private TableColumn<BanyoDto, String> crearColumnaImagen()
     {
-        TableColumn<TrabajadorDto, Integer> columna = new TableColumn<>("Número documento");
-        columna.setCellValueFactory(new PropertyValueFactory<>("numDocumentoTrabajador"));
-        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.2));
-        columna.setStyle(ESTILO_IZQUIERDA);
-        return columna;
-    }
-    
-        private TableColumn<TrabajadorDto, String> crearColumnaTipoTrabajador()
-    {
-        TableColumn<TrabajadorDto, String> columna = new TableColumn<>("Tipo de Trabajador");
-        columna.setCellValueFactory(new PropertyValueFactory<>("tipoTrabajador"));
-        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.1));
-        columna.setStyle(ESTILO_IZQUIERDA);
-        return columna;
-    }
-        
-    private TableColumn<TrabajadorDto, String> crearColumnaImagen()
-    {
-        TableColumn<TrabajadorDto, String> columna = new TableColumn<>("Nombre img");
-        columna.setCellValueFactory(new PropertyValueFactory<>("nombreImagenPrivadoTrabajador"));
-        columna.setCellFactory(column -> new TableCell<TrabajadorDto, String>()
+        TableColumn<BanyoDto, String> columna = new TableColumn<>("Nombre img");
+        columna.setCellValueFactory(new PropertyValueFactory<>("nombreImagenPrivadoBanyo"));
+        columna.setCellFactory(column -> new TableCell<BanyoDto, String>()
         {
-        
             @Override
             protected void updateItem(String nombreImagen, boolean bandera) {
                 super.updateItem(nombreImagen, bandera);
@@ -202,14 +233,13 @@ public class VistaTrabajadorAdmin extends SubScene
                 } else {
                     setGraphic(Icono.obtenerIconoExterno(nombreImagen, 100));
                 }
-            } 
-        
-        
+            }  
+            
         });
-                
-                
-        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.35));
-        columna.setStyle(ESTILO_CENTRAR);         
+        
+        
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
+        columna.setStyle(ESTILO_IZQUIERDA);
         return columna;
     }
     
@@ -217,17 +247,17 @@ public class VistaTrabajadorAdmin extends SubScene
     {
         miTabla.getColumns().addAll
         (
-                List.of(crearColumnaCodigo(), crearColumnaNombre(), crearColumnaGenero(), crearColumnaTipoDocumento(), crearColumnaNumDocumento(), crearColumnaTipoTrabajador(), crearColumnaImagen())
+          List.of(crearColumnaCodigo(), crearColumnaSede(), crearColumnaUbicacion(), crearColumnaGenero(), crearColumnaUso(), crearColumnaEncargado(), crearColumnaImagen())
         );
     }
     
     private void crearTabla()
     {
         configurarColumnas();
-        List<TrabajadorDto> arrTrabajadors = TrabajadorControladorListar.arregloTrabajadores();
-        datosTabla.setAll(arrTrabajadors);
+        List<BanyoDto> arrBanyos = BanyoControladorListar.arregloBanyos();
+        datosTabla.setAll(arrBanyos);
         miTabla.setItems(datosTabla);
-        miTabla.setPlaceholder(new Text("No hay trabajadores registrados"));
+        miTabla.setPlaceholder(new Text("No hay baños registrados"));
         
         miTabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         
@@ -264,14 +294,12 @@ public class VistaTrabajadorAdmin extends SubScene
         }
         else
         {
-            TrabajadorDto objTrabajador = miTabla.getSelectionModel().getSelectedItem();
-            if(objTrabajador.getCantidadBanyosAseo() == null)
-            {
+            BanyoDto objBanyo = miTabla.getSelectionModel().getSelectedItem();
             String msg1, msg2, msg3, msg4;
             
             msg1 = "Estás seguro mi vale?";
-            msg2 = "\n número docuemnto: "+objTrabajador.getNumDocumentoTrabajador();
-            msg3 = "\n Nombre: "+ objTrabajador.getNombreTrabajador();
+            msg2 = "\n Código: "+objBanyo.getIdBanyo();
+            msg3 = "\n Sede: "+ objBanyo.getSedeBanyo().getNombreSede();
             msg4 = "\n Si se fue, se fue!";
             
             Alert mensajito = new Alert(Alert.AlertType.CONFIRMATION);
@@ -283,11 +311,11 @@ public class VistaTrabajadorAdmin extends SubScene
             if(mensajito.showAndWait().get() == ButtonType.OK)
             {
                 int fila = miTabla.getSelectionModel().getSelectedIndex();
-                if(TrabajadorControladorEliminar.borrar(fila))
+                if(BanyoControladorEliminar.borrar(fila))
                 {
-                    int cant = TrabajadorControladorListar.cantidadTrabajadores();
-                    miTitulo.setText("Administrador de Trabajadors - ("+ cant + ")");
-                    List<TrabajadorDto> quedaron =  TrabajadorControladorListar.arregloTrabajadores();
+                    int cant = BanyoControladorListar.cantidadBanyos();
+                    miTitulo.setText("Administrador de baños - ("+ cant + ")");
+                    List<BanyoDto> quedaron =  BanyoControladorListar.arregloBanyos();
                     datosTabla.setAll(quedaron);
                     miTabla.refresh();
                     
@@ -305,12 +333,6 @@ public class VistaTrabajadorAdmin extends SubScene
             else
             {
                 miTabla.getSelectionModel().clearSelection();
-            }
-            }else{
-                Mensaje.mostrar(
-                            Alert.AlertType.ERROR,
-                            laVentanaPrincipal, "Ey",
-                            "Está encargado de baño");
             }
         }
         });
@@ -330,10 +352,10 @@ public class VistaTrabajadorAdmin extends SubScene
                 Mensaje.mostrar(Alert.AlertType.WARNING, null, "Advertencia", "No ha seleccionado una categoría para editar");
                 }else
                 {
-                    TrabajadorDto objTrabajador = miTabla.getSelectionModel().getSelectedItem();
+                    BanyoDto objBanyo = miTabla.getSelectionModel().getSelectedItem();
                     int posicion = miTabla.getSelectionModel().getSelectedIndex();
                     
-                    panelCuerpo = TrabajadorControladorVentana.editar(laVentanaPrincipal, panelPrincipal, panelCuerpo, Configuracion.ANCHO_APP, Configuracion.ALTO_APP, objTrabajador, posicion);
+                    panelCuerpo = BanyoControladorVentana.editar(laVentanaPrincipal, panelPrincipal, panelCuerpo, Configuracion.ANCHO_APP, Configuracion.ALTO_APP, objBanyo, posicion);
                     panelPrincipal.setCenter(null);
                     panelPrincipal.setCenter(panelCuerpo);
                 }
@@ -360,5 +382,4 @@ public class VistaTrabajadorAdmin extends SubScene
         miCajaVertical.getChildren().add(miCajaHorizontal);
         
     }
-    
 }

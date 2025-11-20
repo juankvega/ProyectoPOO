@@ -118,6 +118,8 @@ public class VistaSedeListar extends SubScene{
         return columna;
     }
     
+    
+    
     private TableColumn<SedeDto, String> crearColumna24horas() {
             TableColumn<SedeDto, String> columna = new TableColumn<>("Es 24 horas");
         columna.setCellValueFactory(obj -> {
@@ -150,6 +152,14 @@ public class VistaSedeListar extends SubScene{
         return columna;
     }
     
+        private TableColumn<SedeDto, Short> crearColumnaCantidadBanyos() {
+        TableColumn<SedeDto, Short> columna = new TableColumn<>("Baños");
+        columna.setCellValueFactory(new PropertyValueFactory<>("banyosSede"));
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
+        columna.setStyle(ESTILO_CENTRAR);
+        return columna;
+    }
+    
     private TableColumn<SedeDto, String> crearColumnaImagen()
     {
         TableColumn<SedeDto, String> columna = new TableColumn<>("Nombre img");
@@ -162,7 +172,7 @@ public class VistaSedeListar extends SubScene{
     private void configurarColumnas() {
         miTabla.getColumns().addAll(
                 List.of(
-                        crearColumnaCodigo(), crearColumnaNombre(), crearColumnaCiudad(), crearColumnaUbicacion(), crearColumna24horas(), crearColumnaCantidadSalas(), crearColumnaImagen()
+                        crearColumnaCodigo(), crearColumnaNombre(), crearColumnaCiudad(), crearColumnaUbicacion(), crearColumna24horas(), crearColumnaCantidadSalas(), crearColumnaCantidadBanyos() ,crearColumnaImagen()
                 )
         );
     }

@@ -2,6 +2,7 @@
 package com.uniMagdalena.vista.varios;
 
 import com.uniMagdalena.controlador.Producto.ProductoControladorVentana;
+import com.uniMagdalena.controlador.banyo.BanyoControladorVentana;
 import com.uniMagdalena.controlador.cliente.ClienteControladorVentana;
 import com.uniMagdalena.controlador.genero.GeneroControladorVentana;
 import com.uniMagdalena.controlador.pelicula.PeliculaControladorVentana;
@@ -181,19 +182,28 @@ public class VistaCabecera extends SubScene
         MenuItem opcion04 = new MenuItem("Carrusel");
         
         opcion01.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        miPanelCuerpo = BanyoControladorVentana.crear(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo); 
         });
         
         opcion02.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        miPanelCuerpo = BanyoControladorVentana.listar(miEscenario, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
         opcion03.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        miPanelCuerpo = BanyoControladorVentana.administrar(miEscenario, miPanelPrincipal, miPanelCuerpo ,Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor());
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);
         });
         
         opcion04.setOnAction((e) -> {
-            System.out.println("El carrusel");
+        int posicionInicial = 0;
+        miPanelCuerpo = BanyoControladorVentana.carrusel(miEscenario, miPanelPrincipal, miPanelCuerpo, Configuracion.ANCHO_APP, Contenedor.ALTO_CUERPO.getValor(), posicionInicial);
+        miPanelPrincipal.setCenter(null);
+        miPanelPrincipal.setCenter(miPanelCuerpo);    
         });
         
         MenuButton menuBotones = new MenuButton("Baños");

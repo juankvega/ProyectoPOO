@@ -88,6 +88,9 @@ public class SedeServicio implements ApiOperacionBD<SedeDto, Integer>{
         // salas que tendria cada sede
         SalaServicio salaServicio = new SalaServicio();
         Map<Integer, Integer> arrCantSalas = salaServicio.selectFromCantidad();
+        
+        BanyoServicio banyoServicio = new BanyoServicio();
+        Map<Integer, Integer> arrCantBanyos =  banyoServicio.selectFromCantidadSedes();
         //*********************************************************************
         
         for (String cadena : arregloDatos) {
@@ -106,9 +109,10 @@ public class SedeServicio implements ApiOperacionBD<SedeDto, Integer>{
                 // Y en la siguiente linea resolvemos lo de la cantidad de salas de una sede
                 // Breve y pulido, recuerda: eres uniMagdalena
                 Short cantSalas = arrCantSalas.getOrDefault(codSede, 0).shortValue();
+                Short cantBanyos = arrCantBanyos.getOrDefault(codSede, 0).shortValue();
                 
                 arregloSede.add(new SedeDto(codSede, nomSede, ciudadSede, ubiSede
-                        , veinticuatroHorasSede, cantSalas, nomImagenSedePub, nomImagenSedePriv));
+                        , veinticuatroHorasSede, cantSalas, cantBanyos ,nomImagenSedePub, nomImagenSedePriv));
                 
             } catch (NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());
@@ -130,22 +134,18 @@ public class SedeServicio implements ApiOperacionBD<SedeDto, Integer>{
     }
 
     @Override
-    public Boolean deleteFrom(Integer codigo) {
+    public Boolean deleteFrom(Integer codigo) 
+    {
         Boolean correcto = false;
+        try {
         List<String> arregloDeDatos;
-        try {          
             arregloDeDatos = miArchivo.borrarFilaPosicion(codigo);
-            if (!arregloDeDatos.isEmpty()) 
+            if(!arregloDeDatos.isEmpty())
             {
-                String nocu = arregloDeDatos.get(arregloDeDatos.size() - 1);
-                String nombreBorrar = Persistencia.RUTA_IMAGENES_EXTERNAS + Persistencia.SEPARADOR_CARPETAS + nocu;
-                Path rutaBorrar = Paths.get(nombreBorrar);
-                Files.deleteIfExists(rutaBorrar);
-                
                 correcto = true;
             }
         } catch (IOException ex) {
-            Logger.getLogger(SedeServicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductoServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return correcto;
 

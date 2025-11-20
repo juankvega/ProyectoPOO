@@ -405,7 +405,7 @@ public class VistaGeneroCarrusel extends SubScene
         lblPopularidad.setTextFill(Color.web("#6C3483"));
         miCajaVertical.getChildren().add(lblPopularidad);
         
-        GeneroClasico = new SimpleBooleanProperty(objCargado.getEstadoGenero());
+        GeneroClasico = new SimpleBooleanProperty(objCargado.getEsClasicoGenero());
         Label lblClasico = new Label();
         lblClasico.textProperty().bind(Bindings.when(GeneroClasico).then("Clásico").otherwise("No Clásico"));
         lblClasico.setFont(Font.font("Verdana", FontWeight.BOLD, tamanioFuente));

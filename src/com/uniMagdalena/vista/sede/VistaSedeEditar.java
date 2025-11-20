@@ -362,10 +362,11 @@ public class VistaSedeEditar extends SubScene {
         String ubiSede = cajaUbicacion.getText();
         Boolean venticuatroHorasSede = obtenerResultadoSwitch();
         Short salasSede = objSede.getSalasSede();
+        Short banyosSede = objSede.getBanyosSede();
         String imgSede = cajaImagen.getText();
         String nocu = objSede.getNombreImagenPrivadoSede();
         
-        SedeDto nuevaSede = new SedeDto(codSede, nomSede, ciudSede, ubiSede, venticuatroHorasSede, salasSede, imgSede, nocu);
+        SedeDto nuevaSede = new SedeDto(codSede, nomSede, ciudSede, ubiSede, venticuatroHorasSede, salasSede, banyosSede ,imgSede, nocu);
         
         if (SedeControladorEditar.actualizar(posicion, nuevaSede, rutaSeleccionada)) {
             Mensaje.mostrar(Alert.AlertType.INFORMATION, null, "Exito", "Listo me fui!!!");

@@ -78,7 +78,7 @@ public class VentaServicio implements ApiOperacionBD<VentaDto, Integer>
                 , dto.getPeliculaVenta().getEsParaNinyosPelicula(),null ,"", "");
         
         Sede objSede = new Sede(dto.getSedeVenta().getIdSede(), dto.getSedeVenta().getNombreSede(), dto.getSedeVenta().getCiudadSede(), 
-                dto.getSedeVenta().getUbicacionSede(), dto.getSedeVenta().getEs24horasSede(), null, 
+                dto.getSedeVenta().getUbicacionSede(), dto.getSedeVenta().getEs24horasSede(), null, null,
                 "", "");
         
         Sala objSala = new Sala(dto.getSalaVenta().getIdSala(),dto.getSalaVenta().getNombreSala() , dto.getSalaVenta().getAsientosSala(), 

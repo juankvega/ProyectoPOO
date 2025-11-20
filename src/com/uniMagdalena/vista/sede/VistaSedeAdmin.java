@@ -106,7 +106,7 @@ public class VistaSedeAdmin extends SubScene {
     Region separadorTitulo = new Region();
     separadorTitulo.prefHeightProperty().bind(laVentanaPrincipal.heightProperty().multiply(0.05));
     int canti = SedeControladorListar.cantidadSedes();
-    Text miTitulo = new Text("Listado de sedes - (" + canti + ") ");
+    miTitulo = new Text("Listado de sedes - (" + canti + ") ");
     miTitulo.setFill(Color.web("#54e8b7"));
     miTitulo.setFont(Font.font("Verdana", FontWeight.BOLD, 26));
     miCajaVertical.getChildren().addAll(separadorTitulo, miTitulo);
@@ -176,10 +176,34 @@ public class VistaSedeAdmin extends SubScene {
         return columna;
     }
     
+        private TableColumn<SedeDto, Short> crearColumnaCantidadBanyos() {
+        TableColumn<SedeDto, Short> columna = new TableColumn<>("Baños");
+        columna.setCellValueFactory(new PropertyValueFactory<>("banyosSede"));
+        columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
+        columna.setStyle(ESTILO_CENTRAR);
+        return columna;
+    }
+    
     private TableColumn<SedeDto, String> crearColumnaImagen()
     {
         TableColumn<SedeDto, String> columna = new TableColumn<>("Nombre img");
-        columna.setCellValueFactory(new PropertyValueFactory<>("nombreImagenPublicoSede"));
+        columna.setCellValueFactory(new PropertyValueFactory<>("nombreImagenPrivadoSede"));
+        columna.setCellFactory(column -> new TableCell<SedeDto, String>()
+        {
+            @Override
+            protected void updateItem(String nombreImagen, boolean bandera) {
+                super.updateItem(nombreImagen, bandera);
+                if (bandera || nombreImagen == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(Icono.obtenerIconoExterno(nombreImagen, 100));
+                }
+            }
+            
+        });
+        
+        
+        
         columna.prefWidthProperty().bind(miTabla.widthProperty().multiply(0.15));
         columna.setStyle(ESTILO_CENTRAR);
         return columna;
@@ -188,7 +212,7 @@ public class VistaSedeAdmin extends SubScene {
     private void configurarColumnas() {
         miTabla.getColumns().addAll(
                 List.of(
-                        crearColumnaCodigo(), crearColumnaNombre(), crearColumnaCiudad(), crearColumnaUbicacion(), crearColumna24horas(), crearColumnaCantidadSalas(), crearColumnaImagen()
+                        crearColumnaCodigo(), crearColumnaNombre(), crearColumnaCiudad(), crearColumnaUbicacion(), crearColumna24horas(), crearColumnaCantidadSalas(),crearColumnaCantidadBanyos() ,crearColumnaImagen()
                 )
         );
     }
@@ -238,7 +262,7 @@ public class VistaSedeAdmin extends SubScene {
                 SedeDto objSede = miTabla
                         .getSelectionModel()
                         .getSelectedItem();
-                if (objSede.getSalasSede() == 0) {
+                if (objSede.getSalasSede() == 0 && objSede.getBanyosSede() == 0) {
                     String msg1, msg2, msg3, msg4;
                     msg1 = "¿Estás seguro mi vale?";
                     msg2 = "\nCódigo: " + objSede.getIdSede();
@@ -279,7 +303,7 @@ public class VistaSedeAdmin extends SubScene {
                     Mensaje.mostrar(
                             Alert.AlertType.ERROR,
                             laVentanaPrincipal, "Ey",
-                            "Ya tiene salas");
+                            "Ya tiene salas y/o baños");
                 }
             }
         });

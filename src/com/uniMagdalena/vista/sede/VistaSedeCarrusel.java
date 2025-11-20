@@ -76,6 +76,7 @@ public class VistaSedeCarrusel extends SubScene
     private BooleanProperty Sede24horas;
     private StringProperty SedeUbicacion;
     private IntegerProperty SedeCantSalas;
+    private IntegerProperty SedeCantBanyos;
 
     private static final String ARCHIVO_MEMORIA = "carrusel_Sede_posicion.txt";
     
@@ -205,6 +206,7 @@ public class VistaSedeCarrusel extends SubScene
             SedeUbicacion.set(objCargado.getUbicacionSede());
             Sede24horas.set(objCargado.getEs24horasSede());
             SedeCantSalas.set(objCargado.getSalasSede());
+            SedeCantBanyos.set(objCargado.getBanyosSede());
             });
         
         StackPane panelIzquierdo = new StackPane();
@@ -245,6 +247,7 @@ public class VistaSedeCarrusel extends SubScene
             SedeUbicacion.set(objCargado.getUbicacionSede());
             Sede24horas.set(objCargado.getEs24horasSede());
             SedeCantSalas.set(objCargado.getSalasSede());
+            SedeCantBanyos.set(objCargado.getBanyosSede());
             });
         
         StackPane panelDerecho = new StackPane();
@@ -271,7 +274,7 @@ public class VistaSedeCarrusel extends SubScene
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
                 "Advertencia", "No hay sede para eliminar");
         } else {
-            if (objCargado.getSalasSede() == 0) {
+            if (objCargado.getSalasSede() == 0 && objCargado.getBanyosSede() == 0) {
                 String msg1, msg2, msg3, msg4;
                 msg1 = "¿Estás seguro mi vale?";
                 msg2 = "\nCódigo: " + objCargado.getIdSede();
@@ -300,7 +303,7 @@ public class VistaSedeCarrusel extends SubScene
                         SedeTitulo.set("Detalle de la sede (" + 
                             (indiceActual + 1) + " / " + totalSedes + ")");
                         
-                        // Cargar el nuevo género si hay disponibles
+                        // Cargar el nuevo Baño si hay disponibles
                         if (totalSedes > 0) {
                             objCargado = SedeControladorUna.obtenerSede(indiceActual);
                             actualizarDatosCarrusel();
@@ -317,7 +320,7 @@ public class VistaSedeCarrusel extends SubScene
                 }
             } else {
                 Mensaje.mostrar(Alert.AlertType.ERROR, laVentanaPrincipal, 
-                    "Ey", "Ya tiene salas");
+                    "Ey", "Ya tiene salas y/o baños");
             }
         }
     });
@@ -334,7 +337,7 @@ public class VistaSedeCarrusel extends SubScene
     btnActualizar.setOnAction((ActionEvent e) -> {
         if (objCargado == null) {
             Mensaje.mostrar(Alert.AlertType.WARNING, laVentanaPrincipal, 
-                "Advertencia", "No hay género para editar");
+                "Advertencia", "No hay Baño para editar");
         } else {
             panelCuerpo = SedeControladorVentana.editar(
                 laVentanaPrincipal, 
@@ -449,6 +452,14 @@ public class VistaSedeCarrusel extends SubScene
         lblCantSalas.setTextFill(Color.web("#6C3483"));
         miCajaVertical.getChildren().add(lblCantSalas);
         
+        SedeCantBanyos = new SimpleIntegerProperty(objCargado.getBanyosSede());
+        
+        Label lblCantBanyos = new Label("Baños: " + objCargado.getBanyosSede());
+        lblCantBanyos.textProperty().bind(Bindings.concat("Banyos: ", SedeCantBanyos.asString()));
+        lblCantBanyos.setFont(Font.font("Verdana", tamanioFuente));
+        lblCantBanyos.setTextFill(Color.web("#6C3483"));
+        miCajaVertical.getChildren().add(lblCantBanyos);
+        
         miBorderPane.setCenter(centerPane);
         
     }
@@ -474,6 +485,7 @@ public class VistaSedeCarrusel extends SubScene
         SedeUbicacion.set(objCargado.getUbicacionSede());
         Sede24horas.set(objCargado.getEs24horasSede());
         SedeCantSalas.set(objCargado.getSalasSede());
+        SedeCantBanyos.set(objCargado.getBanyosSede());
     }
 }
     

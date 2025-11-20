@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,6 +82,9 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
        List<TrabajadorDto> arregloTrabajadores = new ArrayList<>();
         List <String> arregloDatos = miArchivo.obtenerDatos();
         
+        BanyoServicio banyoServicio = new BanyoServicio();
+        Map<Integer, Integer> arrCantBanyos = banyoServicio.selectFromCantidadTrabajadorAseo();
+        
         for (String cadena : arregloDatos) 
         {
             try{
@@ -96,8 +100,14 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
                 String nomImagenTrabajadorP = columnas[6].trim();
                 String nomImagenTrabajadorPv = columnas[7].trim();
                 
-                arregloTrabajadores.add(new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, docTrabajador, numTrabajador, tipoTrabajador, nomImagenTrabajadorP, nomImagenTrabajadorPv));
+                Short cantBanyos = arrCantBanyos.getOrDefault(codTrabajador, 0).shortValue();
                 
+                if(tipoTrabajador.equals("Aseo"))
+                {
+                arregloTrabajadores.add(new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, docTrabajador, numTrabajador, tipoTrabajador, cantBanyos ,nomImagenTrabajadorP, nomImagenTrabajadorPv));
+                }else{
+                    arregloTrabajadores.add(new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, docTrabajador, numTrabajador, tipoTrabajador, null ,nomImagenTrabajadorP, nomImagenTrabajadorPv));
+                }
             }
         catch(NumberFormatException e) {
                 System.out.println("Error al parsear datos: " + e.getMessage());
@@ -126,7 +136,7 @@ public class TrabajadorServicio implements ApiOperacionBD<TrabajadorDto, Integer
                 
                 if("Aseo".equals(tipoTrabajador))
                 {
-                arregloTrabajadores.add(new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, docTrabajador, numTrabajador, tipoTrabajador, "", ""));
+                arregloTrabajadores.add(new TrabajadorDto(codTrabajador, nomTrabajador, genTrabajador, docTrabajador, numTrabajador, tipoTrabajador,null ,"", ""));
                 }
             }
         catch(NumberFormatException e) {

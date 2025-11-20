@@ -9,6 +9,7 @@ public class SedeDto
     private String ubicacionSede;
     private Boolean es24horasSede;
     private Short salasSede;
+    private Short banyosSede;
     
     private String nombreImagenPublicoSede;
     private String nombreImagenPrivadoSede;
@@ -18,16 +19,28 @@ public class SedeDto
         
     }
 
-    public SedeDto(Integer idSede, String nombreSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
+    public SedeDto(Integer idSede, String nombreSede, String ciudadSede, String ubicacionSede, Boolean es24horasSede, Short salasSede, Short banyosSede, String nombreImagenPublicoSede, String nombreImagenPrivadoSede) {
         this.idSede = idSede;
         this.nombreSede = nombreSede;
         this.ciudadSede = ciudadSede;
         this.ubicacionSede = ubicacionSede;
         this.es24horasSede = es24horasSede;
         this.salasSede = salasSede;
+        this.banyosSede = banyosSede;
         this.nombreImagenPublicoSede = nombreImagenPublicoSede;
         this.nombreImagenPrivadoSede = nombreImagenPrivadoSede;
     }
+
+    public Short getBanyosSede() {
+        return banyosSede;
+    }
+
+    public void setBanyosSede(Short banyosSede) {
+        this.banyosSede = banyosSede;
+    }
+
+    
+ 
 
     public String getNombreSede() {
         return nombreSede;
